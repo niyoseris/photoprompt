@@ -560,25 +560,117 @@
             font-style: italic;
         }
         
-        /* Multi-select checkbox component */
-        .multi-select-container {
+        /* Multi-select dropdown component */
+        .multi-select-wrapper {
+            position: relative;
+        }
+        
+        .multi-select-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 8px;
-            max-height: 150px;
-            overflow-y: auto;
+            padding: 10px 12px;
+            cursor: pointer;
+            min-height: 44px;
+            transition: all 0.2s;
         }
         
-        .multi-select-container.expanded {
-            max-height: 250px;
+        .multi-select-trigger:hover {
+            border-color: var(--primary);
+        }
+        
+        .multi-select-trigger.active {
+            border-color: var(--primary);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        
+        .multi-select-trigger-text {
+            flex: 1;
+            font-size: 13px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .multi-select-trigger-text.has-selection {
+            color: var(--text-primary);
+        }
+        
+        .multi-select-trigger-arrow {
+            font-size: 10px;
+            transition: transform 0.2s;
+            margin-left: 8px;
+        }
+        
+        .multi-select-trigger.active .multi-select-trigger-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .multi-select-badge {
+            background: var(--primary);
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-right: 8px;
+        }
+        
+        .multi-select-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid var(--primary);
+            border-top: none;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .multi-select-dropdown.show {
+            display: block;
+        }
+        
+        .multi-select-search {
+            padding: 8px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: #fff;
+        }
+        
+        .multi-select-search input {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .multi-select-search input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .multi-select-options {
+            padding: 4px;
         }
         
         .multi-select-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 6px 8px;
+            padding: 8px 10px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 13px;
@@ -594,6 +686,7 @@
             height: 16px;
             accent-color: var(--primary);
             cursor: pointer;
+            flex-shrink: 0;
         }
         
         .multi-select-item label {
@@ -604,6 +697,36 @@
         
         .multi-select-item.selected {
             background: rgba(99, 102, 241, 0.15);
+        }
+        
+        .multi-select-item.hidden {
+            display: none;
+        }
+        
+        .multi-select-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border-top: 1px solid var(--border);
+            background: var(--bg);
+            position: sticky;
+            bottom: 0;
+        }
+        
+        .multi-select-actions button {
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: #fff;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        
+        .multi-select-actions button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
         }
         
         .multi-select-header {
@@ -2371,26 +2494,32 @@
             // Clear form first
             document.getElementById('promptForm').reset();
             
+            // Clear all multi-select states first
+            Object.keys(multiSelectState).forEach(key => {
+                multiSelectState[key] = [];
+            });
+            
             // Load preset data into form
             Object.entries(preset.data).forEach(([key, value]) => {
                 if (key.endsWith('_multi')) {
-                    // Handle multi-select
+                    // Handle multi-select arrays
                     const realKey = key.replace('_multi', '');
-                    multiSelectState[realKey] = value;
+                    multiSelectState[realKey] = Array.isArray(value) ? value : [value];
                 } else {
-                    const element = document.querySelector(`[name="${key}"]`);
+                    // For text inputs
+                    const element = document.querySelector(`textarea[name="${key}"], input[type="text"][name="${key}"]`);
                     if (element) {
                         element.value = value;
-                        // Trigger change event for subject_type
-                        if (key === 'subject_type') {
-                            updateContextualOptions();
-                        }
                     }
                 }
             });
             
-            // Re-render multi-selects
-            initMultiSelects();
+            // Re-render all multi-selects
+            document.querySelectorAll('.multi-select-wrapper').forEach(wrapper => {
+                const selectName = wrapper.dataset.multiselect;
+                const optionKey = wrapper.dataset.options;
+                renderMultiSelectDropdown(wrapper, selectName, optionKey);
+            });
         }
         
         // Open edit preset modal
@@ -2552,79 +2681,219 @@
             event.target.value = '';
         }
 
-        // ==================== MULTI-SELECT ====================
+        // ==================== MULTI-SELECT DROPDOWN ====================
         
         // State for multi-select fields
         const multiSelectState = {};
+        let activeDropdown = null;
         
-        function initMultiSelects() {
-            document.querySelectorAll('[data-multiselect]').forEach(container => {
-                const optionKey = container.dataset.multiselect;
+        // Initialize all multi-selects from select elements
+        function initAllMultiSelects() {
+            const t = translations[currentLang];
+            
+            document.querySelectorAll('select[data-options]').forEach(select => {
+                const optionKey = select.dataset.options;
+                const selectName = select.name;
                 const options = promptOptions[optionKey] || [];
+                const parentNode = select.parentNode;
                 
                 // Initialize state
+                if (!multiSelectState[selectName]) {
+                    multiSelectState[selectName] = [];
+                }
+                
+                // Create wrapper
+                const wrapper = document.createElement('div');
+                wrapper.className = 'multi-select-wrapper';
+                wrapper.dataset.multiselect = selectName;
+                wrapper.dataset.options = optionKey;
+                
+                // Replace select with wrapper
+                parentNode.replaceChild(wrapper, select);
+                
+                // Render multi-select
+                renderMultiSelectDropdown(wrapper, selectName, optionKey);
+                
+                // Add custom input field
+                const customInputWrapper = document.createElement('div');
+                customInputWrapper.className = 'custom-input-wrapper';
+                customInputWrapper.innerHTML = `<input type="text" id="custom_${selectName}" name="${selectName}_custom" class="custom-input" placeholder="${t.custom_input_placeholder || 'or enter custom value...'}" data-i18n-placeholder="custom_input_placeholder">`;
+                parentNode.appendChild(customInputWrapper);
+            });
+            
+            // Also init existing data-multiselect containers
+            document.querySelectorAll('[data-multiselect]:not(.multi-select-wrapper)').forEach(container => {
+                const optionKey = container.dataset.multiselect;
+                const parentNode = container.parentNode;
+                
                 if (!multiSelectState[optionKey]) {
                     multiSelectState[optionKey] = [];
                 }
                 
-                renderMultiSelect(container, optionKey, options);
+                const wrapper = document.createElement('div');
+                wrapper.className = 'multi-select-wrapper';
+                wrapper.dataset.multiselect = optionKey;
+                wrapper.dataset.options = optionKey;
+                parentNode.replaceChild(wrapper, container);
+                renderMultiSelectDropdown(wrapper, optionKey, optionKey);
+                
+                // Add custom input field
+                const customInputWrapper = document.createElement('div');
+                customInputWrapper.className = 'custom-input-wrapper';
+                customInputWrapper.innerHTML = `<input type="text" id="custom_${optionKey}" name="${optionKey}_custom" class="custom-input" placeholder="${t.custom_input_placeholder || 'or enter custom value...'}" data-i18n-placeholder="custom_input_placeholder">`;
+                parentNode.appendChild(customInputWrapper);
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.multi-select-wrapper')) {
+                    closeAllDropdowns();
+                }
             });
         }
         
-        function renderMultiSelect(container, optionKey, options) {
-            const selected = multiSelectState[optionKey] || [];
+        function renderMultiSelectDropdown(wrapper, selectName, optionKey) {
+            const selected = multiSelectState[selectName] || [];
+            const options = promptOptions[optionKey] || [];
             const t = translations[currentLang];
             
-            let html = `
-                <div class="multi-select-header">
-                    <span class="multi-select-count" style="display: ${selected.length > 0 ? 'inline' : 'none'}">${selected.length} seçili</span>
-                    <span class="multi-select-clear" onclick="clearMultiSelect('${optionKey}')" style="display: ${selected.length > 0 ? 'inline' : 'none'}">Temizle</span>
-                </div>
-            `;
+            const triggerText = selected.length > 0 
+                ? selected.map(v => getOptionLabel(v)).join(', ')
+                : (t.select_placeholder || 'Seçiniz...');
             
+            let optionsHtml = '';
             options.forEach((opt, idx) => {
                 const isSelected = selected.includes(opt);
                 const label = getOptionLabel(opt);
-                html += `
-                    <div class="multi-select-item ${isSelected ? 'selected' : ''}" onclick="toggleMultiSelectItem('${optionKey}', '${opt}')">
-                        <input type="checkbox" id="${optionKey}_${idx}" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleMultiSelectItem('${optionKey}', '${opt}')">
-                        <label for="${optionKey}_${idx}">${label}</label>
+                const escapedOpt = opt.replace(/'/g, "\\'");
+                optionsHtml += `
+                    <div class="multi-select-item ${isSelected ? 'selected' : ''}" data-value="${opt}" onclick="toggleMultiSelectItem('${selectName}', '${escapedOpt}')">
+                        <input type="checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleMultiSelectItem('${selectName}', '${escapedOpt}')">
+                        <label>${label}</label>
                     </div>
                 `;
             });
             
-            container.innerHTML = html;
+            wrapper.innerHTML = `
+                <div class="multi-select-trigger" onclick="toggleDropdown('${selectName}')">
+                    ${selected.length > 0 ? `<span class="multi-select-badge">${selected.length}</span>` : ''}
+                    <span class="multi-select-trigger-text ${selected.length > 0 ? 'has-selection' : ''}">${triggerText}</span>
+                    <span class="multi-select-trigger-arrow">▼</span>
+                </div>
+                <div class="multi-select-dropdown" id="dropdown_${selectName}">
+                    <div class="multi-select-search">
+                        <input type="text" placeholder="🔍 Ara..." oninput="filterMultiSelectOptions('${selectName}', this.value)">
+                    </div>
+                    <div class="multi-select-options">
+                        ${optionsHtml}
+                    </div>
+                    <div class="multi-select-actions">
+                        <button type="button" onclick="selectAllMulti('${selectName}')">Tümünü Seç</button>
+                        <button type="button" onclick="clearMultiSelect('${selectName}')">Temizle</button>
+                    </div>
+                </div>
+            `;
         }
         
-        function toggleMultiSelectItem(optionKey, value) {
-            if (!multiSelectState[optionKey]) {
-                multiSelectState[optionKey] = [];
+        function toggleDropdown(selectName) {
+            const dropdown = document.getElementById(`dropdown_${selectName}`);
+            const trigger = dropdown.previousElementSibling;
+            
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+                trigger.classList.remove('active');
+                activeDropdown = null;
+            } else {
+                closeAllDropdowns();
+                dropdown.classList.add('show');
+                trigger.classList.add('active');
+                activeDropdown = selectName;
+                // Focus search input
+                const searchInput = dropdown.querySelector('input[type="text"]');
+                if (searchInput) setTimeout(() => searchInput.focus(), 100);
+            }
+        }
+        
+        function closeAllDropdowns() {
+            document.querySelectorAll('.multi-select-dropdown.show').forEach(d => {
+                d.classList.remove('show');
+                d.previousElementSibling.classList.remove('active');
+            });
+            activeDropdown = null;
+        }
+        
+        function filterMultiSelectOptions(selectName, searchTerm) {
+            const dropdown = document.getElementById(`dropdown_${selectName}`);
+            const items = dropdown.querySelectorAll('.multi-select-item');
+            const term = searchTerm.toLowerCase();
+            
+            items.forEach(item => {
+                const label = item.querySelector('label').textContent.toLowerCase();
+                const value = item.dataset.value.toLowerCase();
+                if (label.includes(term) || value.includes(term)) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+        
+        function toggleMultiSelectItem(selectName, value) {
+            if (!multiSelectState[selectName]) {
+                multiSelectState[selectName] = [];
             }
             
-            const idx = multiSelectState[optionKey].indexOf(value);
+            const idx = multiSelectState[selectName].indexOf(value);
             if (idx > -1) {
-                multiSelectState[optionKey].splice(idx, 1);
+                multiSelectState[selectName].splice(idx, 1);
             } else {
-                multiSelectState[optionKey].push(value);
+                multiSelectState[selectName].push(value);
             }
             
             // Re-render
-            const container = document.querySelector(`[data-multiselect="${optionKey}"]`);
-            if (container) {
-                renderMultiSelect(container, optionKey, promptOptions[optionKey] || []);
+            const wrapper = document.querySelector(`[data-multiselect="${selectName}"]`);
+            if (wrapper) {
+                const optionKey = wrapper.dataset.options;
+                renderMultiSelectDropdown(wrapper, selectName, optionKey);
+                // Re-open dropdown
+                const dropdown = document.getElementById(`dropdown_${selectName}`);
+                const trigger = dropdown.previousElementSibling;
+                dropdown.classList.add('show');
+                trigger.classList.add('active');
             }
         }
         
-        function clearMultiSelect(optionKey) {
-            multiSelectState[optionKey] = [];
-            const container = document.querySelector(`[data-multiselect="${optionKey}"]`);
-            if (container) {
-                renderMultiSelect(container, optionKey, promptOptions[optionKey] || []);
+        function selectAllMulti(selectName) {
+            const wrapper = document.querySelector(`[data-multiselect="${selectName}"]`);
+            if (wrapper) {
+                const optionKey = wrapper.dataset.options;
+                const options = promptOptions[optionKey] || [];
+                multiSelectState[selectName] = [...options];
+                renderMultiSelectDropdown(wrapper, selectName, optionKey);
+                // Re-open dropdown
+                const dropdown = document.getElementById(`dropdown_${selectName}`);
+                const trigger = dropdown.previousElementSibling;
+                dropdown.classList.add('show');
+                trigger.classList.add('active');
             }
         }
         
-        function getMultiSelectValues(optionKey) {
-            return multiSelectState[optionKey] || [];
+        function clearMultiSelect(selectName) {
+            multiSelectState[selectName] = [];
+            const wrapper = document.querySelector(`[data-multiselect="${selectName}"]`);
+            if (wrapper) {
+                const optionKey = wrapper.dataset.options;
+                renderMultiSelectDropdown(wrapper, selectName, optionKey);
+            }
+        }
+        
+        function getMultiSelectValues(selectName) {
+            return multiSelectState[selectName] || [];
+        }
+        
+        // Legacy support
+        function initMultiSelects() {
+            // Now handled by initAllMultiSelects
         }
 
         // ==================== CONTEXTUAL OPTIONS ====================
@@ -3163,8 +3432,17 @@
             // Update HTML lang
             document.documentElement.lang = currentLang;
             
-            // Repopulate selects
-            populateSelects();
+            // Re-render all multi-selects with new language labels
+            document.querySelectorAll('.multi-select-wrapper').forEach(wrapper => {
+                const selectName = wrapper.dataset.multiselect;
+                const optionKey = wrapper.dataset.options;
+                renderMultiSelectDropdown(wrapper, selectName, optionKey);
+            });
+            
+            // Update custom input placeholders
+            document.querySelectorAll('.custom-input').forEach(input => {
+                input.placeholder = t.custom_input_placeholder || 'or enter custom value...';
+            });
         }
 
         function changeLanguage(lang) {
@@ -3234,16 +3512,23 @@
             });
             saveNegativePrompts();
             renderNegativeTags();
-            // Clear multi-selects
+            // Clear all multi-selects and re-render
             Object.keys(multiSelectState).forEach(key => {
                 multiSelectState[key] = [];
+                const wrapper = document.querySelector(`[data-multiselect="${key}"]`);
+                if (wrapper) {
+                    const optionKey = wrapper.dataset.options;
+                    renderMultiSelectDropdown(wrapper, key, optionKey);
+                }
             });
-            initMultiSelects();
         }
 
         // ==================== INITIALIZATION ====================
         
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize all multi-select dropdowns (converts all selects)
+            initAllMultiSelects();
+            
             // Initialize language
             updateUILanguage();
             
@@ -3277,35 +3562,39 @@
             document.getElementById('promptForm').addEventListener('submit', (e) => {
                 e.preventDefault();
                 
-                const formData = new FormData(e.target);
+                // Collect data from multi-select state
                 const data = {};
-                formData.forEach((value, key) => {
-                    // Skip custom fields in initial pass
-                    if (!key.endsWith('_custom')) {
-                        data[key] = value;
-                    }
-                });
                 
-                // Process custom input values - they override or append to select values
-                formData.forEach((value, key) => {
-                    if (key.endsWith('_custom') && value.trim()) {
-                        const baseKey = key.replace('_custom', '');
-                        const customValue = value.trim();
-                        // If select has no value, use custom value; otherwise append
-                        if (!data[baseKey] || data[baseKey] === '') {
-                            data[baseKey] = customValue;
-                        } else {
-                            data[baseKey] = data[baseKey] + ', ' + customValue;
-                        }
-                    }
-                });
-                
-                // Add multi-select values
+                // Get all multi-select values
                 Object.keys(multiSelectState).forEach(key => {
                     const values = multiSelectState[key];
                     if (values && values.length > 0) {
                         data[key] = values.join(', ');
                         data[key + '_array'] = values; // Keep array version too
+                    }
+                });
+                
+                // Get text inputs (subject_description, additional_details)
+                const formData = new FormData(e.target);
+                formData.forEach((value, key) => {
+                    if (value && value.trim() && !key.endsWith('_custom')) {
+                        // Only add if not already set by multi-select or it's a text field
+                        if (!data[key] || document.querySelector(`textarea[name="${key}"]`) || document.querySelector(`input[type="text"][name="${key}"]`)) {
+                            data[key] = value.trim();
+                        }
+                    }
+                });
+                
+                // Process custom input values - they append to multi-select values
+                document.querySelectorAll('.custom-input').forEach(input => {
+                    if (input.value.trim()) {
+                        const baseKey = input.name.replace('_custom', '');
+                        const customValue = input.value.trim();
+                        if (!data[baseKey] || data[baseKey] === '') {
+                            data[baseKey] = customValue;
+                        } else {
+                            data[baseKey] = data[baseKey] + ', ' + customValue;
+                        }
                     }
                 });
 
