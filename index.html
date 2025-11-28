@@ -780,12 +780,15 @@
                     <h2>
                         <span data-i18n="prompt_settings">Prompt Settings</span>
                     </h2>
-                    <div class="flex gap-2">
+                    <div class="flex gap-2 flex-wrap">
                         <button onclick="loadPreset('cinematic')" class="preset-btn">
                             🎬 <span data-i18n="cinematic_preset">Cinematic</span>
                         </button>
                         <button onclick="loadPreset('portrait')" class="preset-btn">
                             👤 <span data-i18n="portrait_preset">Portrait</span>
+                        </button>
+                        <button onclick="randomizeAll()" class="preset-btn" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-color: #f5576c; color: #fff;">
+                            🎲 <span data-i18n="random_btn">Random</span>
                         </button>
                         <button onclick="clearForm()" class="preset-btn">
                             🗑️ <span data-i18n="clear_btn">Clear</span>
@@ -3560,6 +3563,110 @@
             
             // Update contextual options based on loaded subject_type
             updateContextualOptions();
+        }
+
+        function randomizeAll() {
+            // Helper to get random items from array
+            const getRandomItems = (arr, min = 1, max = 2) => {
+                if (!arr || arr.length === 0) return [];
+                const count = Math.floor(Math.random() * (max - min + 1)) + min;
+                const shuffled = [...arr].sort(() => Math.random() - 0.5);
+                return shuffled.slice(0, Math.min(count, arr.length));
+            };
+            
+            // Helper to get single random item
+            const getRandomItem = (arr) => {
+                if (!arr || arr.length === 0) return null;
+                return arr[Math.floor(Math.random() * arr.length)];
+            };
+            
+            // Clear existing states
+            Object.keys(multiSelectState).forEach(key => {
+                multiSelectState[key] = [];
+            });
+            
+            // Randomly select subject type first (single selection)
+            const subjectType = getRandomItem(promptOptions.subject_type);
+            if (subjectType) {
+                multiSelectState['subject_type'] = [subjectType];
+            }
+            
+            // Main fields to randomize (1-2 selections each)
+            const mainFields = ['style', 'era', 'time_of_day', 'season', 'location', 'setting', 
+                               'mood', 'color_palette', 'lighting', 'camera_type', 'camera_angle',
+                               'composition', 'quality_modifiers'];
+            
+            mainFields.forEach(field => {
+                if (promptOptions[field]) {
+                    multiSelectState[field] = getRandomItems(promptOptions[field], 1, 2);
+                }
+            });
+            
+            // Character fields (randomly include some)
+            if (Math.random() > 0.3) {
+                const characterFields = ['clothing_type', 'clothing_color', 'clothing_style', 
+                                        'age_group', 'expression', 'pose'];
+                characterFields.forEach(field => {
+                    if (promptOptions[field] && Math.random() > 0.4) {
+                        multiSelectState[field] = getRandomItems(promptOptions[field], 1, 1);
+                    }
+                });
+            }
+            
+            // Hair fields (randomly include)
+            if (Math.random() > 0.5) {
+                ['hair_style', 'hair_color', 'hair_length'].forEach(field => {
+                    if (promptOptions[field] && Math.random() > 0.4) {
+                        multiSelectState[field] = getRandomItems(promptOptions[field], 1, 1);
+                    }
+                });
+            }
+            
+            // Accessories (randomly include 0-2)
+            const accessoryFields = ['eyewear', 'earrings', 'necklace', 'headwear'];
+            const accessoryCount = Math.floor(Math.random() * 3);
+            const shuffledAccessories = [...accessoryFields].sort(() => Math.random() - 0.5);
+            shuffledAccessories.slice(0, accessoryCount).forEach(field => {
+                if (promptOptions[field]) {
+                    const options = promptOptions[field].filter(o => o !== 'none');
+                    if (options.length > 0) {
+                        multiSelectState[field] = [getRandomItem(options)];
+                    }
+                }
+            });
+            
+            // Contextual fields based on subject type
+            const contextMap = {
+                'street': ['street_type', 'geographic_region'],
+                'landscape': ['landscape_type', 'terrain', 'natural_elements'],
+                'portrait': ['ethnicity', 'body_type', 'gender'],
+                'architecture': ['building_type', 'arch_style', 'arch_era'],
+                'food': ['cuisine_type', 'food_style', 'plating'],
+                'fashion': ['fashion_category', 'fashion_season', 'fashion_brand_style'],
+                'wildlife': ['animal_type', 'habitat', 'animal_behavior'],
+                'product': ['product_type', 'product_material', 'product_background']
+            };
+            
+            if (subjectType && contextMap[subjectType]) {
+                contextMap[subjectType].forEach(field => {
+                    if (promptOptions[field]) {
+                        multiSelectState[field] = getRandomItems(promptOptions[field], 1, 2);
+                    }
+                });
+            }
+            
+            // Re-render all multi-selects
+            document.querySelectorAll('.multi-select-wrapper').forEach(wrapper => {
+                const selectName = wrapper.dataset.multiselect;
+                const optionKey = wrapper.dataset.options;
+                renderMultiSelectDropdown(wrapper, selectName, optionKey);
+            });
+            
+            // Update contextual options
+            updateContextualOptions();
+            
+            // Auto-submit to show the result
+            document.getElementById('promptForm').dispatchEvent(new Event('submit'));
         }
 
         function clearForm() {
