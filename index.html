@@ -572,9 +572,9 @@
             background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 10px 12px;
+            padding: 12px 14px;
             cursor: pointer;
-            min-height: 44px;
+            min-height: 48px;
             transition: all 0.2s;
         }
         
@@ -590,7 +590,7 @@
         
         .multi-select-trigger-text {
             flex: 1;
-            font-size: 13px;
+            font-size: 14px;
             color: var(--text-secondary);
             white-space: nowrap;
             overflow: hidden;
@@ -631,10 +631,11 @@
             border-top: none;
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
-            max-height: 200px;
+            max-height: 350px;
+            min-width: 280px;
             overflow-y: auto;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
         }
         
         .multi-select-dropdown.show {
@@ -642,7 +643,7 @@
         }
         
         .multi-select-search {
-            padding: 8px;
+            padding: 12px;
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
@@ -651,10 +652,10 @@
         
         .multi-select-search input {
             width: 100%;
-            padding: 6px 10px;
+            padding: 10px 12px;
             border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 12px;
+            border-radius: 6px;
+            font-size: 14px;
         }
         
         .multi-select-search input:focus {
@@ -663,17 +664,17 @@
         }
         
         .multi-select-options {
-            padding: 4px;
+            padding: 8px;
         }
         
         .multi-select-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 10px;
-            border-radius: 4px;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
             transition: background 0.15s;
         }
         
@@ -682,8 +683,8 @@
         }
         
         .multi-select-item input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             accent-color: var(--primary);
             cursor: pointer;
             flex-shrink: 0;
@@ -706,7 +707,7 @@
         .multi-select-actions {
             display: flex;
             justify-content: space-between;
-            padding: 8px;
+            padding: 12px;
             border-top: 1px solid var(--border);
             background: var(--bg);
             position: sticky;
@@ -714,14 +715,15 @@
         }
         
         .multi-select-actions button {
-            font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 4px;
+            font-size: 13px;
+            padding: 8px 14px;
+            border-radius: 6px;
             cursor: pointer;
             border: 1px solid var(--border);
             background: #fff;
             color: var(--text-secondary);
             transition: all 0.2s;
+            font-weight: 500;
         }
         
         .multi-select-actions button:hover {
