@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Prompt Generator</title>
+    <meta name="description" content="LLM Image Generation için detaylı prompt hazırlama aracı. TOON ve TONL formatlarını destekler.">
+    <meta name="author" content="@niyoseris">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Clean Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-input: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+        
+        body {
+            background: var(--bg);
+            min-height: 100vh;
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+        }
+        
+        h1, h2, h3 {
+            font-weight: 600;
+        }
+        
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .input-field {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            padding: 10px 14px;
+            transition: all 0.2s;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: #fff;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 12px 24px;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        
+        .output-box {
+            background: #1e293b;
+            border: none;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+        
+        .tab-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 16px;
+            transition: all 0.2s;
+        }
+        
+        .tab-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+        
+        .tab-btn:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .section-title {
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+        
+        select option {
+            background: #fff;
+            color: var(--text-primary);
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: #94a3b8;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+        
+        .copy-btn.copied {
+            background: var(--success);
+            border-color: var(--success);
+            color: #fff;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-input);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+        
+        .preset-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .preset-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .lang-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .lang-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+        
+        .creator-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .creator-link:hover {
+            text-decoration: underline;
+        }
+        
+        h1 {
+            font-size: 28px !important;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        h2 {
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+        
+        /* Negative Prompt Tags */
+        .negative-tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            min-height: 50px;
+        }
+        
+        .negative-tag {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff;
+            border: 1px solid var(--error);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 12px;
+            color: var(--error);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .negative-tag:hover {
+            background: #fef2f2;
+        }
+        
+        .negative-tag.selected {
+            background: var(--error);
+            color: #fff;
+        }
+        
+        .negative-tag .remove-tag {
+            display: none;
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            font-size: 12px;
+            line-height: 16px;
+            text-align: center;
+        }
+        
+        .negative-tag.custom .remove-tag {
+            display: inline-block;
+        }
+        
+        .negative-tag.custom .remove-tag:hover {
+            background: rgba(255,255,255,0.5);
+        }
+        
+        .add-tag-container {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .add-tag-input {
+            flex: 1;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: var(--text-primary);
+            font-size: 13px;
+        }
+        
+        .add-tag-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .add-tag-btn {
+            background: var(--primary);
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .add-tag-btn:hover {
+            background: var(--primary-light);
+        }
+        
+        /* Symbol colors */
+        .symbol-primary { color: var(--primary); }
+        .symbol-secondary { color: var(--secondary); }
+        .symbol-accent { color: var(--accent); }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="text-center mb-8 relative">
+            <!-- Language Selector -->
+            <div class="absolute right-0 top-0 flex gap-2">
+                <button onclick="changeLanguage('tr')" class="lang-btn active" data-lang="tr">
+                    🇹🇷 TR
+                </button>
+                <button onclick="changeLanguage('en')" class="lang-btn" data-lang="en">
+                    🇬🇧 EN
+                </button>
+            </div>
+            <h1 class="mb-2">
+                📸 <span data-i18n="page_title">Photo Prompt Generator</span>
+            </h1>
+            <p style="color: var(--text-secondary);" data-i18n="page_subtitle">LLM Image Generation için detaylı prompt hazırlama aracı</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Input Panel -->
+            <div class="glass-card p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2>
+                        <span data-i18n="prompt_settings">Prompt Ayarları</span>
+                    </h2>
+                    <div class="flex gap-2">
+                        <button onclick="loadPreset('cinematic')" class="preset-btn">
+                            🎬 <span data-i18n="cinematic_preset">Sinematik</span>
+                        </button>
+                        <button onclick="loadPreset('portrait')" class="preset-btn">
+                            👤 <span data-i18n="portrait_preset">Portre</span>
+                        </button>
+                        <button onclick="clearForm()" class="preset-btn">
+                            🗑️ <span data-i18n="clear_btn">Temizle</span>
+                        </button>
+                    </div>
+                </div>
+
+                <form id="promptForm" class="space-y-4">
+                    <!-- Subject Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            🖼️ <span data-i18n="subject_section">Konu</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="subject_type">Konu Tipi</label>
+                                <select name="subject_type" id="subjectType" class="input-field w-full px-4 py-3" data-options="subject_type" onchange="updateContextualOptions()">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="style">Stil</label>
+                                <select name="style" class="input-field w-full px-4 py-3" data-options="style">
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Contextual Sub-options (show/hide based on subject_type) -->
+                        <div id="contextualOptions" class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4" style="display: none;">
+                            <!-- Street Photography Options -->
+                            <div class="form-group context-option" data-context="street">
+                                <label class="form-label" data-i18n="street_type">Sokak Tipi</label>
+                                <select name="street_type" class="input-field w-full px-4 py-3" data-options="street_type">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="street">
+                                <label class="form-label" data-i18n="geographic_region">Coğrafi Bölge</label>
+                                <select name="geographic_region" class="input-field w-full px-4 py-3" data-options="geographic_region">
+                                </select>
+                            </div>
+                            
+                            <!-- Landscape Options -->
+                            <div class="form-group context-option" data-context="landscape">
+                                <label class="form-label" data-i18n="landscape_type">Manzara Tipi</label>
+                                <select name="landscape_type" class="input-field w-full px-4 py-3" data-options="landscape_type">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="landscape">
+                                <label class="form-label" data-i18n="terrain">Arazi</label>
+                                <select name="terrain" class="input-field w-full px-4 py-3" data-options="terrain">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="landscape">
+                                <label class="form-label" data-i18n="natural_elements">Doğal Öğeler</label>
+                                <select name="natural_elements" class="input-field w-full px-4 py-3" data-options="natural_elements">
+                                </select>
+                            </div>
+                            
+                            <!-- Portrait Options -->
+                            <div class="form-group context-option" data-context="portrait">
+                                <label class="form-label" data-i18n="ethnicity">Etnisite</label>
+                                <select name="ethnicity" class="input-field w-full px-4 py-3" data-options="ethnicity">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="portrait">
+                                <label class="form-label" data-i18n="body_type">Vücut Tipi</label>
+                                <select name="body_type" class="input-field w-full px-4 py-3" data-options="body_type">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="portrait">
+                                <label class="form-label" data-i18n="gender">Cinsiyet</label>
+                                <select name="gender" class="input-field w-full px-4 py-3" data-options="gender">
+                                </select>
+                            </div>
+                            
+                            <!-- Architecture Options -->
+                            <div class="form-group context-option" data-context="architecture">
+                                <label class="form-label" data-i18n="building_type">Bina Tipi</label>
+                                <select name="building_type" class="input-field w-full px-4 py-3" data-options="building_type">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="architecture">
+                                <label class="form-label" data-i18n="arch_style">Mimari Akım</label>
+                                <select name="arch_style" class="input-field w-full px-4 py-3" data-options="arch_style">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="architecture">
+                                <label class="form-label" data-i18n="arch_era">Mimari Dönem</label>
+                                <select name="arch_era" class="input-field w-full px-4 py-3" data-options="arch_era">
+                                </select>
+                            </div>
+                            
+                            <!-- Food Options -->
+                            <div class="form-group context-option" data-context="food">
+                                <label class="form-label" data-i18n="cuisine_type">Mutfak</label>
+                                <select name="cuisine_type" class="input-field w-full px-4 py-3" data-options="cuisine_type">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="food">
+                                <label class="form-label" data-i18n="food_style">Yiyecek Stili</label>
+                                <select name="food_style" class="input-field w-full px-4 py-3" data-options="food_style">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="food">
+                                <label class="form-label" data-i18n="plating">Sunum</label>
+                                <select name="plating" class="input-field w-full px-4 py-3" data-options="plating">
+                                </select>
+                            </div>
+                            
+                            <!-- Fashion Options -->
+                            <div class="form-group context-option" data-context="fashion">
+                                <label class="form-label" data-i18n="fashion_category">Moda Kategorisi</label>
+                                <select name="fashion_category" class="input-field w-full px-4 py-3" data-options="fashion_category">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="fashion">
+                                <label class="form-label" data-i18n="fashion_season">Sezon</label>
+                                <select name="fashion_season" class="input-field w-full px-4 py-3" data-options="fashion_season">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="fashion">
+                                <label class="form-label" data-i18n="fashion_brand_style">Marka Stili</label>
+                                <select name="fashion_brand_style" class="input-field w-full px-4 py-3" data-options="fashion_brand_style">
+                                </select>
+                            </div>
+                            
+                            <!-- Wildlife Options -->
+                            <div class="form-group context-option" data-context="wildlife">
+                                <label class="form-label" data-i18n="animal_type">Hayvan Türü</label>
+                                <select name="animal_type" class="input-field w-full px-4 py-3" data-options="animal_type">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="wildlife">
+                                <label class="form-label" data-i18n="habitat">Yaşam Alanı</label>
+                                <select name="habitat" class="input-field w-full px-4 py-3" data-options="habitat">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="wildlife">
+                                <label class="form-label" data-i18n="animal_behavior">Davranış</label>
+                                <select name="animal_behavior" class="input-field w-full px-4 py-3" data-options="animal_behavior">
+                                </select>
+                            </div>
+                            
+                            <!-- Product Options -->
+                            <div class="form-group context-option" data-context="product">
+                                <label class="form-label" data-i18n="product_type">Ürün Tipi</label>
+                                <select name="product_type" class="input-field w-full px-4 py-3" data-options="product_type">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="product">
+                                <label class="form-label" data-i18n="product_material">Malzeme</label>
+                                <select name="product_material" class="input-field w-full px-4 py-3" data-options="product_material">
+                                </select>
+                            </div>
+                            <div class="form-group context-option" data-context="product">
+                                <label class="form-label" data-i18n="product_background">Arka Plan</label>
+                                <select name="product_background" class="input-field w-full px-4 py-3" data-options="product_background">
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group mt-4">
+                            <label class="form-label" data-i18n="subject_description">Konu Açıklaması</label>
+                            <textarea name="subject_description" class="input-field w-full px-4 py-3" rows="3" 
+                                data-i18n-placeholder="subject_placeholder"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Era & Period Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            ⏰ <span data-i18n="era_section">Dönem & Zaman</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="era">Dönem/Yıl</label>
+                                <select name="era" class="input-field w-full px-4 py-3" data-options="era">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="time_of_day">Günün Zamanı</label>
+                                <select name="time_of_day" class="input-field w-full px-4 py-3" data-options="time_of_day">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="season">Mevsim</label>
+                                <select name="season" class="input-field w-full px-4 py-3" data-options="season">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Environment Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            📍 <span data-i18n="environment_section">Ortam & Mekan</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="location">Mekan Tipi</label>
+                                <select name="location" class="input-field w-full px-4 py-3" data-options="location">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="setting">Ortam</label>
+                                <select name="setting" class="input-field w-full px-4 py-3" data-options="setting">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="crowd">Kalabalık</label>
+                                <select name="crowd" class="input-field w-full px-4 py-3" data-options="crowd">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="weather">Hava Durumu</label>
+                                <select name="weather" class="input-field w-full px-4 py-3" data-options="weather">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="architecture">Mimari Stil</label>
+                                <select name="architecture" class="input-field w-full px-4 py-3" data-options="architecture">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Atmosphere Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            🎨 <span data-i18n="atmosphere_section">Atmosfer & Stil</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="mood">Ruh Hali</label>
+                                <select name="mood" class="input-field w-full px-4 py-3" data-options="mood">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="color_palette">Renk Paleti</label>
+                                <select name="color_palette" class="input-field w-full px-4 py-3" data-options="color_palette">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="lighting">Aydınlatma</label>
+                                <select name="lighting" class="input-field w-full px-4 py-3" data-options="lighting">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Character & Clothing Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            👕 <span data-i18n="character_section">Karakter & Kıyafet</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="clothing_style">Kıyafet Stili</label>
+                                <select name="clothing_style" class="input-field w-full px-4 py-3" data-options="clothing_style">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="clothing_era">Kıyafet Dönemi</label>
+                                <select name="clothing_era" class="input-field w-full px-4 py-3" data-options="clothing_era">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="age_group">Yaş Grubu</label>
+                                <select name="age_group" class="input-field w-full px-4 py-3" data-options="age_group">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="hair_style">Saç Stili</label>
+                                <select name="hair_style" class="input-field w-full px-4 py-3" data-options="hair_style">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="expression">İfade</label>
+                                <select name="expression" class="input-field w-full px-4 py-3" data-options="expression">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="pose">Poz</label>
+                                <select name="pose" class="input-field w-full px-4 py-3" data-options="pose">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technical Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            📷 <span data-i18n="technical_section">Teknik Ayarlar</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="camera_type">Kamera/Lens</label>
+                                <select name="camera_type" class="input-field w-full px-4 py-3" data-options="camera_type">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="camera_angle">Kamera Açısı</label>
+                                <select name="camera_angle" class="input-field w-full px-4 py-3" data-options="camera_angle">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="camera_settings">Kamera Ayarları</label>
+                                <select name="camera_settings" class="input-field w-full px-4 py-3" data-options="camera_settings">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="composition">Kompozisyon</label>
+                                <select name="composition" class="input-field w-full px-4 py-3" data-options="composition">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="film_type">Film Tipi</label>
+                                <select name="film_type" class="input-field w-full px-4 py-3" data-options="film_type">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="aspect_ratio">En Boy Oranı</label>
+                                <select name="aspect_ratio" class="input-field w-full px-4 py-3" data-options="aspect_ratio">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quality Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            ⭐ <span data-i18n="quality_section">Kalite & Detaylar</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="quality_modifiers">Kalite Modifikatörleri</label>
+                                <select name="quality_modifiers" class="input-field w-full px-4 py-3" data-options="quality_modifiers">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="render_style">Render Stili</label>
+                                <select name="render_style" class="input-field w-full px-4 py-3" data-options="render_style">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group mt-4">
+                            <label class="form-label" data-i18n="additional_details">Ek Detaylar</label>
+                            <textarea name="additional_details" class="input-field w-full px-4 py-3" rows="2" 
+                                data-i18n-placeholder="additional_placeholder"></textarea>
+                        </div>
+                        <div class="form-group mt-4">
+                            <label class="form-label" data-i18n="negative_prompt">Negatif Prompt</label>
+                            <div id="negativeTagsContainer" class="negative-tags-container">
+                                <!-- Tags will be rendered here -->
+                            </div>
+                            <div class="add-tag-container">
+                                <input type="text" id="newTagInput" class="add-tag-input" data-i18n-placeholder="add_negative_placeholder">
+                                <button type="button" onclick="addCustomTag()" class="add-tag-btn">
+                                    + <span data-i18n="add_btn">Ekle</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary w-full py-4 text-white text-lg">
+                        ▶️ <span data-i18n="generate_btn">Prompt Oluştur</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Output Panel -->
+            <div class="glass-card p-6">
+                <h2 class="text-xl font-semibold mb-6 flex items-center">
+                    💻 
+                    <span data-i18n="generated_prompts">Oluşturulan Promptlar</span>
+                </h2>
+
+                <!-- Tab Navigation -->
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <button class="tab-btn px-4 py-2 active" data-tab="natural">
+                        📝 <span data-i18n="natural_tab">Doğal</span>
+                    </button>
+                    <button class="tab-btn px-4 py-2" data-tab="toon">
+                        🎨 TOON
+                    </button>
+                    <button class="tab-btn px-4 py-2" data-tab="tonl">
+                        📊 TONL
+                    </button>
+                    <button class="tab-btn px-4 py-2" data-tab="json">
+                        { } JSON
+                    </button>
+                </div>
+
+                <!-- Output Boxes -->
+                <div class="relative">
+                    <div id="output-natural" class="output-content">
+                        <div class="output-box p-4 min-h-96 relative">
+                            <button class="copy-btn" onclick="copyToClipboard('natural')">
+                                📋 <span class="copy-text" data-i18n="copy_btn">Kopyala</span>
+                            </button>
+                            <pre id="text-natural" class="whitespace-pre-wrap text-gray-300 mt-8" data-i18n="waiting_message">Prompt oluşturmak için formu doldurun...</pre>
+                        </div>
+                    </div>
+                    <div id="output-toon" class="output-content hidden">
+                        <div class="output-box p-4 min-h-96 relative">
+                            <button class="copy-btn" onclick="copyToClipboard('toon')">
+                                📋 <span class="copy-text" data-i18n="copy_btn">Kopyala</span>
+                            </button>
+                            <pre id="text-toon" class="whitespace-pre-wrap text-gray-300 mt-8" data-i18n="waiting_message">Prompt oluşturmak için formu doldurun...</pre>
+                        </div>
+                    </div>
+                    <div id="output-tonl" class="output-content hidden">
+                        <div class="output-box p-4 min-h-96 relative">
+                            <button class="copy-btn" onclick="copyToClipboard('tonl')">
+                                📋 <span class="copy-text" data-i18n="copy_btn">Kopyala</span>
+                            </button>
+                            <pre id="text-tonl" class="whitespace-pre-wrap text-gray-300 mt-8" data-i18n="waiting_message">Prompt oluşturmak için formu doldurun...</pre>
+                        </div>
+                    </div>
+                    <div id="output-json" class="output-content hidden">
+                        <div class="output-box p-4 min-h-96 relative">
+                            <button class="copy-btn" onclick="copyToClipboard('json')">
+                                📋 <span class="copy-text" data-i18n="copy_btn">Kopyala</span>
+                            </button>
+                            <pre id="text-json" class="whitespace-pre-wrap text-gray-300 mt-8" data-i18n="waiting_message">Prompt oluşturmak için formu doldurun...</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Tips -->
+                <div class="mt-6 p-4 bg-indigo-900/30 rounded-xl border border-indigo-800/50">
+                    <h3 class="text-sm font-semibold text-indigo-400 mb-2">
+                        ⭐ <span data-i18n="tips_title">İpuçları</span>
+                    </h3>
+                    <ul class="text-xs text-gray-400 space-y-1">
+                        <li>• <strong>TOON:</strong> <span data-i18n="tip_toon">Token-Oriented Object Notation - LLM için optimize edilmiş kompakt format</span></li>
+                        <li>• <strong>TONL:</strong> <span data-i18n="tip_tonl">Token-Optimized Notation Language - Yapılandırılmış veri formatı</span></li>
+                        <li>• <strong>JSON:</strong> <span data-i18n="tip_json">API entegrasyonları için standart format</span></li>
+                        <li>• <strong><span data-i18n="natural_tab">Doğal</span>:</strong> <span data-i18n="tip_natural">Direkt kullanıma hazır virgülle ayrılmış format</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-8 text-gray-500 text-sm">
+            <p>
+                <span data-i18n="footer_text">Photo Prompt Generator</span> | 
+                <span data-i18n="created_by">Yapımcı</span>: 
+                <a href="https://twitter.com/niyoseris" target="_blank" rel="noopener noreferrer" class="creator-link">
+                    <i class="fab fa-twitter mr-1"></i>@niyoseris
+                </a>
+            </p>
+            <p class="mt-1 text-xs text-gray-600">
+                <span data-i18n="formats_credit">Formatlar</span>: 
+                <a href="https://github.com/toon-format/toon" target="_blank" rel="noopener noreferrer" class="creator-link">TOON</a> | 
+                <a href="https://github.com/tonl-dev/tonl" target="_blank" rel="noopener noreferrer" class="creator-link">TONL</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // ==================== TRANSLATIONS ====================
+        const translations = {
+            tr: {
+                page_title: "Photo Prompt Generator",
+                page_subtitle: "LLM Image Generation için detaylı prompt hazırlama aracı",
+                prompt_settings: "Prompt Ayarları",
+                subject_section: "Konu",
+                atmosphere_section: "Atmosfer & Stil",
+                technical_section: "Teknik Ayarlar",
+                quality_section: "Kalite & Detaylar",
+                era_section: "Dönem & Zaman",
+                environment_section: "Ortam & Mekan",
+                character_section: "Karakter & Kıyafet",
+                subject_type: "Konu Tipi",
+                subject_description: "Konu Açıklaması",
+                style: "Stil",
+                mood: "Ruh Hali",
+                color_palette: "Renk Paleti",
+                lighting: "Aydınlatma",
+                camera_type: "Kamera/Lens",
+                camera_angle: "Kamera Açısı",
+                camera_settings: "Kamera Ayarları",
+                composition: "Kompozisyon",
+                quality_modifiers: "Kalite Modifikatörleri",
+                additional_details: "Ek Detaylar",
+                negative_prompt: "Negatif Prompt",
+                era: "Dönem/Yıl",
+                time_of_day: "Günün Zamanı",
+                season: "Mevsim",
+                location: "Mekan Tipi",
+                setting: "Ortam",
+                crowd: "Kalabalık",
+                weather: "Hava Durumu",
+                architecture: "Mimari Stil",
+                clothing_style: "Kıyafet Stili",
+                clothing_era: "Kıyafet Dönemi",
+                age_group: "Yaş Grubu",
+                hair_style: "Saç Stili",
+                expression: "İfade",
+                pose: "Poz",
+                film_type: "Film Tipi",
+                aspect_ratio: "En Boy Oranı",
+                render_style: "Render Stili",
+                // Contextual options - Street
+                street_type: "Sokak Tipi",
+                geographic_region: "Coğrafi Bölge",
+                // Contextual options - Landscape
+                landscape_type: "Manzara Tipi",
+                terrain: "Arazi",
+                natural_elements: "Doğal Öğeler",
+                // Contextual options - Portrait
+                ethnicity: "Etnisite",
+                body_type: "Vücut Tipi",
+                gender: "Cinsiyet",
+                // Contextual options - Architecture
+                building_type: "Bina Tipi",
+                arch_style: "Mimari Akım",
+                arch_era: "Mimari Dönem",
+                // Contextual options - Food
+                cuisine_type: "Mutfak",
+                food_style: "Yiyecek Stili",
+                plating: "Sunum",
+                // Contextual options - Fashion
+                fashion_category: "Moda Kategorisi",
+                fashion_season: "Sezon",
+                fashion_brand_style: "Marka Stili",
+                // Contextual options - Wildlife
+                animal_type: "Hayvan Türü",
+                habitat: "Yaşam Alanı",
+                animal_behavior: "Davranış",
+                // Contextual options - Product
+                product_type: "Ürün Tipi",
+                product_material: "Malzeme",
+                product_background: "Arka Plan",
+                select_placeholder: "Seçiniz...",
+                subject_placeholder: "Ana konuyu detaylı açıklayın... Örn: A young woman with flowing red hair, wearing a vintage dress",
+                additional_placeholder: "Ekstra detaylar, özel istekler...",
+                negative_placeholder: "İstemediğiniz öğeler...",
+                generate_btn: "Prompt Oluştur",
+                copy_btn: "Kopyala",
+                copied_btn: "Kopyalandı!",
+                clear_btn: "Temizle",
+                cinematic_preset: "Sinematik",
+                portrait_preset: "Portre",
+                generated_prompts: "Oluşturulan Promptlar",
+                natural_tab: "Doğal",
+                waiting_message: "Prompt oluşturmak için formu doldurun...",
+                tips_title: "İpuçları",
+                tip_toon: "Token-Oriented Object Notation - LLM için optimize edilmiş kompakt format",
+                tip_tonl: "Token-Optimized Notation Language - Yapılandırılmış veri formatı",
+                tip_json: "API entegrasyonları için standart format",
+                tip_natural: "Direkt kullanıma hazır virgülle ayrılmış format",
+                footer_text: "Photo Prompt Generator",
+                created_by: "Yapımcı",
+                formats_credit: "Formatlar",
+                add_btn: "Ekle",
+                add_negative_placeholder: "Yeni negatif prompt ekle...",
+                // Option translations - comprehensive Turkish labels
+                options: {
+                    // Subject types
+                    portrait: "Portre", landscape: "Manzara", "still life": "Natürmort", abstract: "Soyut",
+                    architecture: "Mimari", wildlife: "Yaban Hayatı", street: "Sokak", product: "Ürün",
+                    food: "Yiyecek", fashion: "Moda", macro: "Makro", aerial: "Havadan", underwater: "Su Altı",
+                    sports: "Spor", documentary: "Belgesel", "fine art": "Güzel Sanat",
+                    // Styles
+                    photorealistic: "Foto-gerçekçi", cinematic: "Sinematik", anime: "Anime", cartoon: "Karikatür",
+                    "oil painting": "Yağlı Boya", watercolor: "Suluboya", "digital art": "Dijital Sanat",
+                    "3D render": "3D Render", sketch: "Eskiz", vintage: "Vintage", minimalist: "Minimalist",
+                    surreal: "Sürreal", fantasy: "Fantastik", "sci-fi": "Bilim Kurgu", noir: "Noir",
+                    impressionist: "Empresyonist", "pop art": "Pop Art", "art nouveau": "Art Nouveau",
+                    baroque: "Barok", renaissance: "Rönesans",
+                    // Era
+                    prehistoric: "Tarih Öncesi", "ancient egypt": "Antik Mısır", "ancient greece": "Antik Yunan",
+                    "ancient rome": "Antik Roma", medieval: "Ortaçağ", "1700s": "1700'ler",
+                    "victorian era": "Viktorya Dönemi", "1920s art deco": "1920'ler Art Deco",
+                    "1930s depression": "1930'lar Buhran", "1940s wartime": "1940'lar Savaş",
+                    "1950s retro": "1950'ler Retro", "1960s mod": "1960'lar Mod", "1970s disco": "1970'ler Disko",
+                    "1980s synthwave": "1980'ler Synthwave", "1990s grunge": "1990'lar Grunge",
+                    "2000s Y2K": "2000'ler Y2K", "2010s modern": "2010'lar Modern",
+                    "2020s contemporary": "2020'ler Çağdaş", "cyberpunk future": "Siberpunk Gelecek",
+                    "post-apocalyptic": "Post-Apokaliptik", "far future": "Uzak Gelecek",
+                    // Time of day
+                    dawn: "Şafak", sunrise: "Gün Doğumu", "early morning": "Erken Sabah", morning: "Sabah",
+                    midday: "Öğlen", afternoon: "Öğleden Sonra", "golden hour": "Altın Saat", sunset: "Gün Batımı",
+                    dusk: "Alacakaranlık", "blue hour": "Mavi Saat", twilight: "Akşam Karanlığı",
+                    evening: "Akşam", night: "Gece", midnight: "Gece Yarısı", "late night": "Gece Geç",
+                    // Season
+                    spring: "İlkbahar", summer: "Yaz", autumn: "Sonbahar", winter: "Kış",
+                    "rainy season": "Yağmur Mevsimi", "dry season": "Kurak Mevsim", monsoon: "Muson",
+                    // Location
+                    indoor: "İç Mekan", outdoor: "Dış Mekan", studio: "Stüdyo", urban: "Kentsel",
+                    rural: "Kırsal", suburban: "Banliyö", beach: "Sahil", mountain: "Dağ", forest: "Orman",
+                    desert: "Çöl", space: "Uzay", rooftop: "Çatı", underground: "Yeraltı", industrial: "Endüstriyel",
+                    // Crowd
+                    empty: "Boş", solitary: "Yalnız", couple: "Çift", "small group": "Küçük Grup",
+                    "moderate crowd": "Orta Kalabalık", "busy crowd": "Yoğun Kalabalık",
+                    "packed crowd": "Tıklım Tıklım", "festival crowd": "Festival Kalabalığı",
+                    // Weather
+                    "clear sky": "Açık Hava", "partly cloudy": "Parçalı Bulutlu", overcast: "Kapalı",
+                    "light rain": "Hafif Yağmur", "heavy rain": "Şiddetli Yağmur", thunderstorm: "Fırtına",
+                    snow: "Kar", blizzard: "Tipi", fog: "Sis", mist: "Pus", haze: "Duman",
+                    windy: "Rüzgarlı", sandstorm: "Kum Fırtınası", rainbow: "Gökkuşağı",
+                    // Lighting
+                    "natural light": "Doğal Işık", "studio lighting": "Stüdyo Işığı", dramatic: "Dramatik",
+                    soft: "Yumuşak", backlit: "Arka Işık", "rim light": "Kenar Işığı", neon: "Neon",
+                    candlelight: "Mum Işığı", moonlight: "Ay Işığı", "harsh sunlight": "Sert Güneş",
+                    volumetric: "Hacimsel", chiaroscuro: "Işık-Gölge", "split lighting": "Bölünmüş Işık",
+                    "butterfly lighting": "Kelebek Işık", "rembrandt lighting": "Rembrandt Işık",
+                    // Mood
+                    peaceful: "Huzurlu", mysterious: "Gizemli", joyful: "Neşeli", melancholic: "Melankolik",
+                    energetic: "Enerjik", romantic: "Romantik", eerie: "Ürkütücü", nostalgic: "Nostaljik",
+                    epic: "Epik", serene: "Sakin", tense: "Gergin", whimsical: "Tuhaf", dark: "Karanlık",
+                    hopeful: "Umutlu", lonely: "Yalnız", chaotic: "Kaotik", dreamy: "Rüya Gibi",
+                    intense: "Yoğun", playful: "Oyuncu",
+                    // Color palette
+                    vibrant: "Canlı", muted: "Soluk", monochrome: "Tek Renk", "warm tones": "Sıcak Tonlar",
+                    "cool tones": "Soğuk Tonlar", pastel: "Pastel", "earth tones": "Toprak Tonları",
+                    "black and white": "Siyah Beyaz", sepia: "Sepya", "high contrast": "Yüksek Kontrast",
+                    desaturated: "Düşük Doygunluk", complementary: "Tamamlayıcı", analogous: "Analog",
+                    triadic: "Üçlü", "jewel tones": "Mücevher Tonları", "autumn colors": "Sonbahar Renkleri",
+                    "ocean blues": "Okyanus Mavisi",
+                    // Character
+                    casual: "Günlük", formal: "Resmi", business: "İş", streetwear: "Sokak Giyim",
+                    "haute couture": "Haute Couture", bohemian: "Bohem", punk: "Punk", gothic: "Gotik",
+                    preppy: "Preppy", sporty: "Sportif", elegant: "Zarif", rugged: "Sert",
+                    military: "Askeri", traditional: "Geleneksel", futuristic: "Fütüristik",
+                    "fantasy armor": "Fantezi Zırh", "royal attire": "Kraliyet Kıyafeti",
+                    // Age groups
+                    infant: "Bebek", toddler: "Yürümeye Başlayan", child: "Çocuk", teenager: "Ergen",
+                    "young adult": "Genç Yetişkin", adult: "Yetişkin", "middle-aged": "Orta Yaşlı",
+                    elderly: "Yaşlı", ageless: "Yaşsız",
+                    // Expressions
+                    neutral: "Nötr", smiling: "Gülümseyen", laughing: "Gülen", serious: "Ciddi",
+                    contemplative: "Düşünceli", surprised: "Şaşkın", angry: "Kızgın", sad: "Üzgün",
+                    fearful: "Korkmuş", determined: "Kararlı", curious: "Meraklı", confident: "Kendinden Emin",
+                    // Poses
+                    standing: "Ayakta", sitting: "Oturan", "lying down": "Uzanmış", walking: "Yürüyen",
+                    running: "Koşan", jumping: "Zıplayan", dancing: "Dans Eden", leaning: "Yaslanmış",
+                    crouching: "Çömelmiş", kneeling: "Diz Çökmüş", "action pose": "Aksiyon Pozu",
+                    relaxed: "Rahat", "formal pose": "Resmi Poz", candid: "Doğal",
+                    "profile view": "Profil", "three-quarter view": "3/4 Görünüm", "back view": "Arkadan",
+                    // Camera angles
+                    "eye level": "Göz Hizası", "low angle": "Alçak Açı", "high angle": "Yüksek Açı",
+                    "bird's eye": "Kuş Bakışı", "worm's eye": "Solucan Bakışı", "dutch angle": "Dutch Açı",
+                    "over the shoulder": "Omuz Üstü", "close-up": "Yakın Plan",
+                    "extreme close-up": "Aşırı Yakın", "wide shot": "Geniş Plan", "medium shot": "Orta Plan",
+                    "full body shot": "Tam Boy", "cowboy shot": "Kovboy Plan", "POV shot": "Bakış Açısı",
+                    // Camera settings
+                    "shallow depth of field": "Sığ Alan Derinliği", "deep focus": "Derin Odak", bokeh: "Bokeh",
+                    "motion blur": "Hareket Bulanıklığı", "long exposure": "Uzun Pozlama",
+                    "tilt-shift": "Tilt-Shift", "fish-eye": "Balık Gözü", macro: "Makro",
+                    "telephoto compression": "Telefoto", "wide angle distortion": "Geniş Açı Distorsiyon",
+                    "f/1.4 aperture": "f/1.4 Diyafram", "f/8 aperture": "f/8 Diyafram",
+                    "fast shutter": "Hızlı Enstantane", "slow shutter": "Yavaş Enstantane",
+                    // Composition
+                    "rule of thirds": "Üçler Kuralı", centered: "Merkezli", symmetrical: "Simetrik",
+                    "leading lines": "Yönlendirici Çizgiler", framing: "Çerçeveleme",
+                    "negative space": "Negatif Alan", "golden ratio": "Altın Oran", diagonal: "Diyagonal",
+                    layered: "Katmanlı", "fill the frame": "Kadrajı Doldur", patterns: "Desenler",
+                    juxtaposition: "Yan Yana Koyma", "foreground interest": "Ön Plan İlgisi",
+                    // Quality
+                    "8K": "8K", "ultra detailed": "Ultra Detaylı", hyperrealistic: "Hiper-gerçekçi",
+                    masterpiece: "Başyapıt", professional: "Profesyonel", "award-winning": "Ödüllü",
+                    "high resolution": "Yüksek Çözünürlük", "sharp focus": "Keskin Odak",
+                    "intricate details": "İnce Detaylar", photographic: "Fotografik",
+                    "studio quality": "Stüdyo Kalitesi", "magazine cover": "Dergi Kapağı",
+                    editorial: "Editöryal", "gallery quality": "Galeri Kalitesi",
+                    // Gender
+                    female: "Kadın", male: "Erkek", androgynous: "Androjen", "non-binary": "Non-Binary",
+                    // Body types
+                    slim: "İnce", athletic: "Atletik", muscular: "Kaslı", average: "Ortalama",
+                    curvy: "Dolgun", "plus size": "Büyük Beden", petite: "Minyon", tall: "Uzun",
+                    "model physique": "Model Fiziği"
+                }
+            },
+            en: {
+                page_title: "Photo Prompt Generator",
+                page_subtitle: "Advanced prompt preparation tool for LLM Image Generation",
+                prompt_settings: "Prompt Settings",
+                subject_section: "Subject",
+                atmosphere_section: "Atmosphere & Style",
+                technical_section: "Technical Settings",
+                quality_section: "Quality & Details",
+                era_section: "Era & Time",
+                environment_section: "Environment & Location",
+                character_section: "Character & Clothing",
+                subject_type: "Subject Type",
+                subject_description: "Subject Description",
+                style: "Style",
+                mood: "Mood",
+                color_palette: "Color Palette",
+                lighting: "Lighting",
+                camera_type: "Camera/Lens",
+                camera_angle: "Camera Angle",
+                camera_settings: "Camera Settings",
+                composition: "Composition",
+                quality_modifiers: "Quality Modifiers",
+                additional_details: "Additional Details",
+                negative_prompt: "Negative Prompt",
+                era: "Era/Year",
+                time_of_day: "Time of Day",
+                season: "Season",
+                location: "Location Type",
+                setting: "Setting",
+                crowd: "Crowd Level",
+                weather: "Weather",
+                architecture: "Architecture Style",
+                clothing_style: "Clothing Style",
+                clothing_era: "Clothing Era",
+                age_group: "Age Group",
+                hair_style: "Hair Style",
+                expression: "Expression",
+                pose: "Pose",
+                film_type: "Film Type",
+                aspect_ratio: "Aspect Ratio",
+                render_style: "Render Style",
+                // Contextual options - Street
+                street_type: "Street Type",
+                geographic_region: "Geographic Region",
+                // Contextual options - Landscape
+                landscape_type: "Landscape Type",
+                terrain: "Terrain",
+                natural_elements: "Natural Elements",
+                // Contextual options - Portrait
+                ethnicity: "Ethnicity",
+                body_type: "Body Type",
+                gender: "Gender",
+                // Contextual options - Architecture
+                building_type: "Building Type",
+                arch_style: "Architectural Style",
+                arch_era: "Architectural Era",
+                // Contextual options - Food
+                cuisine_type: "Cuisine",
+                food_style: "Food Style",
+                plating: "Plating",
+                // Contextual options - Fashion
+                fashion_category: "Fashion Category",
+                fashion_season: "Season",
+                fashion_brand_style: "Brand Style",
+                // Contextual options - Wildlife
+                animal_type: "Animal Type",
+                habitat: "Habitat",
+                animal_behavior: "Behavior",
+                // Contextual options - Product
+                product_type: "Product Type",
+                product_material: "Material",
+                product_background: "Background",
+                select_placeholder: "Select...",
+                subject_placeholder: "Describe the main subject in detail... E.g: A young woman with flowing red hair, wearing a vintage dress",
+                additional_placeholder: "Extra details, special requests...",
+                negative_placeholder: "Elements you don't want...",
+                generate_btn: "Generate Prompt",
+                copy_btn: "Copy",
+                copied_btn: "Copied!",
+                clear_btn: "Clear",
+                cinematic_preset: "Cinematic",
+                portrait_preset: "Portrait",
+                generated_prompts: "Generated Prompts",
+                natural_tab: "Natural",
+                waiting_message: "Fill out the form to generate a prompt...",
+                tips_title: "Tips",
+                tip_toon: "Token-Oriented Object Notation - Compact format optimized for LLMs",
+                tip_tonl: "Token-Optimized Notation Language - Structured data format",
+                tip_json: "Standard format for API integrations",
+                tip_natural: "Ready-to-use comma-separated format",
+                footer_text: "Photo Prompt Generator",
+                created_by: "Created by",
+                formats_credit: "Formats",
+                add_btn: "Add",
+                add_negative_placeholder: "Add new negative prompt...",
+                options: {}
+            }
+        };
+
+        // ==================== OPTIONS DATA ====================
+        const promptOptions = {
+            // Subject
+            subject_type: ["portrait", "landscape", "still life", "abstract", "architecture", "wildlife", "street", "product", "food", "fashion", "macro", "aerial", "underwater", "sports", "documentary", "fine art"],
+            style: ["photorealistic", "cinematic", "anime", "cartoon", "oil painting", "watercolor", "digital art", "3D render", "sketch", "vintage", "minimalist", "surreal", "fantasy", "sci-fi", "noir", "impressionist", "pop art", "art nouveau", "baroque", "renaissance"],
+            
+            // Era & Time
+            era: ["prehistoric", "ancient egypt", "ancient greece", "ancient rome", "medieval", "renaissance", "1700s", "victorian era", "1920s art deco", "1930s depression", "1940s wartime", "1950s retro", "1960s mod", "1970s disco", "1980s synthwave", "1990s grunge", "2000s Y2K", "2010s modern", "2020s contemporary", "cyberpunk future", "post-apocalyptic", "far future"],
+            time_of_day: ["dawn", "sunrise", "early morning", "morning", "midday", "afternoon", "golden hour", "sunset", "dusk", "blue hour", "twilight", "evening", "night", "midnight", "late night"],
+            season: ["spring", "summer", "autumn", "winter", "rainy season", "dry season", "monsoon"],
+            
+            // Environment
+            location: ["indoor", "outdoor", "studio", "urban", "rural", "suburban", "beach", "mountain", "forest", "desert", "underwater", "space", "rooftop", "underground", "industrial"],
+            setting: ["city street", "countryside", "beach", "mountain peak", "forest clearing", "desert dunes", "snowy landscape", "tropical island", "ancient ruins", "modern office", "cozy cafe", "luxury hotel", "abandoned building", "futuristic city", "medieval castle", "japanese garden", "european plaza", "american suburb", "asian market", "african savanna"],
+            crowd: ["empty", "solitary", "couple", "small group", "moderate crowd", "busy crowd", "packed crowd", "festival crowd"],
+            weather: ["clear sky", "partly cloudy", "overcast", "light rain", "heavy rain", "thunderstorm", "snow", "blizzard", "fog", "mist", "haze", "windy", "sandstorm", "rainbow"],
+            architecture: ["modern", "classical", "gothic", "art deco", "brutalist", "victorian", "colonial", "japanese traditional", "minimalist", "industrial", "futuristic", "organic", "mediterranean", "scandinavian"],
+            
+            // Atmosphere
+            lighting: ["natural light", "golden hour", "blue hour", "studio lighting", "dramatic", "soft", "backlit", "rim light", "neon", "candlelight", "moonlight", "overcast", "harsh sunlight", "volumetric", "chiaroscuro", "split lighting", "butterfly lighting", "rembrandt lighting"],
+            mood: ["peaceful", "dramatic", "mysterious", "joyful", "melancholic", "energetic", "romantic", "eerie", "nostalgic", "epic", "serene", "tense", "whimsical", "dark", "hopeful", "lonely", "chaotic", "dreamy", "intense", "playful"],
+            color_palette: ["vibrant", "muted", "monochrome", "warm tones", "cool tones", "pastel", "neon", "earth tones", "black and white", "sepia", "high contrast", "desaturated", "complementary", "analogous", "triadic", "jewel tones", "autumn colors", "ocean blues"],
+            
+            // Character & Clothing
+            clothing_style: ["casual", "formal", "business", "streetwear", "haute couture", "vintage", "bohemian", "minimalist", "punk", "gothic", "preppy", "sporty", "elegant", "rugged", "military", "traditional", "futuristic", "fantasy armor", "royal attire"],
+            clothing_era: ["ancient", "medieval", "renaissance", "baroque", "victorian", "edwardian", "1920s flapper", "1940s wartime", "1950s rockabilly", "1960s mod", "1970s hippie", "1980s power suit", "1990s grunge", "2000s Y2K", "contemporary", "futuristic"],
+            age_group: ["infant", "toddler", "child", "teenager", "young adult", "adult", "middle-aged", "elderly", "ageless"],
+            hair_style: ["long flowing", "short cropped", "bob cut", "pixie cut", "curly", "straight", "wavy", "braided", "ponytail", "bun", "dreadlocks", "mohawk", "bald", "afro", "vintage waves", "messy", "slicked back"],
+            expression: ["neutral", "smiling", "laughing", "serious", "contemplative", "surprised", "angry", "sad", "fearful", "determined", "curious", "peaceful", "intense", "playful", "mysterious", "confident"],
+            pose: ["standing", "sitting", "lying down", "walking", "running", "jumping", "dancing", "leaning", "crouching", "kneeling", "action pose", "relaxed", "formal pose", "candid", "profile view", "three-quarter view", "back view"],
+            
+            // Technical
+            camera_type: ["Canon 5D Mark IV", "Nikon D850", "Sony A7R IV", "Hasselblad H6D", "Leica M10", "Fujifilm GFX", "Phase One", "iPhone 15 Pro", "vintage Polaroid", "Kodak Brownie", "35mm film camera", "medium format", "large format 4x5", "drone camera", "GoPro action cam", "ARRI cinema camera", "RED cinema camera", "vintage Rolleiflex"],
+            camera_angle: ["eye level", "low angle", "high angle", "bird's eye", "worm's eye", "dutch angle", "over the shoulder", "close-up", "extreme close-up", "wide shot", "medium shot", "full body shot", "cowboy shot", "POV shot"],
+            camera_settings: ["shallow depth of field", "deep focus", "bokeh", "motion blur", "long exposure", "tilt-shift", "fish-eye", "macro", "telephoto compression", "wide angle distortion", "f/1.4 aperture", "f/8 aperture", "fast shutter", "slow shutter"],
+            composition: ["rule of thirds", "centered", "symmetrical", "leading lines", "framing", "negative space", "golden ratio", "diagonal", "layered", "minimalist", "fill the frame", "patterns", "juxtaposition", "foreground interest"],
+            film_type: ["digital", "Kodak Portra 400", "Kodak Ektar 100", "Fujifilm Pro 400H", "Ilford HP5", "Kodak Tri-X", "Cinestill 800T", "Kodachrome", "Velvia 50", "instant film", "infrared film", "cross-processed"],
+            aspect_ratio: ["1:1 square", "4:3 standard", "3:2 classic", "16:9 widescreen", "21:9 ultrawide", "2.39:1 anamorphic", "9:16 vertical", "4:5 instagram"],
+            
+            // Quality
+            quality_modifiers: ["8K", "ultra detailed", "hyperrealistic", "masterpiece", "professional", "award-winning", "high resolution", "sharp focus", "intricate details", "photographic", "studio quality", "magazine cover", "editorial", "gallery quality"],
+            render_style: ["photorealistic", "ray traced", "path traced", "physically based rendering", "unreal engine 5", "octane render", "cinema 4D", "V-Ray", "Arnold render", "real-time rendering"],
+            
+            // ==================== CONTEXTUAL OPTIONS ====================
+            
+            // Street Photography
+            street_type: ["busy downtown", "quiet alley", "night market", "bazaar", "shopping district", "residential street", "historic district", "industrial area", "waterfront", "subway entrance", "bus stop", "crosswalk", "sidewalk cafe", "graffiti alley", "chinatown", "little italy"],
+            geographic_region: ["tokyo japan", "new york usa", "paris france", "london uk", "istanbul turkey", "mumbai india", "rio brazil", "cairo egypt", "moscow russia", "sydney australia", "hong kong", "singapore", "dubai uae", "amsterdam netherlands", "rome italy", "barcelona spain", "berlin germany", "bangkok thailand", "seoul korea", "havana cuba", "marrakech morocco", "venice italy"],
+            
+            // Landscape
+            landscape_type: ["mountain range", "ocean coastline", "rolling hills", "flat plains", "river valley", "volcanic", "glacial", "canyon", "waterfall", "lake reflection", "aurora borealis", "starry night sky", "sunrise panorama", "sunset silhouette", "stormy seascape", "misty forest", "autumn foliage", "spring bloom", "winter wonderland", "tropical paradise"],
+            terrain: ["rocky", "sandy", "grassy", "muddy", "snowy", "icy", "volcanic rock", "coral reef", "sand dunes", "moss covered", "wildflower meadow", "bamboo forest", "pine forest", "jungle", "tundra", "savanna", "wetland", "cliff face", "cave entrance"],
+            natural_elements: ["waterfall", "river", "lake", "ocean waves", "clouds", "fog", "rainbow", "lightning", "northern lights", "milky way", "full moon", "shooting stars", "sun rays", "reflections", "mist", "dew drops", "frost", "icicles", "autumn leaves", "cherry blossoms"],
+            
+            // Portrait
+            ethnicity: ["caucasian", "african", "east asian", "south asian", "middle eastern", "latin american", "native american", "pacific islander", "mixed ethnicity", "nordic", "mediterranean", "slavic"],
+            body_type: ["slim", "athletic", "muscular", "average", "curvy", "plus size", "petite", "tall", "model physique"],
+            gender: ["female", "male", "androgynous", "non-binary"],
+            
+            // Architecture
+            building_type: ["skyscraper", "cathedral", "mosque", "temple", "palace", "castle", "mansion", "cottage", "apartment building", "office tower", "factory", "warehouse", "bridge", "tower", "monument", "museum", "theater", "stadium", "train station", "airport", "lighthouse", "windmill"],
+            arch_style: ["art deco", "art nouveau", "bauhaus", "brutalist", "classical", "colonial", "contemporary", "deconstructivist", "futuristic", "gothic", "high-tech", "islamic", "japanese", "minimalist", "modernist", "neoclassical", "organic", "postmodern", "renaissance", "romanesque", "victorian"],
+            arch_era: ["ancient", "medieval", "renaissance", "baroque", "industrial revolution", "early 20th century", "mid-century modern", "1980s postmodern", "contemporary", "futuristic concept"],
+            
+            // Food
+            cuisine_type: ["french", "italian", "japanese", "chinese", "indian", "mexican", "thai", "korean", "turkish", "greek", "spanish", "american", "middle eastern", "vietnamese", "brazilian", "moroccan", "ethiopian", "peruvian", "fusion"],
+            food_style: ["fine dining", "street food", "comfort food", "healthy", "vegan", "raw", "grilled", "fried", "baked", "dessert", "breakfast", "brunch", "appetizer", "main course", "tapas", "sushi", "pastry", "cocktails"],
+            plating: ["minimalist plating", "rustic presentation", "fine dining arrangement", "deconstructed", "stacked", "scattered", "circular", "linear", "artistic drizzle", "garnished", "family style", "bento box", "tapas plates", "cheese board"],
+            
+            // Fashion
+            fashion_category: ["haute couture", "ready-to-wear", "streetwear", "sportswear", "evening wear", "bridal", "swimwear", "lingerie", "outerwear", "accessories", "footwear", "jewelry", "eyewear", "bags", "menswear", "womenswear", "unisex", "kids fashion"],
+            fashion_season: ["spring/summer", "fall/winter", "resort", "pre-fall", "cruise collection", "holiday collection"],
+            fashion_brand_style: ["luxury minimalist", "avant-garde", "bohemian chic", "urban street", "preppy classic", "romantic feminine", "edgy punk", "sporty athleisure", "vintage inspired", "sustainable eco", "maximalist bold", "androgynous"],
+            
+            // Wildlife
+            animal_type: ["big cat", "elephant", "bear", "wolf", "deer", "horse", "bird of prey", "songbird", "parrot", "penguin", "whale", "dolphin", "shark", "sea turtle", "octopus", "butterfly", "bee", "spider", "snake", "lizard", "frog", "primate", "fox", "rabbit"],
+            habitat: ["african savanna", "amazon rainforest", "arctic tundra", "coral reef", "deep ocean", "mountain peak", "temperate forest", "desert", "wetlands", "grasslands", "bamboo forest", "mangrove", "cave", "urban environment"],
+            animal_behavior: ["hunting", "resting", "playing", "feeding", "migrating", "mating display", "caring for young", "swimming", "flying", "running", "climbing", "camouflaged", "alert", "sleeping"],
+            
+            // Product
+            product_type: ["electronics", "cosmetics", "jewelry", "watch", "perfume", "shoes", "bags", "furniture", "kitchenware", "tech gadgets", "automotive", "sports equipment", "musical instruments", "books", "beverages", "skincare", "eyewear"],
+            product_material: ["metal", "glass", "wood", "leather", "fabric", "plastic", "ceramic", "stone", "crystal", "gold", "silver", "rose gold", "matte black", "brushed aluminum", "carbon fiber", "marble"],
+            product_background: ["white seamless", "black seamless", "gradient", "textured surface", "marble slab", "wooden table", "concrete", "fabric backdrop", "nature setting", "lifestyle context", "reflective surface", "floating", "hanging", "studio setup"]
+        };
+
+        // Default negative prompts (built-in)
+        const DEFAULT_NEGATIVE_TAGS = [
+            "blurry", "low quality", "distorted", "deformed", "ugly", 
+            "bad anatomy", "bad proportions", "duplicate", "watermark", 
+            "signature", "text", "logo", "cropped", "out of frame",
+            "worst quality", "jpeg artifacts", "mutation", "extra limbs"
+        ];
+
+        // ==================== STATE ====================
+        let currentLang = localStorage.getItem('lang') || 'tr';
+        
+        // Negative prompts state: { tag: boolean (selected or not), isCustom: boolean }
+        let negativePrompts = loadNegativePrompts();
+        
+        function loadNegativePrompts() {
+            const saved = localStorage.getItem('negativePrompts');
+            if (saved) {
+                return JSON.parse(saved);
+            }
+            // Initialize with defaults (all selected)
+            const defaults = {};
+            DEFAULT_NEGATIVE_TAGS.forEach(tag => {
+                defaults[tag] = { selected: true, isCustom: false };
+            });
+            return defaults;
+        }
+        
+        function saveNegativePrompts() {
+            localStorage.setItem('negativePrompts', JSON.stringify(negativePrompts));
+        }
+        
+        function getSelectedNegativePrompts() {
+            return Object.entries(negativePrompts)
+                .filter(([_, data]) => data.selected)
+                .map(([tag, _]) => tag);
+        }
+        
+        function renderNegativeTags() {
+            const container = document.getElementById('negativeTagsContainer');
+            container.innerHTML = '';
+            
+            Object.entries(negativePrompts).forEach(([tag, data]) => {
+                const tagEl = document.createElement('div');
+                tagEl.className = `negative-tag ${data.selected ? 'selected' : ''} ${data.isCustom ? 'custom' : ''}`;
+                tagEl.innerHTML = `
+                    <span class="tag-text">${tag}</span>
+                    <span class="remove-tag" onclick="event.stopPropagation(); removeTag('${tag}')">×</span>
+                `;
+                tagEl.onclick = () => toggleTag(tag);
+                container.appendChild(tagEl);
+            });
+        }
+        
+        function toggleTag(tag) {
+            if (negativePrompts[tag]) {
+                negativePrompts[tag].selected = !negativePrompts[tag].selected;
+                saveNegativePrompts();
+                renderNegativeTags();
+            }
+        }
+        
+        function addCustomTag() {
+            const input = document.getElementById('newTagInput');
+            const tag = input.value.trim().toLowerCase();
+            
+            if (tag && !negativePrompts[tag]) {
+                negativePrompts[tag] = { selected: true, isCustom: true };
+                saveNegativePrompts();
+                renderNegativeTags();
+                input.value = '';
+            }
+        }
+        
+        function removeTag(tag) {
+            if (negativePrompts[tag] && negativePrompts[tag].isCustom) {
+                delete negativePrompts[tag];
+                saveNegativePrompts();
+                renderNegativeTags();
+            }
+        }
+
+        // ==================== CONTEXTUAL OPTIONS ====================
+        
+        function updateContextualOptions() {
+            const subjectType = document.getElementById('subjectType').value;
+            const container = document.getElementById('contextualOptions');
+            const allOptions = document.querySelectorAll('.context-option');
+            
+            // Hide all contextual options first
+            allOptions.forEach(opt => {
+                opt.style.display = 'none';
+                // Reset the select value when hiding
+                const select = opt.querySelector('select');
+                if (select) select.value = '';
+            });
+            
+            // Show relevant options based on subject type
+            if (subjectType) {
+                const relevantOptions = document.querySelectorAll(`.context-option[data-context="${subjectType}"]`);
+                if (relevantOptions.length > 0) {
+                    container.style.display = 'grid';
+                    relevantOptions.forEach(opt => {
+                        opt.style.display = 'block';
+                    });
+                } else {
+                    container.style.display = 'none';
+                }
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        // ==================== FORMAT GENERATORS ====================
+        
+        /**
+         * Generate TOON format (Token-Oriented Object Notation)
+         * Based on: https://github.com/toon-format/toon
+         * TOON uses YAML-like indentation with CSV-style tabular arrays
+         */
+        function generateToonFormat(data) {
+            const lines = [];
+            
+            // Build prompt sections
+            const subject = {};
+            if (data.subject_type) subject.type = data.subject_type;
+            if (data.subject_description) subject.description = data.subject_description;
+            if (data.style) subject.style = data.style;
+            // Contextual subject details
+            if (data.street_type) subject.street_type = data.street_type;
+            if (data.geographic_region) subject.region = data.geographic_region;
+            if (data.landscape_type) subject.landscape = data.landscape_type;
+            if (data.terrain) subject.terrain = data.terrain;
+            if (data.natural_elements) subject.elements = data.natural_elements;
+            if (data.ethnicity) subject.ethnicity = data.ethnicity;
+            if (data.body_type) subject.body = data.body_type;
+            if (data.gender) subject.gender = data.gender;
+            if (data.building_type) subject.building = data.building_type;
+            if (data.arch_style) subject.arch_style = data.arch_style;
+            if (data.arch_era) subject.arch_era = data.arch_era;
+            if (data.cuisine_type) subject.cuisine = data.cuisine_type;
+            if (data.food_style) subject.food_style = data.food_style;
+            if (data.plating) subject.plating = data.plating;
+            if (data.fashion_category) subject.fashion_cat = data.fashion_category;
+            if (data.fashion_season) subject.fashion_season = data.fashion_season;
+            if (data.fashion_brand_style) subject.brand_style = data.fashion_brand_style;
+            if (data.animal_type) subject.animal = data.animal_type;
+            if (data.habitat) subject.habitat = data.habitat;
+            if (data.animal_behavior) subject.behavior = data.animal_behavior;
+            if (data.product_type) subject.product = data.product_type;
+            if (data.product_material) subject.material = data.product_material;
+            if (data.product_background) subject.background = data.product_background;
+            
+            const era = {};
+            if (data.era) era.period = data.era;
+            if (data.time_of_day) era.time = data.time_of_day;
+            if (data.season) era.season = data.season;
+            
+            const environment = {};
+            if (data.location) environment.location = data.location;
+            if (data.setting) environment.setting = data.setting;
+            if (data.crowd) environment.crowd = data.crowd;
+            if (data.weather) environment.weather = data.weather;
+            if (data.architecture) environment.architecture = data.architecture;
+            
+            const atmosphere = {};
+            if (data.mood) atmosphere.mood = data.mood;
+            if (data.color_palette) atmosphere.colors = data.color_palette;
+            if (data.lighting) atmosphere.lighting = data.lighting;
+            
+            const character = {};
+            if (data.clothing_style) character.clothing = data.clothing_style;
+            if (data.clothing_era) character.clothing_era = data.clothing_era;
+            if (data.age_group) character.age = data.age_group;
+            if (data.hair_style) character.hair = data.hair_style;
+            if (data.expression) character.expression = data.expression;
+            if (data.pose) character.pose = data.pose;
+            
+            const technical = {};
+            if (data.camera_type) technical.camera = data.camera_type;
+            if (data.camera_angle) technical.angle = data.camera_angle;
+            if (data.camera_settings) technical.settings = data.camera_settings;
+            if (data.composition) technical.composition = data.composition;
+            if (data.film_type) technical.film = data.film_type;
+            if (data.aspect_ratio) technical.ratio = data.aspect_ratio;
+            
+            const quality = {};
+            if (data.quality_modifiers) quality.modifiers = data.quality_modifiers;
+            if (data.render_style) quality.render = data.render_style;
+            if (data.additional_details) quality.details = data.additional_details;
+            
+            // TOON format with indentation
+            const escapeValue = (v) => v.includes(',') || v.includes(':') ? `"${v}"` : v;
+            
+            if (Object.keys(subject).length) {
+                lines.push('subject:');
+                Object.entries(subject).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(era).length) {
+                lines.push('era:');
+                Object.entries(era).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(environment).length) {
+                lines.push('environment:');
+                Object.entries(environment).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(atmosphere).length) {
+                lines.push('atmosphere:');
+                Object.entries(atmosphere).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(character).length) {
+                lines.push('character:');
+                Object.entries(character).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(technical).length) {
+                lines.push('technical:');
+                Object.entries(technical).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(quality).length) {
+                lines.push('quality:');
+                Object.entries(quality).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            
+            // Negative prompt as array
+            const negativeItems = getSelectedNegativePrompts();
+            lines.push(`negative[${negativeItems.length}]: ${negativeItems.join(',')}`);
+            
+            return lines.join('\n');
+        }
+
+        /**
+         * Generate TONL format (Token-Optimized Notation Language)
+         * Based on: https://github.com/tonl-dev/tonl
+         * TONL uses schema-aware compact serialization
+         */
+        function generateTonlFormat(data) {
+            const lines = [];
+            lines.push('#version 1.0');
+            
+            // Helper to add field
+            const addField = (fields, values, key, value, quoted = false) => {
+                if (value) {
+                    fields.push(`${key}:str`);
+                    values.push(quoted ? `"${value}"` : value);
+                }
+            };
+            
+            const fields = [], values = [];
+            addField(fields, values, 'type', data.subject_type);
+            addField(fields, values, 'subject', data.subject_description, true);
+            addField(fields, values, 'style', data.style);
+            // Contextual fields
+            addField(fields, values, 'street_type', data.street_type);
+            addField(fields, values, 'region', data.geographic_region);
+            addField(fields, values, 'landscape', data.landscape_type);
+            addField(fields, values, 'terrain', data.terrain);
+            addField(fields, values, 'elements', data.natural_elements);
+            addField(fields, values, 'ethnicity', data.ethnicity);
+            addField(fields, values, 'body', data.body_type);
+            addField(fields, values, 'gender', data.gender);
+            addField(fields, values, 'building', data.building_type);
+            addField(fields, values, 'arch_style', data.arch_style);
+            addField(fields, values, 'arch_era', data.arch_era);
+            addField(fields, values, 'cuisine', data.cuisine_type);
+            addField(fields, values, 'food_style', data.food_style);
+            addField(fields, values, 'plating', data.plating);
+            addField(fields, values, 'fashion_cat', data.fashion_category);
+            addField(fields, values, 'fashion_season', data.fashion_season);
+            addField(fields, values, 'brand_style', data.fashion_brand_style);
+            addField(fields, values, 'animal', data.animal_type);
+            addField(fields, values, 'habitat', data.habitat);
+            addField(fields, values, 'behavior', data.animal_behavior);
+            addField(fields, values, 'product', data.product_type);
+            addField(fields, values, 'material', data.product_material);
+            addField(fields, values, 'bg', data.product_background);
+            // Era & Time
+            addField(fields, values, 'era', data.era);
+            addField(fields, values, 'time', data.time_of_day);
+            addField(fields, values, 'season', data.season);
+            addField(fields, values, 'location', data.location);
+            addField(fields, values, 'setting', data.setting);
+            addField(fields, values, 'crowd', data.crowd);
+            addField(fields, values, 'weather', data.weather);
+            addField(fields, values, 'architecture', data.architecture);
+            addField(fields, values, 'mood', data.mood);
+            addField(fields, values, 'colors', data.color_palette);
+            addField(fields, values, 'lighting', data.lighting);
+            addField(fields, values, 'clothing', data.clothing_style);
+            addField(fields, values, 'clothing_era', data.clothing_era);
+            addField(fields, values, 'age', data.age_group);
+            addField(fields, values, 'hair', data.hair_style);
+            addField(fields, values, 'expression', data.expression);
+            addField(fields, values, 'pose', data.pose);
+            addField(fields, values, 'camera', data.camera_type);
+            addField(fields, values, 'angle', data.camera_angle);
+            addField(fields, values, 'settings', data.camera_settings);
+            addField(fields, values, 'composition', data.composition);
+            addField(fields, values, 'film', data.film_type);
+            addField(fields, values, 'ratio', data.aspect_ratio);
+            addField(fields, values, 'quality', data.quality_modifiers);
+            addField(fields, values, 'render', data.render_style);
+            addField(fields, values, 'details', data.additional_details, true);
+            
+            if (fields.length > 0) {
+                lines.push(`prompt{${fields.join(',')}}:`);
+                lines.push(`  ${values.join(', ')}`);
+            }
+            
+            const negativeItems = getSelectedNegativePrompts();
+            lines.push(`negative[${negativeItems.length}]: ${negativeItems.join(', ')}`);
+            
+            return lines.join('\n');
+        }
+
+        /**
+         * Generate JSON format
+         */
+        function generateJsonFormat(data) {
+            const cleanObj = (obj) => {
+                const cleaned = {};
+                Object.entries(obj).forEach(([k, v]) => {
+                    if (v && v !== '') cleaned[k] = v;
+                });
+                return Object.keys(cleaned).length ? cleaned : null;
+            };
+            
+            const promptData = {
+                prompt: {
+                    subject: cleanObj({
+                        type: data.subject_type,
+                        description: data.subject_description,
+                        style: data.style,
+                        // Contextual details based on subject type
+                        street_type: data.street_type,
+                        geographic_region: data.geographic_region,
+                        landscape_type: data.landscape_type,
+                        terrain: data.terrain,
+                        natural_elements: data.natural_elements,
+                        ethnicity: data.ethnicity,
+                        body_type: data.body_type,
+                        gender: data.gender,
+                        building_type: data.building_type,
+                        arch_style: data.arch_style,
+                        arch_era: data.arch_era,
+                        cuisine_type: data.cuisine_type,
+                        food_style: data.food_style,
+                        plating: data.plating,
+                        fashion_category: data.fashion_category,
+                        fashion_season: data.fashion_season,
+                        fashion_brand_style: data.fashion_brand_style,
+                        animal_type: data.animal_type,
+                        habitat: data.habitat,
+                        animal_behavior: data.animal_behavior,
+                        product_type: data.product_type,
+                        product_material: data.product_material,
+                        product_background: data.product_background
+                    }),
+                    era: cleanObj({
+                        period: data.era,
+                        time_of_day: data.time_of_day,
+                        season: data.season
+                    }),
+                    environment: cleanObj({
+                        location: data.location,
+                        setting: data.setting,
+                        crowd: data.crowd,
+                        weather: data.weather,
+                        architecture: data.architecture
+                    }),
+                    atmosphere: cleanObj({
+                        mood: data.mood,
+                        color_palette: data.color_palette,
+                        lighting: data.lighting
+                    }),
+                    character: cleanObj({
+                        clothing_style: data.clothing_style,
+                        clothing_era: data.clothing_era,
+                        age_group: data.age_group,
+                        hair_style: data.hair_style,
+                        expression: data.expression,
+                        pose: data.pose
+                    }),
+                    technical: cleanObj({
+                        camera: data.camera_type,
+                        angle: data.camera_angle,
+                        settings: data.camera_settings,
+                        composition: data.composition,
+                        film_type: data.film_type,
+                        aspect_ratio: data.aspect_ratio
+                    }),
+                    quality: cleanObj({
+                        modifiers: data.quality_modifiers,
+                        render_style: data.render_style,
+                        additional_details: data.additional_details
+                    })
+                },
+                negative_prompt: getSelectedNegativePrompts(),
+                metadata: {
+                    format_version: "2.0",
+                    generator: "PhotoPrompt Generator by @niyoseris"
+                }
+            };
+            
+            // Remove null sections
+            Object.keys(promptData.prompt).forEach(k => {
+                if (!promptData.prompt[k]) delete promptData.prompt[k];
+            });
+            
+            return JSON.stringify(promptData, null, 2);
+        }
+
+        /**
+         * Generate Natural language prompt
+         */
+        function generateNaturalPrompt(data) {
+            const parts = [];
+            
+            // Subject & Style
+            if (data.subject_description) parts.push(data.subject_description);
+            if (data.style) parts.push(`${data.style} style`);
+            if (data.subject_type) parts.push(`${data.subject_type} photography`);
+            
+            // Contextual details
+            if (data.street_type) parts.push(`in ${data.street_type}`);
+            if (data.geographic_region) parts.push(`${data.geographic_region}`);
+            if (data.landscape_type) parts.push(`${data.landscape_type}`);
+            if (data.terrain) parts.push(`${data.terrain} terrain`);
+            if (data.natural_elements) parts.push(`with ${data.natural_elements}`);
+            if (data.ethnicity) parts.push(`${data.ethnicity}`);
+            if (data.body_type) parts.push(`${data.body_type} build`);
+            if (data.gender) parts.push(`${data.gender}`);
+            if (data.building_type) parts.push(`${data.building_type}`);
+            if (data.arch_style) parts.push(`${data.arch_style} style architecture`);
+            if (data.arch_era) parts.push(`${data.arch_era} period`);
+            if (data.cuisine_type) parts.push(`${data.cuisine_type} cuisine`);
+            if (data.food_style) parts.push(`${data.food_style}`);
+            if (data.plating) parts.push(`${data.plating}`);
+            if (data.fashion_category) parts.push(`${data.fashion_category}`);
+            if (data.fashion_season) parts.push(`${data.fashion_season} collection`);
+            if (data.fashion_brand_style) parts.push(`${data.fashion_brand_style}`);
+            if (data.animal_type) parts.push(`${data.animal_type}`);
+            if (data.habitat) parts.push(`in ${data.habitat}`);
+            if (data.animal_behavior) parts.push(`${data.animal_behavior}`);
+            if (data.product_type) parts.push(`${data.product_type}`);
+            if (data.product_material) parts.push(`${data.product_material} material`);
+            if (data.product_background) parts.push(`${data.product_background} background`);
+            
+            // Era & Time
+            if (data.era) parts.push(`${data.era} era`);
+            if (data.time_of_day) parts.push(`during ${data.time_of_day}`);
+            if (data.season) parts.push(`in ${data.season}`);
+            
+            // Environment
+            if (data.location) parts.push(`${data.location} location`);
+            if (data.setting) parts.push(`${data.setting} setting`);
+            if (data.crowd) parts.push(`${data.crowd} scene`);
+            if (data.weather) parts.push(`${data.weather}`);
+            if (data.architecture) parts.push(`${data.architecture} architecture`);
+            
+            // Atmosphere
+            if (data.mood) parts.push(`${data.mood} atmosphere`);
+            if (data.color_palette) parts.push(`${data.color_palette} color palette`);
+            if (data.lighting) parts.push(`${data.lighting} lighting`);
+            
+            // Character
+            if (data.clothing_style) parts.push(`wearing ${data.clothing_style} clothing`);
+            if (data.clothing_era) parts.push(`${data.clothing_era} fashion`);
+            if (data.age_group) parts.push(`${data.age_group}`);
+            if (data.hair_style) parts.push(`${data.hair_style} hair`);
+            if (data.expression) parts.push(`${data.expression} expression`);
+            if (data.pose) parts.push(`${data.pose} pose`);
+            
+            // Technical
+            if (data.camera_type) parts.push(`shot with ${data.camera_type}`);
+            if (data.camera_angle) parts.push(`${data.camera_angle} angle`);
+            if (data.camera_settings) parts.push(data.camera_settings);
+            if (data.composition) parts.push(`${data.composition} composition`);
+            if (data.film_type) parts.push(`${data.film_type}`);
+            if (data.aspect_ratio) parts.push(`${data.aspect_ratio}`);
+            
+            // Quality
+            if (data.quality_modifiers) parts.push(data.quality_modifiers);
+            if (data.render_style) parts.push(data.render_style);
+            if (data.additional_details) parts.push(data.additional_details);
+            
+            const prompt = parts.join(', ');
+            const negative = getSelectedNegativePrompts().join(', ');
+            
+            return `${prompt}\n\n--negative--\n${negative}`;
+        }
+
+        // ==================== UI FUNCTIONS ====================
+        
+        function getOptionLabel(value) {
+            const t = translations[currentLang];
+            return t.options && t.options[value] ? t.options[value] : value.charAt(0).toUpperCase() + value.slice(1);
+        }
+
+        function populateSelects() {
+            const t = translations[currentLang];
+            document.querySelectorAll('select[data-options]').forEach(select => {
+                const optionKey = select.dataset.options;
+                const options = promptOptions[optionKey] || [];
+                
+                select.innerHTML = `<option value="">${t.select_placeholder}</option>`;
+                options.forEach(opt => {
+                    const label = getOptionLabel(opt);
+                    select.innerHTML += `<option value="${opt}">${label}</option>`;
+                });
+            });
+        }
+
+        function updateUILanguage() {
+            const t = translations[currentLang];
+            
+            // Update all data-i18n elements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (t[key]) el.textContent = t[key];
+            });
+            
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.dataset.i18nPlaceholder;
+                if (t[key]) el.placeholder = t[key];
+            });
+            
+            // Update lang buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === currentLang);
+            });
+            
+            // Update HTML lang
+            document.documentElement.lang = currentLang;
+            
+            // Repopulate selects
+            populateSelects();
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            updateUILanguage();
+        }
+
+        function copyToClipboard(type) {
+            const text = document.getElementById(`text-${type}`).textContent;
+            const t = translations[currentLang];
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target.closest('.copy-btn');
+                btn.classList.add('copied');
+                btn.querySelector('.copy-text').textContent = t.copied_btn;
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.querySelector('.copy-text').textContent = t.copy_btn;
+                }, 2000);
+            });
+        }
+
+        const presets = {
+            cinematic: {
+                subject_type: 'portrait',
+                style: 'cinematic',
+                lighting: 'dramatic',
+                mood: 'epic',
+                color_palette: 'high contrast',
+                camera_angle: 'low angle',
+                camera_settings: 'shallow depth of field',
+                composition: 'rule of thirds',
+                quality_modifiers: 'ultra detailed'
+            },
+            portrait: {
+                subject_type: 'portrait',
+                style: 'photorealistic',
+                lighting: 'soft',
+                mood: 'peaceful',
+                color_palette: 'warm tones',
+                camera_angle: 'eye level',
+                camera_settings: 'bokeh',
+                composition: 'centered',
+                quality_modifiers: 'professional'
+            }
+        };
+
+        function loadPreset(name) {
+            const preset = presets[name];
+            Object.keys(preset).forEach(key => {
+                const element = document.querySelector(`[name="${key}"]`);
+                if (element) element.value = preset[key];
+            });
+        }
+
+        function clearForm() {
+            document.getElementById('promptForm').reset();
+            // Reset negative prompts to defaults
+            negativePrompts = {};
+            DEFAULT_NEGATIVE_TAGS.forEach(tag => {
+                negativePrompts[tag] = { selected: true, isCustom: false };
+            });
+            saveNegativePrompts();
+            renderNegativeTags();
+        }
+
+        // ==================== INITIALIZATION ====================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize language
+            updateUILanguage();
+            
+            // Initialize negative tags
+            renderNegativeTags();
+            
+            // Enter key to add tag
+            document.getElementById('newTagInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addCustomTag();
+                }
+            });
+            
+            // Tab switching
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.output-content').forEach(c => c.classList.add('hidden'));
+                    
+                    btn.classList.add('active');
+                    const tab = btn.dataset.tab;
+                    document.getElementById(`output-${tab}`).classList.remove('hidden');
+                });
+            });
+
+            // Form submission
+            document.getElementById('promptForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(e.target);
+                const data = {};
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
+
+                // Generate all formats
+                document.getElementById('text-natural').textContent = generateNaturalPrompt(data);
+                document.getElementById('text-toon').textContent = generateToonFormat(data);
+                document.getElementById('text-tonl').textContent = generateTonlFormat(data);
+                document.getElementById('text-json').textContent = generateJsonFormat(data);
+                
+                // Add animation
+                document.querySelectorAll('.output-box').forEach(box => {
+                    box.classList.add('animate-fade-in');
+                    setTimeout(() => box.classList.remove('animate-fade-in'), 500);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
