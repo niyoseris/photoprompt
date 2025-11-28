@@ -955,27 +955,32 @@
                         <div class="section-title mb-3">
                             👕 <span data-i18n="character_section">Karakter & Kıyafet</span>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="clothing_type">Kıyafet Tipi</label>
+                                <select name="clothing_type" class="input-field w-full px-4 py-3" data-options="clothing_type">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="clothing_color">Kıyafet Rengi</label>
+                                <select name="clothing_color" class="input-field w-full px-4 py-3" data-options="clothing_color">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="clothing_material">Kumaş</label>
+                                <select name="clothing_material" class="input-field w-full px-4 py-3" data-options="clothing_material">
+                                </select>
+                            </div>
                             <div class="form-group">
                                 <label class="form-label" data-i18n="clothing_style">Kıyafet Stili</label>
                                 <select name="clothing_style" class="input-field w-full px-4 py-3" data-options="clothing_style">
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" data-i18n="clothing_era">Kıyafet Dönemi</label>
-                                <select name="clothing_era" class="input-field w-full px-4 py-3" data-options="clothing_era">
-                                </select>
-                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
                             <div class="form-group">
                                 <label class="form-label" data-i18n="age_group">Yaş Grubu</label>
                                 <select name="age_group" class="input-field w-full px-4 py-3" data-options="age_group">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                            <div class="form-group">
-                                <label class="form-label" data-i18n="hair_style">Saç Stili</label>
-                                <select name="hair_style" class="input-field w-full px-4 py-3" data-options="hair_style">
                                 </select>
                             </div>
                             <div class="form-group">
@@ -986,6 +991,95 @@
                             <div class="form-group">
                                 <label class="form-label" data-i18n="pose">Poz</label>
                                 <select name="pose" class="input-field w-full px-4 py-3" data-options="pose">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="clothing_era">Kıyafet Dönemi</label>
+                                <select name="clothing_era" class="input-field w-full px-4 py-3" data-options="clothing_era">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hair Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            💇 <span data-i18n="hair_section">Saç</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="hair_style">Saç Stili</label>
+                                <select name="hair_style" class="input-field w-full px-4 py-3" data-options="hair_style">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="hair_color">Saç Rengi</label>
+                                <select name="hair_color" class="input-field w-full px-4 py-3" data-options="hair_color">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="hair_length">Saç Uzunluğu</label>
+                                <select name="hair_length" class="input-field w-full px-4 py-3" data-options="hair_length">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Face & Makeup Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            💄 <span data-i18n="face_section">Yüz & Makyaj</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="skin_type">Cilt Tipi</label>
+                                <select name="skin_type" class="input-field w-full px-4 py-3" data-options="skin_type">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="makeup_style">Makyaj Stili</label>
+                                <select name="makeup_style" class="input-field w-full px-4 py-3" data-options="makeup_style">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Accessories Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            💍 <span data-i18n="accessories_section">Aksesuarlar</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="eyewear">Gözlük</label>
+                                <select name="eyewear" class="input-field w-full px-4 py-3" data-options="eyewear">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="earrings">Küpe</label>
+                                <select name="earrings" class="input-field w-full px-4 py-3" data-options="earrings">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="necklace">Kolye</label>
+                                <select name="necklace" class="input-field w-full px-4 py-3" data-options="necklace">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="bracelet">Bileklik/Saat</label>
+                                <select name="bracelet" class="input-field w-full px-4 py-3" data-options="bracelet">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="rings">Yüzük</label>
+                                <select name="rings" class="input-field w-full px-4 py-3" data-options="rings">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="headwear">Şapka/Başlık</label>
+                                <select name="headwear" class="input-field w-full px-4 py-3" data-options="headwear">
                                 </select>
                             </div>
                         </div>
@@ -1299,6 +1393,24 @@
                 product_type: "Ürün Tipi",
                 product_material: "Malzeme",
                 product_background: "Arka Plan",
+                // New sections
+                hair_section: "Saç",
+                face_section: "Yüz & Makyaj",
+                accessories_section: "Aksesuarlar",
+                // New fields
+                clothing_type: "Kıyafet Tipi",
+                clothing_color: "Kıyafet Rengi",
+                clothing_material: "Kumaş",
+                hair_color: "Saç Rengi",
+                hair_length: "Saç Uzunluğu",
+                skin_type: "Cilt Tipi",
+                makeup_style: "Makyaj Stili",
+                eyewear: "Gözlük",
+                earrings: "Küpe",
+                necklace: "Kolye",
+                bracelet: "Bileklik/Saat",
+                rings: "Yüzük",
+                headwear: "Şapka/Başlık",
                 select_placeholder: "Seçiniz...",
                 subject_placeholder: "Ana konuyu detaylı açıklayın... Örn: A young woman with flowing red hair, wearing a vintage dress",
                 additional_placeholder: "Ekstra detaylar, özel istekler...",
@@ -1534,6 +1646,24 @@
                 product_type: "Product Type",
                 product_material: "Material",
                 product_background: "Background",
+                // New sections
+                hair_section: "Hair",
+                face_section: "Face & Makeup",
+                accessories_section: "Accessories",
+                // New fields
+                clothing_type: "Clothing Type",
+                clothing_color: "Clothing Color",
+                clothing_material: "Fabric",
+                hair_color: "Hair Color",
+                hair_length: "Hair Length",
+                skin_type: "Skin Type",
+                makeup_style: "Makeup Style",
+                eyewear: "Eyewear",
+                earrings: "Earrings",
+                necklace: "Necklace",
+                bracelet: "Bracelet/Watch",
+                rings: "Rings",
+                headwear: "Headwear",
                 select_placeholder: "Select...",
                 subject_placeholder: "Describe the main subject in detail... E.g: A young woman with flowing red hair, wearing a vintage dress",
                 additional_placeholder: "Extra details, special requests...",
@@ -1980,11 +2110,28 @@
             
             // Character & Clothing
             clothing_style: ["casual", "formal", "business", "streetwear", "haute couture", "vintage", "bohemian", "minimalist", "punk", "gothic", "preppy", "sporty", "elegant", "rugged", "military", "traditional", "futuristic", "fantasy armor", "royal attire"],
+            clothing_type: ["t-shirt", "hoodie", "sweater", "blazer", "jacket", "coat", "dress", "gown", "suit", "jeans", "pants", "skirt", "shorts", "tank top", "blouse", "shirt", "cardigan", "vest", "robe", "uniform", "swimwear", "lingerie", "athletic wear"],
+            clothing_color: ["white", "black", "navy blue", "red", "burgundy", "pink", "coral", "orange", "yellow", "green", "olive", "teal", "purple", "lavender", "brown", "tan", "beige", "cream", "grey", "heather grey", "multicolor", "pastel", "neon", "metallic", "denim blue"],
+            clothing_material: ["cotton", "silk", "satin", "velvet", "lace", "leather", "denim", "wool", "cashmere", "fleece", "linen", "chiffon", "tulle", "sequins", "mesh", "jersey", "tweed", "corduroy", "suede", "faux fur", "PVC", "latex"],
             clothing_era: ["ancient", "medieval", "renaissance", "baroque", "victorian", "edwardian", "1920s flapper", "1940s wartime", "1950s rockabilly", "1960s mod", "1970s hippie", "1980s power suit", "1990s grunge", "2000s Y2K", "contemporary", "futuristic"],
             age_group: ["infant", "toddler", "child", "teenager", "young adult", "adult", "middle-aged", "elderly", "ageless"],
-            hair_style: ["long flowing", "short cropped", "bob cut", "pixie cut", "curly", "straight", "wavy", "braided", "ponytail", "bun", "dreadlocks", "mohawk", "bald", "afro", "vintage waves", "messy", "slicked back"],
-            expression: ["neutral", "smiling", "laughing", "serious", "contemplative", "surprised", "angry", "sad", "fearful", "determined", "curious", "peaceful", "intense", "playful", "mysterious", "confident"],
-            pose: ["standing", "sitting", "lying down", "walking", "running", "jumping", "dancing", "leaning", "crouching", "kneeling", "action pose", "relaxed", "formal pose", "candid", "profile view", "three-quarter view", "back view"],
+            hair_style: ["long flowing", "short cropped", "bob cut", "pixie cut", "curly", "straight", "wavy", "braided", "ponytail", "bun", "dreadlocks", "mohawk", "bald", "afro", "vintage waves", "messy", "slicked back", "middle part", "side part", "wet look", "beach waves", "tight low bun", "high ponytail", "space buns", "half up half down"],
+            hair_color: ["black", "dark brown", "medium brown", "light brown", "auburn", "ginger red", "strawberry blonde", "golden blonde", "platinum blonde", "silver grey", "white", "blue", "pink", "purple", "green", "ombre", "highlights", "balayage", "two-tone", "rainbow"],
+            hair_length: ["bald", "buzz cut", "very short", "short", "ear length", "chin length", "shoulder length", "mid-back", "waist length", "very long"],
+            expression: ["neutral", "smiling", "laughing", "serious", "contemplative", "surprised", "angry", "sad", "fearful", "determined", "curious", "peaceful", "intense", "playful", "mysterious", "confident", "relaxed", "candid", "gentle smile", "seductive", "stoic"],
+            pose: ["standing", "sitting", "lying down", "walking", "running", "jumping", "dancing", "leaning", "crouching", "kneeling", "action pose", "relaxed", "formal pose", "candid", "profile view", "three-quarter view", "back view", "selfie pose", "hand on face", "arms crossed", "hands in pockets"],
+            
+            // Face & Makeup
+            skin_type: ["fair", "light", "medium", "olive", "tan", "dark", "deep", "porcelain", "sun-kissed", "freckled", "clear", "textured", "glowing", "matte"],
+            makeup_style: ["no makeup", "natural minimal", "clean girl aesthetic", "soft glam", "full glam", "smoky eye", "bold lip", "editorial", "avant-garde", "vintage", "korean beauty", "dewy skin", "matte finish", "bronzed", "rosy blush", "glossy lips", "graphic liner"],
+            
+            // Accessories
+            eyewear: ["none", "prescription glasses", "round glasses", "square glasses", "cat eye glasses", "aviator glasses", "reading glasses", "tortoise shell frames", "wire frame glasses", "sunglasses", "aviator sunglasses", "wayfarers", "oversized sunglasses", "sport sunglasses", "mirrored sunglasses"],
+            earrings: ["none", "stud earrings", "small hoops", "large hoops", "drop earrings", "chandelier earrings", "pearl earrings", "diamond studs", "huggie hoops", "ear cuffs", "ear stack", "tassel earrings", "statement earrings", "gold hoops", "silver hoops"],
+            necklace: ["none", "thin chain", "pendant necklace", "choker", "layered chains", "statement necklace", "pearl necklace", "locket", "collar necklace", "beaded necklace", "charm necklace", "tennis necklace", "cross pendant", "nameplate", "dainty gold chain"],
+            bracelet: ["none", "chain bracelet", "bangle", "cuff bracelet", "charm bracelet", "beaded bracelet", "watch", "tennis bracelet", "leather wrap", "friendship bracelet", "smart watch", "luxury watch"],
+            rings: ["none", "wedding band", "engagement ring", "statement ring", "stackable rings", "signet ring", "class ring", "cocktail ring", "thin gold band", "silver band", "multiple rings"],
+            headwear: ["none", "baseball cap", "beanie", "fedora", "bucket hat", "sun hat", "beret", "headband", "hair clips", "tiara", "crown", "veil", "turban", "bandana", "visor"],
             
             // Technical
             camera_type: ["Canon 5D Mark IV", "Nikon D850", "Sony A7R IV", "Hasselblad H6D", "Leica M10", "Fujifilm GFX", "Phase One", "iPhone 15 Pro", "vintage Polaroid", "Kodak Brownie", "35mm film camera", "medium format", "large format 4x5", "drone camera", "GoPro action cam", "ARRI cinema camera", "RED cinema camera", "vintage Rolleiflex"],
@@ -2577,12 +2724,31 @@
             if (data.lighting) atmosphere.lighting = data.lighting;
             
             const character = {};
-            if (data.clothing_style) character.clothing = data.clothing_style;
+            if (data.clothing_type) character.clothing_type = data.clothing_type;
+            if (data.clothing_color) character.clothing_color = data.clothing_color;
+            if (data.clothing_material) character.clothing_material = data.clothing_material;
+            if (data.clothing_style) character.clothing_style = data.clothing_style;
             if (data.clothing_era) character.clothing_era = data.clothing_era;
             if (data.age_group) character.age = data.age_group;
-            if (data.hair_style) character.hair = data.hair_style;
             if (data.expression) character.expression = data.expression;
             if (data.pose) character.pose = data.pose;
+            
+            const hair = {};
+            if (data.hair_style) hair.style = data.hair_style;
+            if (data.hair_color) hair.color = data.hair_color;
+            if (data.hair_length) hair.length = data.hair_length;
+            
+            const face = {};
+            if (data.skin_type) face.skin = data.skin_type;
+            if (data.makeup_style) face.makeup = data.makeup_style;
+            
+            const accessories = {};
+            if (data.eyewear && data.eyewear !== 'none') accessories.eyewear = data.eyewear;
+            if (data.earrings && data.earrings !== 'none') accessories.earrings = data.earrings;
+            if (data.necklace && data.necklace !== 'none') accessories.necklace = data.necklace;
+            if (data.bracelet && data.bracelet !== 'none') accessories.bracelet = data.bracelet;
+            if (data.rings && data.rings !== 'none') accessories.rings = data.rings;
+            if (data.headwear && data.headwear !== 'none') accessories.headwear = data.headwear;
             
             const technical = {};
             if (data.camera_type) technical.camera = data.camera_type;
@@ -2619,6 +2785,18 @@
             if (Object.keys(character).length) {
                 lines.push('character:');
                 Object.entries(character).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(hair).length) {
+                lines.push('hair:');
+                Object.entries(hair).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(face).length) {
+                lines.push('face:');
+                Object.entries(face).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(accessories).length) {
+                lines.push('accessories:');
+                Object.entries(accessories).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
             }
             if (Object.keys(technical).length) {
                 lines.push('technical:');
@@ -2870,13 +3048,42 @@
             if (data.color_palette) parts.push(`${data.color_palette} color palette`);
             if (data.lighting) parts.push(`${data.lighting} lighting`);
             
-            // Character
-            if (data.clothing_style) parts.push(`wearing ${data.clothing_style} clothing`);
+            // Character & Clothing
+            if (data.clothing_type) {
+                let clothingDesc = data.clothing_type;
+                if (data.clothing_color) clothingDesc = `${data.clothing_color} ${clothingDesc}`;
+                if (data.clothing_material) clothingDesc += ` made of ${data.clothing_material}`;
+                parts.push(`wearing ${clothingDesc}`);
+            } else if (data.clothing_style) {
+                parts.push(`wearing ${data.clothing_style} clothing`);
+            }
             if (data.clothing_era) parts.push(`${data.clothing_era} fashion`);
             if (data.age_group) parts.push(`${data.age_group}`);
-            if (data.hair_style) parts.push(`${data.hair_style} hair`);
             if (data.expression) parts.push(`${data.expression} expression`);
             if (data.pose) parts.push(`${data.pose} pose`);
+            
+            // Hair
+            if (data.hair_style || data.hair_color || data.hair_length) {
+                let hairDesc = [];
+                if (data.hair_color) hairDesc.push(data.hair_color);
+                if (data.hair_length) hairDesc.push(data.hair_length);
+                if (data.hair_style) hairDesc.push(data.hair_style);
+                if (hairDesc.length) parts.push(`${hairDesc.join(' ')} hair`);
+            }
+            
+            // Face & Makeup
+            if (data.skin_type) parts.push(`${data.skin_type} skin`);
+            if (data.makeup_style) parts.push(`${data.makeup_style} makeup`);
+            
+            // Accessories
+            const accessories = [];
+            if (data.eyewear && data.eyewear !== 'none') accessories.push(data.eyewear);
+            if (data.earrings && data.earrings !== 'none') accessories.push(data.earrings);
+            if (data.necklace && data.necklace !== 'none') accessories.push(data.necklace);
+            if (data.bracelet && data.bracelet !== 'none') accessories.push(data.bracelet);
+            if (data.rings && data.rings !== 'none') accessories.push(data.rings);
+            if (data.headwear && data.headwear !== 'none') accessories.push(data.headwear);
+            if (accessories.length) parts.push(`wearing ${accessories.join(', ')}`);
             
             // Technical
             if (data.camera_type) parts.push(`shot with ${data.camera_type}`);
