@@ -631,8 +631,8 @@
             border-top: none;
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
-            max-height: 350px;
-            min-width: 280px;
+            max-height: 400px;
+            min-width: 350px;
             overflow-y: auto;
             z-index: 100;
             box-shadow: 0 8px 24px rgba(0,0,0,0.15);
@@ -767,25 +767,10 @@
     <div class="max-w-7xl mx-auto">
         <!-- Header -->
         <header class="text-center mb-8 relative">
-            <!-- Language Selector -->
-            <div class="absolute right-0 top-0 flex flex-wrap gap-1" style="max-width: 280px; justify-content: flex-end;">
-                <button onclick="changeLanguage('tr')" class="lang-btn active" data-lang="tr">🇹🇷 TR</button>
-                <button onclick="changeLanguage('en')" class="lang-btn" data-lang="en">🇬🇧 EN</button>
-                <button onclick="changeLanguage('de')" class="lang-btn" data-lang="de">🇩🇪 DE</button>
-                <button onclick="changeLanguage('fr')" class="lang-btn" data-lang="fr">🇫🇷 FR</button>
-                <button onclick="changeLanguage('es')" class="lang-btn" data-lang="es">🇪🇸 ES</button>
-                <button onclick="changeLanguage('it')" class="lang-btn" data-lang="it">🇮🇹 IT</button>
-                <button onclick="changeLanguage('pt')" class="lang-btn" data-lang="pt">🇧🇷 PT</button>
-                <button onclick="changeLanguage('ru')" class="lang-btn" data-lang="ru">🇷🇺 RU</button>
-                <button onclick="changeLanguage('ja')" class="lang-btn" data-lang="ja">🇯🇵 JA</button>
-                <button onclick="changeLanguage('zh')" class="lang-btn" data-lang="zh">🇨🇳 ZH</button>
-                <button onclick="changeLanguage('ko')" class="lang-btn" data-lang="ko">🇰🇷 KO</button>
-                <button onclick="changeLanguage('ar')" class="lang-btn" data-lang="ar">🇸🇦 AR</button>
-            </div>
             <h1 class="mb-2">
                 📸 <span data-i18n="page_title">Photo Prompt Generator</span>
             </h1>
-            <p style="color: var(--text-secondary);" data-i18n="page_subtitle">LLM Image Generation için detaylı prompt hazırlama aracı</p>
+            <p style="color: var(--text-secondary);" data-i18n="page_subtitle">A detailed prompt builder for LLM Image Generation</p>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -793,17 +778,17 @@
             <div class="glass-card p-6">
                 <div class="flex items-center justify-between mb-4">
                     <h2>
-                        <span data-i18n="prompt_settings">Prompt Ayarları</span>
+                        <span data-i18n="prompt_settings">Prompt Settings</span>
                     </h2>
                     <div class="flex gap-2">
                         <button onclick="loadPreset('cinematic')" class="preset-btn">
-                            🎬 <span data-i18n="cinematic_preset">Sinematik</span>
+                            🎬 <span data-i18n="cinematic_preset">Cinematic</span>
                         </button>
                         <button onclick="loadPreset('portrait')" class="preset-btn">
-                            👤 <span data-i18n="portrait_preset">Portre</span>
+                            👤 <span data-i18n="portrait_preset">Portrait</span>
                         </button>
                         <button onclick="clearForm()" class="preset-btn">
-                            🗑️ <span data-i18n="clear_btn">Temizle</span>
+                            🗑️ <span data-i18n="clear_btn">Clear</span>
                         </button>
                     </div>
                 </div>
@@ -812,24 +797,24 @@
                 <div class="mb-6 p-4" style="background: var(--bg-input); border-radius: 8px; border: 1px solid var(--border);">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-sm font-medium" style="color: var(--text-secondary);">
-                            💾 <span data-i18n="my_presets">Kayıtlı Presetlerim</span>
+                            💾 <span data-i18n="my_presets">My Saved Presets</span>
                         </span>
                         <div class="flex gap-2">
                             <button onclick="exportPresets()" class="preset-btn" title="Export">
-                                📤 <span data-i18n="export_presets">Dışa Aktar</span>
+                                📤 <span data-i18n="export_presets">Export</span>
                             </button>
                             <button onclick="document.getElementById('importFile').click()" class="preset-btn" title="Import">
-                                📥 <span data-i18n="import_presets">İçe Aktar</span>
+                                📥 <span data-i18n="import_presets">Import</span>
                             </button>
                             <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importPresets(event)">
                             <button onclick="openSavePresetModal()" class="preset-btn" style="background: var(--primary); color: #fff; border-color: var(--primary);">
-                                ➕ <span data-i18n="save_preset">Preset Kaydet</span>
+                                ➕ <span data-i18n="save_preset">Save Preset</span>
                             </button>
                         </div>
                     </div>
                     <div id="customPresetsContainer" class="flex flex-wrap gap-2">
                         <!-- Custom presets will be rendered here -->
-                        <span class="text-xs" style="color: var(--text-secondary);" data-i18n="no_presets">Henüz kayıtlı preset yok</span>
+                        <span class="text-xs" style="color: var(--text-secondary);" data-i18n="no_presets">No saved presets yet</span>
                     </div>
                 </div>
 
@@ -837,7 +822,7 @@
                     <!-- Subject Section -->
                     <div class="mb-6">
                         <div class="section-title mb-3">
-                            🖼️ <span data-i18n="subject_section">Konu</span>
+                            🖼️ <span data-i18n="subject_section">Subject</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="form-group">
@@ -994,11 +979,11 @@
                     <!-- Era & Period Section -->
                     <div class="mb-6">
                         <div class="section-title mb-3">
-                            ⏰ <span data-i18n="era_section">Dönem & Zaman</span>
+                            ⏰ <span data-i18n="era_section">Era & Time</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="era">Dönem/Yıl</label>
+                                <label class="form-label" data-i18n="era">Era/Year</label>
                                 <select name="era" class="input-field w-full px-4 py-3" data-options="era">
                                 </select>
                             </div>
@@ -1018,7 +1003,7 @@
                     <!-- Environment Section -->
                     <div class="mb-6">
                         <div class="section-title mb-3">
-                            📍 <span data-i18n="environment_section">Ortam & Mekan</span>
+                            📍 <span data-i18n="environment_section">Environment & Setting</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="form-group">
@@ -1027,7 +1012,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="setting">Ortam</label>
+                                <label class="form-label" data-i18n="setting">Setting</label>
                                 <select name="setting" class="input-field w-full px-4 py-3" data-options="setting">
                                 </select>
                             </div>
@@ -1054,7 +1039,7 @@
                     <!-- Atmosphere Section -->
                     <div class="mb-6">
                         <div class="section-title mb-3">
-                            🎨 <span data-i18n="atmosphere_section">Atmosfer & Stil</span>
+                            🎨 <span data-i18n="atmosphere_section">Atmosphere & Style</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="form-group">
@@ -1078,7 +1063,7 @@
                     <!-- Character & Clothing Section -->
                     <div class="mb-6">
                         <div class="section-title mb-3">
-                            👕 <span data-i18n="character_section">Karakter & Kıyafet</span>
+                            👕 <span data-i18n="character_section">Character & Clothing</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <div class="form-group">
@@ -1129,7 +1114,7 @@
                     <!-- Hair Section -->
                     <div class="mb-6">
                         <div class="section-title mb-3">
-                            💇 <span data-i18n="hair_section">Saç</span>
+                            💇 <span data-i18n="hair_section">Hair</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="form-group">
@@ -1153,7 +1138,7 @@
                     <!-- Face & Makeup Section -->
                     <div class="mb-6">
                         <div class="section-title mb-3">
-                            💄 <span data-i18n="face_section">Yüz & Makyaj</span>
+                            💄 <span data-i18n="face_section">Face & Makeup</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="form-group">
@@ -1172,7 +1157,7 @@
                     <!-- Accessories Section -->
                     <div class="mb-6">
                         <div class="section-title mb-3">
-                            💍 <span data-i18n="accessories_section">Aksesuarlar</span>
+                            💍 <span data-i18n="accessories_section">Accessories</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="form-group">
@@ -1213,7 +1198,7 @@
                     <!-- Technical Section -->
                     <div class="mb-6">
                         <div class="section-title mb-3">
-                            📷 <span data-i18n="technical_section">Teknik Ayarlar</span>
+                            📷 <span data-i18n="technical_section">Technical Settings</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="form-group">
@@ -1254,16 +1239,16 @@
                     <!-- Quality Section -->
                     <div class="mb-6">
                         <div class="section-title mb-3">
-                            ⭐ <span data-i18n="quality_section">Kalite & Detaylar</span>
+                            ⭐ <span data-i18n="quality_section">Quality & Details</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="quality_modifiers">Kalite Modifikatörleri</label>
+                                <label class="form-label" data-i18n="quality_modifiers">Quality Modifiers</label>
                                 <select name="quality_modifiers" class="input-field w-full px-4 py-3" data-options="quality_modifiers">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="render_style">Render Stili</label>
+                                <label class="form-label" data-i18n="render_style">Render Style</label>
                                 <select name="render_style" class="input-field w-full px-4 py-3" data-options="render_style">
                                 </select>
                             </div>
@@ -1274,21 +1259,21 @@
                                 data-i18n-placeholder="additional_placeholder"></textarea>
                         </div>
                         <div class="form-group mt-4">
-                            <label class="form-label" data-i18n="negative_prompt">Negatif Prompt</label>
+                            <label class="form-label" data-i18n="negative_prompt">Negative Prompt</label>
                             <div id="negativeTagsContainer" class="negative-tags-container">
                                 <!-- Tags will be rendered here -->
                             </div>
                             <div class="add-tag-container">
                                 <input type="text" id="newTagInput" class="add-tag-input" data-i18n-placeholder="add_negative_placeholder">
                                 <button type="button" onclick="addCustomTag()" class="add-tag-btn">
-                                    + <span data-i18n="add_btn">Ekle</span>
+                                    + <span data-i18n="add_btn">Add</span>
                                 </button>
                             </div>
                         </div>
                     </div>
 
                     <button type="submit" class="btn-primary w-full py-4 text-white text-lg">
-                        ▶️ <span data-i18n="generate_btn">Prompt Oluştur</span>
+                        ▶️ <span data-i18n="generate_btn">Generate Prompt</span>
                     </button>
                 </form>
             </div>
@@ -1297,13 +1282,13 @@
             <div class="glass-card p-6">
                 <h2 class="text-xl font-semibold mb-6 flex items-center">
                     💻 
-                    <span data-i18n="generated_prompts">Oluşturulan Promptlar</span>
+                    <span data-i18n="generated_prompts">Generated Prompts</span>
                 </h2>
 
                 <!-- Tab Navigation -->
                 <div class="flex flex-wrap gap-2 mb-4">
                     <button class="tab-btn px-4 py-2 active" data-tab="natural">
-                        📝 <span data-i18n="natural_tab">Doğal</span>
+                        📝 <span data-i18n="natural_tab">Natural</span>
                     </button>
                     <button class="tab-btn px-4 py-2" data-tab="toon">
                         🎨 TOON
@@ -1321,33 +1306,33 @@
                     <div id="output-natural" class="output-content">
                         <div class="output-box p-4 min-h-96 relative">
                             <button class="copy-btn" onclick="copyToClipboard('natural')">
-                                📋 <span class="copy-text" data-i18n="copy_btn">Kopyala</span>
+                                📋 <span class="copy-text" data-i18n="copy_btn">Copy</span>
                             </button>
-                            <pre id="text-natural" class="whitespace-pre-wrap text-gray-300 mt-8" data-i18n="waiting_message">Prompt oluşturmak için formu doldurun...</pre>
+                            <pre id="text-natural" class="whitespace-pre-wrap text-gray-300 mt-8" data-i18n="waiting_message">Fill out the form to generate a prompt...</pre>
                         </div>
                     </div>
                     <div id="output-toon" class="output-content hidden">
                         <div class="output-box p-4 min-h-96 relative">
                             <button class="copy-btn" onclick="copyToClipboard('toon')">
-                                📋 <span class="copy-text" data-i18n="copy_btn">Kopyala</span>
+                                📋 <span class="copy-text" data-i18n="copy_btn">Copy</span>
                             </button>
-                            <pre id="text-toon" class="whitespace-pre-wrap text-gray-300 mt-8" data-i18n="waiting_message">Prompt oluşturmak için formu doldurun...</pre>
+                            <pre id="text-toon" class="whitespace-pre-wrap text-gray-300 mt-8" data-i18n="waiting_message">Fill out the form to generate a prompt...</pre>
                         </div>
                     </div>
                     <div id="output-tonl" class="output-content hidden">
                         <div class="output-box p-4 min-h-96 relative">
                             <button class="copy-btn" onclick="copyToClipboard('tonl')">
-                                📋 <span class="copy-text" data-i18n="copy_btn">Kopyala</span>
+                                📋 <span class="copy-text" data-i18n="copy_btn">Copy</span>
                             </button>
-                            <pre id="text-tonl" class="whitespace-pre-wrap text-gray-300 mt-8" data-i18n="waiting_message">Prompt oluşturmak için formu doldurun...</pre>
+                            <pre id="text-tonl" class="whitespace-pre-wrap text-gray-300 mt-8" data-i18n="waiting_message">Fill out the form to generate a prompt...</pre>
                         </div>
                     </div>
                     <div id="output-json" class="output-content hidden">
                         <div class="output-box p-4 min-h-96 relative">
                             <button class="copy-btn" onclick="copyToClipboard('json')">
-                                📋 <span class="copy-text" data-i18n="copy_btn">Kopyala</span>
+                                📋 <span class="copy-text" data-i18n="copy_btn">Copy</span>
                             </button>
-                            <pre id="text-json" class="whitespace-pre-wrap text-gray-300 mt-8" data-i18n="waiting_message">Prompt oluşturmak için formu doldurun...</pre>
+                            <pre id="text-json" class="whitespace-pre-wrap text-gray-300 mt-8" data-i18n="waiting_message">Fill out the form to generate a prompt...</pre>
                         </div>
                     </div>
                 </div>
@@ -1355,13 +1340,13 @@
                 <!-- Quick Tips -->
                 <div class="mt-6 p-4 bg-indigo-900/30 rounded-xl border border-indigo-800/50">
                     <h3 class="text-sm font-semibold text-indigo-400 mb-2">
-                        ⭐ <span data-i18n="tips_title">İpuçları</span>
+                        ⭐ <span data-i18n="tips_title">Tips</span>
                     </h3>
                     <ul class="text-xs text-gray-400 space-y-1">
-                        <li>• <strong>TOON:</strong> <span data-i18n="tip_toon">Token-Oriented Object Notation - LLM için optimize edilmiş kompakt format</span></li>
-                        <li>• <strong>TONL:</strong> <span data-i18n="tip_tonl">Token-Optimized Notation Language - Yapılandırılmış veri formatı</span></li>
-                        <li>• <strong>JSON:</strong> <span data-i18n="tip_json">API entegrasyonları için standart format</span></li>
-                        <li>• <strong><span data-i18n="natural_tab">Doğal</span>:</strong> <span data-i18n="tip_natural">Direkt kullanıma hazır virgülle ayrılmış format</span></li>
+                        <li>• <strong>TOON:</strong> <span data-i18n="tip_toon">Token-Oriented Object Notation - Compact format optimized for LLMs</span></li>
+                        <li>• <strong>TONL:</strong> <span data-i18n="tip_tonl">Token-Optimized Notation Language - Structured data format</span></li>
+                        <li>• <strong>JSON:</strong> <span data-i18n="tip_json">Standard format for API integrations</span></li>
+                        <li>• <strong><span data-i18n="natural_tab">Natural</span>:</strong> <span data-i18n="tip_natural">Ready-to-use comma-separated format</span></li>
                     </ul>
                 </div>
             </div>
@@ -1371,13 +1356,13 @@
         <footer class="text-center mt-8 text-gray-500 text-sm">
             <p>
                 <span data-i18n="footer_text">Photo Prompt Generator</span> | 
-                <span data-i18n="created_by">Yapımcı</span>: 
+                <span data-i18n="created_by">Created by</span>: 
                 <a href="https://twitter.com/niyoseris" target="_blank" rel="noopener noreferrer" class="creator-link">
                     <i class="fab fa-twitter mr-1"></i>@niyoseris
                 </a>
             </p>
             <p class="mt-1 text-xs text-gray-600">
-                <span data-i18n="formats_credit">Formatlar</span>: 
+                <span data-i18n="formats_credit">Formats</span>: 
                 <a href="https://github.com/toon-format/toon" target="_blank" rel="noopener noreferrer" class="creator-link">TOON</a> | 
                 <a href="https://github.com/tonl-dev/tonl" target="_blank" rel="noopener noreferrer" class="creator-link">TONL</a>
             </p>
@@ -1388,18 +1373,18 @@
     <div id="savePresetModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>💾 <span data-i18n="save_preset_title">Preset Kaydet</span></h3>
+                <h3>💾 <span data-i18n="save_preset_title">Save Preset</span></h3>
                 <button class="modal-close" onclick="closeModal('savePresetModal')">×</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label" data-i18n="preset_name">Preset Adı</label>
-                    <input type="text" id="presetNameInput" class="input-field w-full" placeholder="Örn: Manzara Gün Batımı" maxlength="30">
+                    <label class="form-label" data-i18n="preset_name">Preset Name</label>
+                    <input type="text" id="presetNameInput" class="input-field w-full" placeholder="E.g.: Sunset Landscape" maxlength="30">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="modal-btn modal-btn-secondary" onclick="closeModal('savePresetModal')" data-i18n="cancel">İptal</button>
-                <button class="modal-btn modal-btn-primary" onclick="saveCustomPreset()" data-i18n="save">Kaydet</button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal('savePresetModal')" data-i18n="cancel">Cancel</button>
+                <button class="modal-btn modal-btn-primary" onclick="saveCustomPreset()" data-i18n="save">Save</button>
             </div>
         </div>
     </div>
@@ -1408,19 +1393,19 @@
     <div id="editPresetModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>✏️ <span data-i18n="edit_preset_title">Preset Düzenle</span></h3>
+                <h3>✏️ <span data-i18n="edit_preset_title">Edit Preset</span></h3>
                 <button class="modal-close" onclick="closeModal('editPresetModal')">×</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label" data-i18n="preset_name">Preset Adı</label>
+                    <label class="form-label" data-i18n="preset_name">Preset Name</label>
                     <input type="text" id="editPresetNameInput" class="input-field w-full" maxlength="30">
                     <input type="hidden" id="editPresetId">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="modal-btn modal-btn-secondary" onclick="closeModal('editPresetModal')" data-i18n="cancel">İptal</button>
-                <button class="modal-btn modal-btn-primary" onclick="updateCustomPreset()" data-i18n="update">Güncelle</button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal('editPresetModal')" data-i18n="cancel">Cancel</button>
+                <button class="modal-btn modal-btn-primary" onclick="updateCustomPreset()" data-i18n="update">Update</button>
             </div>
         </div>
     </div>
@@ -1429,16 +1414,16 @@
     <div id="deletePresetModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>🗑️ <span data-i18n="delete_preset_title">Preset Sil</span></h3>
+                <h3>🗑️ <span data-i18n="delete_preset_title">Delete Preset</span></h3>
                 <button class="modal-close" onclick="closeModal('deletePresetModal')">×</button>
             </div>
             <div class="modal-body">
-                <p style="color: var(--text-secondary);" data-i18n="delete_confirm">Bu preseti silmek istediğinizden emin misiniz?</p>
+                <p style="color: var(--text-secondary);" data-i18n="delete_confirm">Are you sure you want to delete this preset?</p>
                 <input type="hidden" id="deletePresetId">
             </div>
             <div class="modal-footer">
-                <button class="modal-btn modal-btn-secondary" onclick="closeModal('deletePresetModal')" data-i18n="cancel">İptal</button>
-                <button class="modal-btn modal-btn-danger" onclick="confirmDeletePreset()" data-i18n="delete">Sil</button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal('deletePresetModal')" data-i18n="cancel">Cancel</button>
+                <button class="modal-btn modal-btn-danger" onclick="confirmDeletePreset()" data-i18n="delete">Delete</button>
             </div>
         </div>
     </div>
@@ -2321,7 +2306,7 @@
         ];
 
         // ==================== STATE ====================
-        let currentLang = localStorage.getItem('lang') || 'tr';
+        let currentLang = 'en';
         
         // Negative prompts state: { tag: boolean (selected or not), isCustom: boolean }
         let negativePrompts = loadNegativePrompts();
@@ -2784,14 +2769,14 @@
                 </div>
                 <div class="multi-select-dropdown" id="dropdown_${selectName}">
                     <div class="multi-select-search">
-                        <input type="text" placeholder="🔍 Ara..." oninput="filterMultiSelectOptions('${selectName}', this.value)">
+                        <input type="text" placeholder="🔍 Search..." oninput="filterMultiSelectOptions('${selectName}', this.value)">
                     </div>
                     <div class="multi-select-options">
                         ${optionsHtml}
                     </div>
                     <div class="multi-select-actions">
-                        <button type="button" onclick="selectAllMulti('${selectName}')">Tümünü Seç</button>
-                        <button type="button" onclick="clearMultiSelect('${selectName}')">Temizle</button>
+                        <button type="button" onclick="selectAllMulti('${selectName}')">Select All</button>
+                        <button type="button" onclick="clearMultiSelect('${selectName}')">Clear</button>
                     </div>
                 </div>
             `;
