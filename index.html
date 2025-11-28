@@ -3441,14 +3441,14 @@
         function copyToClipboard(type) {
             const text = document.getElementById(`text-${type}`).textContent;
             const t = translations[currentLang];
+            const btn = document.querySelector(`#output-${type} .copy-btn`);
             
             navigator.clipboard.writeText(text).then(() => {
-                const btn = event.target.closest('.copy-btn');
                 btn.classList.add('copied');
-                btn.querySelector('.copy-text').textContent = t.copied_btn;
+                btn.querySelector('.copy-text').textContent = t.copied_btn || 'Copied!';
                 setTimeout(() => {
                     btn.classList.remove('copied');
-                    btn.querySelector('.copy-text').textContent = t.copy_btn;
+                    btn.querySelector('.copy-text').textContent = t.copy_btn || 'Copy';
                 }, 2000);
             });
         }
