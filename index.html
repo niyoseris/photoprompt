@@ -2848,6 +2848,11 @@
                 dropdown.classList.add('show');
                 trigger.classList.add('active');
             }
+            
+            // Update contextual options if subject_type changed
+            if (selectName === 'subject_type') {
+                updateContextualOptions();
+            }
         }
         
         function selectAllMulti(selectName) {
@@ -2872,6 +2877,11 @@
                 const optionKey = wrapper.dataset.options;
                 renderMultiSelectDropdown(wrapper, selectName, optionKey);
             }
+            
+            // Update contextual options if subject_type cleared
+            if (selectName === 'subject_type') {
+                updateContextualOptions();
+            }
         }
         
         function getMultiSelectValues(selectName) {
@@ -2886,7 +2896,9 @@
         // ==================== CONTEXTUAL OPTIONS ====================
         
         function updateContextualOptions() {
-            const subjectType = document.getElementById('subjectType').value;
+            // Get subject type from multi-select state (first selected value)
+            const subjectTypes = multiSelectState['subject_type'] || [];
+            const subjectType = subjectTypes[0] || '';
             const container = document.getElementById('contextualOptions');
             const allOptions = document.querySelectorAll('.context-option');
             
