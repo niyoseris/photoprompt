@@ -3139,12 +3139,29 @@
             addField(fields, values, 'mood', data.mood);
             addField(fields, values, 'colors', data.color_palette);
             addField(fields, values, 'lighting', data.lighting);
-            addField(fields, values, 'clothing', data.clothing_style);
+            // Character & Clothing
+            addField(fields, values, 'clothing_type', data.clothing_type);
+            addField(fields, values, 'clothing_color', data.clothing_color);
+            addField(fields, values, 'clothing_material', data.clothing_material);
+            addField(fields, values, 'clothing_style', data.clothing_style);
             addField(fields, values, 'clothing_era', data.clothing_era);
             addField(fields, values, 'age', data.age_group);
-            addField(fields, values, 'hair', data.hair_style);
             addField(fields, values, 'expression', data.expression);
             addField(fields, values, 'pose', data.pose);
+            // Hair
+            addField(fields, values, 'hair_style', data.hair_style);
+            addField(fields, values, 'hair_color', data.hair_color);
+            addField(fields, values, 'hair_length', data.hair_length);
+            // Face & Makeup
+            addField(fields, values, 'skin_type', data.skin_type);
+            addField(fields, values, 'makeup', data.makeup_style);
+            // Accessories
+            addField(fields, values, 'eyewear', data.eyewear);
+            addField(fields, values, 'earrings', data.earrings);
+            addField(fields, values, 'necklace', data.necklace);
+            addField(fields, values, 'bracelet', data.bracelet);
+            addField(fields, values, 'rings', data.rings);
+            addField(fields, values, 'headwear', data.headwear);
             addField(fields, values, 'camera', data.camera_type);
             addField(fields, values, 'angle', data.camera_angle);
             addField(fields, values, 'settings', data.camera_settings);
@@ -3227,12 +3244,31 @@
                         lighting: data.lighting
                     }),
                     character: cleanObj({
+                        clothing_type: data.clothing_type,
+                        clothing_color: data.clothing_color,
+                        clothing_material: data.clothing_material,
                         clothing_style: data.clothing_style,
                         clothing_era: data.clothing_era,
                         age_group: data.age_group,
-                        hair_style: data.hair_style,
                         expression: data.expression,
                         pose: data.pose
+                    }),
+                    hair: cleanObj({
+                        style: data.hair_style,
+                        color: data.hair_color,
+                        length: data.hair_length
+                    }),
+                    face: cleanObj({
+                        skin_type: data.skin_type,
+                        makeup_style: data.makeup_style
+                    }),
+                    accessories: cleanObj({
+                        eyewear: data.eyewear,
+                        earrings: data.earrings,
+                        necklace: data.necklace,
+                        bracelet: data.bracelet,
+                        rings: data.rings,
+                        headwear: data.headwear
                     }),
                     technical: cleanObj({
                         camera: data.camera_type,
