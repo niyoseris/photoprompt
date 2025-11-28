@@ -530,6 +530,36 @@
             to { transform: translateX(100%); opacity: 0; }
         }
         
+        /* Custom input field */
+        .custom-input-wrapper {
+            margin-top: 6px;
+        }
+        
+        .custom-input {
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 12px;
+            border: 1px dashed var(--border);
+            border-radius: 6px;
+            background: var(--bg);
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        
+        .custom-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            border-style: solid;
+            background: #fff;
+            color: var(--text-primary);
+        }
+        
+        .custom-input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+            font-style: italic;
+        }
+        
         /* Multi-select checkbox component */
         .multi-select-container {
             background: var(--bg-input);
@@ -1277,6 +1307,7 @@
                 formats_credit: "Formatlar",
                 add_btn: "Ekle",
                 add_negative_placeholder: "Yeni negatif prompt ekle...",
+                custom_input_placeholder: "veya özel değer girin...",
                 // Preset translations
                 my_presets: "Kayıtlı Presetlerim",
                 save_preset: "Preset Kaydet",
@@ -1506,6 +1537,7 @@
                 formats_credit: "Formats",
                 add_btn: "Add",
                 add_negative_placeholder: "Add new negative prompt...",
+                custom_input_placeholder: "or enter custom value...",
                 // Preset translations
                 my_presets: "My Saved Presets",
                 save_preset: "Save Preset",
@@ -2405,12 +2437,27 @@
             document.querySelectorAll('select[data-options]').forEach(select => {
                 const optionKey = select.dataset.options;
                 const options = promptOptions[optionKey] || [];
+                const selectName = select.name;
                 
                 select.innerHTML = `<option value="">${t.select_placeholder}</option>`;
                 options.forEach(opt => {
                     const label = getOptionLabel(opt);
                     select.innerHTML += `<option value="${opt}">${label}</option>`;
                 });
+                
+                // Add custom input field if it doesn't exist
+                const customInputId = `custom_${selectName}`;
+                let customInput = document.getElementById(customInputId);
+                
+                if (!customInput) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'custom-input-wrapper';
+                    wrapper.innerHTML = `<input type="text" id="${customInputId}" name="${selectName}_custom" class="custom-input" placeholder="${t.custom_input_placeholder}" data-i18n-placeholder="custom_input_placeholder">`;
+                    select.parentNode.appendChild(wrapper);
+                } else {
+                    // Update placeholder for language change
+                    customInput.placeholder = t.custom_input_placeholder;
+                }
             });
         }
 
@@ -2497,6 +2544,10 @@
 
         function clearForm() {
             document.getElementById('promptForm').reset();
+            // Clear custom input fields
+            document.querySelectorAll('.custom-input').forEach(input => {
+                input.value = '';
+            });
             // Reset negative prompts to defaults
             negativePrompts = {};
             DEFAULT_NEGATIVE_TAGS.forEach(tag => {
@@ -2550,7 +2601,24 @@
                 const formData = new FormData(e.target);
                 const data = {};
                 formData.forEach((value, key) => {
-                    data[key] = value;
+                    // Skip custom fields in initial pass
+                    if (!key.endsWith('_custom')) {
+                        data[key] = value;
+                    }
+                });
+                
+                // Process custom input values - they override or append to select values
+                formData.forEach((value, key) => {
+                    if (key.endsWith('_custom') && value.trim()) {
+                        const baseKey = key.replace('_custom', '');
+                        const customValue = value.trim();
+                        // If select has no value, use custom value; otherwise append
+                        if (!data[baseKey] || data[baseKey] === '') {
+                            data[baseKey] = customValue;
+                        } else {
+                            data[baseKey] = data[baseKey] + ', ' + customValue;
+                        }
+                    }
                 });
                 
                 // Add multi-select values
