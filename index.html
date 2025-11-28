@@ -643,13 +643,19 @@
         <!-- Header -->
         <header class="text-center mb-8 relative">
             <!-- Language Selector -->
-            <div class="absolute right-0 top-0 flex gap-2">
-                <button onclick="changeLanguage('tr')" class="lang-btn active" data-lang="tr">
-                    🇹🇷 TR
-                </button>
-                <button onclick="changeLanguage('en')" class="lang-btn" data-lang="en">
-                    🇬🇧 EN
-                </button>
+            <div class="absolute right-0 top-0 flex flex-wrap gap-1" style="max-width: 280px; justify-content: flex-end;">
+                <button onclick="changeLanguage('tr')" class="lang-btn active" data-lang="tr">🇹🇷 TR</button>
+                <button onclick="changeLanguage('en')" class="lang-btn" data-lang="en">🇬🇧 EN</button>
+                <button onclick="changeLanguage('de')" class="lang-btn" data-lang="de">🇩🇪 DE</button>
+                <button onclick="changeLanguage('fr')" class="lang-btn" data-lang="fr">🇫🇷 FR</button>
+                <button onclick="changeLanguage('es')" class="lang-btn" data-lang="es">🇪🇸 ES</button>
+                <button onclick="changeLanguage('it')" class="lang-btn" data-lang="it">🇮🇹 IT</button>
+                <button onclick="changeLanguage('pt')" class="lang-btn" data-lang="pt">🇧🇷 PT</button>
+                <button onclick="changeLanguage('ru')" class="lang-btn" data-lang="ru">🇷🇺 RU</button>
+                <button onclick="changeLanguage('ja')" class="lang-btn" data-lang="ja">🇯🇵 JA</button>
+                <button onclick="changeLanguage('zh')" class="lang-btn" data-lang="zh">🇨🇳 ZH</button>
+                <button onclick="changeLanguage('ko')" class="lang-btn" data-lang="ko">🇰🇷 KO</button>
+                <button onclick="changeLanguage('ar')" class="lang-btn" data-lang="ar">🇸🇦 AR</button>
             </div>
             <h1 class="mb-2">
                 📸 <span data-i18n="page_title">Photo Prompt Generator</span>
@@ -683,9 +689,18 @@
                         <span class="text-sm font-medium" style="color: var(--text-secondary);">
                             💾 <span data-i18n="my_presets">Kayıtlı Presetlerim</span>
                         </span>
-                        <button onclick="openSavePresetModal()" class="preset-btn" style="background: var(--primary); color: #fff; border-color: var(--primary);">
-                            ➕ <span data-i18n="save_preset">Preset Kaydet</span>
-                        </button>
+                        <div class="flex gap-2">
+                            <button onclick="exportPresets()" class="preset-btn" title="Export">
+                                📤 <span data-i18n="export_presets">Dışa Aktar</span>
+                            </button>
+                            <button onclick="document.getElementById('importFile').click()" class="preset-btn" title="Import">
+                                📥 <span data-i18n="import_presets">İçe Aktar</span>
+                            </button>
+                            <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importPresets(event)">
+                            <button onclick="openSavePresetModal()" class="preset-btn" style="background: var(--primary); color: #fff; border-color: var(--primary);">
+                                ➕ <span data-i18n="save_preset">Preset Kaydet</span>
+                            </button>
+                        </div>
                     </div>
                     <div id="customPresetsContainer" class="flex flex-wrap gap-2">
                         <!-- Custom presets will be rendered here -->
@@ -1324,6 +1339,11 @@
                 preset_saved: "Preset kaydedildi!",
                 preset_updated: "Preset güncellendi!",
                 preset_deleted: "Preset silindi!",
+                export_presets: "Dışa Aktar",
+                import_presets: "İçe Aktar",
+                presets_exported: "Presetler dışa aktarıldı!",
+                presets_imported: "Presetler içe aktarıldı!",
+                import_error: "İçe aktarma hatası. Geçersiz dosya formatı.",
                 // Option translations - comprehensive Turkish labels
                 options: {
                     // Subject types
@@ -1554,6 +1574,383 @@
                 preset_saved: "Preset saved!",
                 preset_updated: "Preset updated!",
                 preset_deleted: "Preset deleted!",
+                export_presets: "Export",
+                import_presets: "Import",
+                presets_exported: "Presets exported!",
+                presets_imported: "Presets imported!",
+                import_error: "Import error. Invalid file format.",
+                options: {}
+            },
+            // German
+            de: {
+                page_title: "Photo Prompt Generator",
+                page_subtitle: "Detailliertes Prompt-Erstellungstool für LLM-Bildgenerierung",
+                prompt_settings: "Prompt-Einstellungen",
+                subject_section: "Motiv",
+                atmosphere_section: "Atmosphäre & Stil",
+                technical_section: "Technische Einstellungen",
+                quality_section: "Qualität & Details",
+                era_section: "Epoche & Zeit",
+                environment_section: "Umgebung & Ort",
+                character_section: "Charakter & Kleidung",
+                subject_type: "Motivtyp",
+                subject_description: "Motivbeschreibung",
+                style: "Stil",
+                mood: "Stimmung",
+                color_palette: "Farbpalette",
+                lighting: "Beleuchtung",
+                camera_type: "Kamera/Objektiv",
+                camera_angle: "Kamerawinkel",
+                camera_settings: "Kameraeinstellungen",
+                composition: "Komposition",
+                quality_modifiers: "Qualitätsmodifikatoren",
+                additional_details: "Zusätzliche Details",
+                negative_prompt: "Negativer Prompt",
+                era: "Epoche/Jahr",
+                time_of_day: "Tageszeit",
+                season: "Jahreszeit",
+                location: "Standorttyp",
+                setting: "Umgebung",
+                crowd: "Menschenmenge",
+                weather: "Wetter",
+                architecture: "Architekturstil",
+                clothing_style: "Kleidungsstil",
+                clothing_era: "Kleidungsepoche",
+                age_group: "Altersgruppe",
+                hair_style: "Frisur",
+                expression: "Ausdruck",
+                pose: "Pose",
+                film_type: "Filmtyp",
+                aspect_ratio: "Seitenverhältnis",
+                render_style: "Render-Stil",
+                select_placeholder: "Auswählen...",
+                description_placeholder: "Detaillierte Beschreibung...",
+                negative_placeholder: "Unerwünschte Elemente...",
+                generate_btn: "Prompt Generieren",
+                copy_btn: "Kopieren",
+                copied_btn: "Kopiert!",
+                clear_btn: "Löschen",
+                cinematic_preset: "Filmisch",
+                portrait_preset: "Porträt",
+                generated_prompts: "Generierte Prompts",
+                natural_tab: "Natürlich",
+                waiting_message: "Füllen Sie das Formular aus, um einen Prompt zu generieren...",
+                my_presets: "Meine Presets",
+                save_preset: "Preset Speichern",
+                no_presets: "Noch keine Presets gespeichert",
+                save_preset_title: "Preset Speichern",
+                edit_preset_title: "Preset Bearbeiten",
+                delete_preset_title: "Preset Löschen",
+                preset_name: "Preset-Name",
+                cancel: "Abbrechen",
+                save: "Speichern",
+                update: "Aktualisieren",
+                delete: "Löschen",
+                delete_confirm: "Möchten Sie dieses Preset wirklich löschen?",
+                preset_saved: "Preset gespeichert!",
+                preset_updated: "Preset aktualisiert!",
+                preset_deleted: "Preset gelöscht!",
+                export_presets: "Exportieren",
+                import_presets: "Importieren",
+                presets_exported: "Presets exportiert!",
+                presets_imported: "Presets importiert!",
+                import_error: "Importfehler. Ungültiges Dateiformat.",
+                custom_input_placeholder: "oder eigenen Wert eingeben...",
+                options: {}
+            },
+            // French
+            fr: {
+                page_title: "Photo Prompt Generator",
+                page_subtitle: "Outil de création de prompts détaillés pour la génération d'images LLM",
+                prompt_settings: "Paramètres du Prompt",
+                subject_section: "Sujet",
+                atmosphere_section: "Atmosphère & Style",
+                technical_section: "Paramètres Techniques",
+                quality_section: "Qualité & Détails",
+                era_section: "Époque & Temps",
+                environment_section: "Environnement & Lieu",
+                character_section: "Personnage & Vêtements",
+                subject_type: "Type de Sujet",
+                subject_description: "Description du Sujet",
+                style: "Style",
+                mood: "Ambiance",
+                color_palette: "Palette de Couleurs",
+                lighting: "Éclairage",
+                camera_type: "Appareil/Objectif",
+                camera_angle: "Angle de Caméra",
+                camera_settings: "Paramètres Caméra",
+                composition: "Composition",
+                quality_modifiers: "Modificateurs de Qualité",
+                additional_details: "Détails Supplémentaires",
+                negative_prompt: "Prompt Négatif",
+                era: "Époque/Année",
+                time_of_day: "Moment de la Journée",
+                season: "Saison",
+                location: "Type de Lieu",
+                setting: "Décor",
+                crowd: "Foule",
+                weather: "Météo",
+                select_placeholder: "Sélectionner...",
+                description_placeholder: "Description détaillée...",
+                negative_placeholder: "Éléments indésirables...",
+                generate_btn: "Générer le Prompt",
+                copy_btn: "Copier",
+                copied_btn: "Copié!",
+                clear_btn: "Effacer",
+                cinematic_preset: "Cinématique",
+                portrait_preset: "Portrait",
+                generated_prompts: "Prompts Générés",
+                natural_tab: "Naturel",
+                waiting_message: "Remplissez le formulaire pour générer un prompt...",
+                my_presets: "Mes Presets",
+                save_preset: "Enregistrer Preset",
+                no_presets: "Aucun preset enregistré",
+                preset_saved: "Preset enregistré!",
+                preset_updated: "Preset mis à jour!",
+                preset_deleted: "Preset supprimé!",
+                export_presets: "Exporter",
+                import_presets: "Importer",
+                presets_exported: "Presets exportés!",
+                presets_imported: "Presets importés!",
+                import_error: "Erreur d'importation. Format de fichier invalide.",
+                custom_input_placeholder: "ou entrez une valeur personnalisée...",
+                cancel: "Annuler",
+                save: "Enregistrer",
+                update: "Mettre à jour",
+                delete: "Supprimer",
+                options: {}
+            },
+            // Spanish
+            es: {
+                page_title: "Photo Prompt Generator",
+                page_subtitle: "Herramienta de creación de prompts detallados para generación de imágenes LLM",
+                prompt_settings: "Configuración del Prompt",
+                subject_section: "Sujeto",
+                atmosphere_section: "Atmósfera y Estilo",
+                technical_section: "Configuración Técnica",
+                quality_section: "Calidad y Detalles",
+                era_section: "Época y Tiempo",
+                environment_section: "Entorno y Ubicación",
+                character_section: "Personaje y Ropa",
+                subject_type: "Tipo de Sujeto",
+                subject_description: "Descripción del Sujeto",
+                style: "Estilo",
+                mood: "Estado de Ánimo",
+                color_palette: "Paleta de Colores",
+                lighting: "Iluminación",
+                camera_type: "Cámara/Lente",
+                camera_angle: "Ángulo de Cámara",
+                select_placeholder: "Seleccionar...",
+                description_placeholder: "Descripción detallada...",
+                generate_btn: "Generar Prompt",
+                copy_btn: "Copiar",
+                copied_btn: "¡Copiado!",
+                clear_btn: "Limpiar",
+                cinematic_preset: "Cinematográfico",
+                portrait_preset: "Retrato",
+                generated_prompts: "Prompts Generados",
+                waiting_message: "Complete el formulario para generar un prompt...",
+                my_presets: "Mis Presets",
+                save_preset: "Guardar Preset",
+                no_presets: "Sin presets guardados",
+                preset_saved: "¡Preset guardado!",
+                export_presets: "Exportar",
+                import_presets: "Importar",
+                custom_input_placeholder: "o ingrese valor personalizado...",
+                cancel: "Cancelar",
+                save: "Guardar",
+                delete: "Eliminar",
+                options: {}
+            },
+            // Italian
+            it: {
+                page_title: "Photo Prompt Generator",
+                page_subtitle: "Strumento di creazione prompt dettagliati per generazione immagini LLM",
+                prompt_settings: "Impostazioni Prompt",
+                subject_section: "Soggetto",
+                atmosphere_section: "Atmosfera e Stile",
+                technical_section: "Impostazioni Tecniche",
+                subject_type: "Tipo di Soggetto",
+                style: "Stile",
+                select_placeholder: "Seleziona...",
+                generate_btn: "Genera Prompt",
+                copy_btn: "Copia",
+                copied_btn: "Copiato!",
+                clear_btn: "Cancella",
+                cinematic_preset: "Cinematografico",
+                portrait_preset: "Ritratto",
+                my_presets: "I Miei Preset",
+                save_preset: "Salva Preset",
+                export_presets: "Esporta",
+                import_presets: "Importa",
+                custom_input_placeholder: "o inserisci valore personalizzato...",
+                cancel: "Annulla",
+                save: "Salva",
+                options: {}
+            },
+            // Portuguese
+            pt: {
+                page_title: "Photo Prompt Generator",
+                page_subtitle: "Ferramenta de criação de prompts detalhados para geração de imagens LLM",
+                prompt_settings: "Configurações do Prompt",
+                subject_section: "Assunto",
+                atmosphere_section: "Atmosfera e Estilo",
+                subject_type: "Tipo de Assunto",
+                style: "Estilo",
+                select_placeholder: "Selecionar...",
+                generate_btn: "Gerar Prompt",
+                copy_btn: "Copiar",
+                copied_btn: "Copiado!",
+                clear_btn: "Limpar",
+                cinematic_preset: "Cinematográfico",
+                portrait_preset: "Retrato",
+                my_presets: "Meus Presets",
+                save_preset: "Salvar Preset",
+                export_presets: "Exportar",
+                import_presets: "Importar",
+                custom_input_placeholder: "ou insira valor personalizado...",
+                cancel: "Cancelar",
+                save: "Salvar",
+                options: {}
+            },
+            // Russian
+            ru: {
+                page_title: "Photo Prompt Generator",
+                page_subtitle: "Инструмент создания детальных промптов для генерации изображений LLM",
+                prompt_settings: "Настройки Промпта",
+                subject_section: "Объект",
+                atmosphere_section: "Атмосфера и Стиль",
+                technical_section: "Технические Настройки",
+                subject_type: "Тип Объекта",
+                style: "Стиль",
+                mood: "Настроение",
+                lighting: "Освещение",
+                select_placeholder: "Выбрать...",
+                generate_btn: "Создать Промпт",
+                copy_btn: "Копировать",
+                copied_btn: "Скопировано!",
+                clear_btn: "Очистить",
+                cinematic_preset: "Кинематографический",
+                portrait_preset: "Портрет",
+                my_presets: "Мои Пресеты",
+                save_preset: "Сохранить Пресет",
+                export_presets: "Экспорт",
+                import_presets: "Импорт",
+                custom_input_placeholder: "или введите своё значение...",
+                cancel: "Отмена",
+                save: "Сохранить",
+                options: {}
+            },
+            // Japanese
+            ja: {
+                page_title: "Photo Prompt Generator",
+                page_subtitle: "LLM画像生成のための詳細プロンプト作成ツール",
+                prompt_settings: "プロンプト設定",
+                subject_section: "被写体",
+                atmosphere_section: "雰囲気とスタイル",
+                technical_section: "技術設定",
+                subject_type: "被写体タイプ",
+                style: "スタイル",
+                mood: "ムード",
+                lighting: "照明",
+                select_placeholder: "選択...",
+                generate_btn: "プロンプト生成",
+                copy_btn: "コピー",
+                copied_btn: "コピー完了!",
+                clear_btn: "クリア",
+                cinematic_preset: "シネマティック",
+                portrait_preset: "ポートレート",
+                my_presets: "マイプリセット",
+                save_preset: "プリセット保存",
+                export_presets: "エクスポート",
+                import_presets: "インポート",
+                custom_input_placeholder: "またはカスタム値を入力...",
+                cancel: "キャンセル",
+                save: "保存",
+                options: {}
+            },
+            // Chinese
+            zh: {
+                page_title: "Photo Prompt Generator",
+                page_subtitle: "LLM图像生成的详细提示词创建工具",
+                prompt_settings: "提示词设置",
+                subject_section: "主题",
+                atmosphere_section: "氛围与风格",
+                technical_section: "技术设置",
+                subject_type: "主题类型",
+                style: "风格",
+                mood: "情绪",
+                lighting: "光线",
+                select_placeholder: "选择...",
+                generate_btn: "生成提示词",
+                copy_btn: "复制",
+                copied_btn: "已复制!",
+                clear_btn: "清除",
+                cinematic_preset: "电影感",
+                portrait_preset: "肖像",
+                my_presets: "我的预设",
+                save_preset: "保存预设",
+                export_presets: "导出",
+                import_presets: "导入",
+                custom_input_placeholder: "或输入自定义值...",
+                cancel: "取消",
+                save: "保存",
+                options: {}
+            },
+            // Korean
+            ko: {
+                page_title: "Photo Prompt Generator",
+                page_subtitle: "LLM 이미지 생성을 위한 상세 프롬프트 작성 도구",
+                prompt_settings: "프롬프트 설정",
+                subject_section: "주제",
+                atmosphere_section: "분위기 & 스타일",
+                technical_section: "기술 설정",
+                subject_type: "주제 유형",
+                style: "스타일",
+                mood: "분위기",
+                lighting: "조명",
+                select_placeholder: "선택...",
+                generate_btn: "프롬프트 생성",
+                copy_btn: "복사",
+                copied_btn: "복사됨!",
+                clear_btn: "지우기",
+                cinematic_preset: "시네마틱",
+                portrait_preset: "인물",
+                my_presets: "내 프리셋",
+                save_preset: "프리셋 저장",
+                export_presets: "내보내기",
+                import_presets: "가져오기",
+                custom_input_placeholder: "또는 사용자 지정 값 입력...",
+                cancel: "취소",
+                save: "저장",
+                options: {}
+            },
+            // Arabic
+            ar: {
+                page_title: "Photo Prompt Generator",
+                page_subtitle: "أداة إنشاء موجهات مفصلة لتوليد صور LLM",
+                prompt_settings: "إعدادات الموجه",
+                subject_section: "الموضوع",
+                atmosphere_section: "الأجواء والأسلوب",
+                technical_section: "الإعدادات التقنية",
+                subject_type: "نوع الموضوع",
+                style: "الأسلوب",
+                mood: "المزاج",
+                lighting: "الإضاءة",
+                select_placeholder: "اختر...",
+                generate_btn: "إنشاء الموجه",
+                copy_btn: "نسخ",
+                copied_btn: "تم النسخ!",
+                clear_btn: "مسح",
+                cinematic_preset: "سينمائي",
+                portrait_preset: "صورة شخصية",
+                my_presets: "إعداداتي المسبقة",
+                save_preset: "حفظ الإعداد",
+                export_presets: "تصدير",
+                import_presets: "استيراد",
+                custom_input_placeholder: "أو أدخل قيمة مخصصة...",
+                cancel: "إلغاء",
+                save: "حفظ",
                 options: {}
             }
         };
@@ -1931,6 +2328,81 @@
                 toast.style.animation = 'slideOut 0.3s ease';
                 setTimeout(() => toast.remove(), 300);
             }, 2000);
+        }
+        
+        // Export presets to JSON file
+        function exportPresets() {
+            const presets = loadCustomPresets();
+            if (presets.length === 0) {
+                showNotification(translations[currentLang].no_presets || 'No presets to export');
+                return;
+            }
+            
+            const exportData = {
+                version: '1.0',
+                exportDate: new Date().toISOString(),
+                presets: presets
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `photo-prompt-presets-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification(translations[currentLang].presets_exported || 'Presets exported!');
+        }
+        
+        // Import presets from JSON file
+        function importPresets(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importData = JSON.parse(e.target.result);
+                    
+                    // Validate the import data
+                    if (!importData.presets || !Array.isArray(importData.presets)) {
+                        throw new Error('Invalid format');
+                    }
+                    
+                    // Get existing presets
+                    const existingPresets = loadCustomPresets();
+                    
+                    // Merge presets (avoid duplicates by ID, add new IDs for conflicts)
+                    const mergedPresets = [...existingPresets];
+                    const existingIds = new Set(existingPresets.map(p => p.id));
+                    
+                    importData.presets.forEach(preset => {
+                        if (existingIds.has(preset.id)) {
+                            // Generate new ID for duplicate
+                            preset.id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+                        }
+                        mergedPresets.push(preset);
+                    });
+                    
+                    // Save merged presets
+                    saveCustomPresetsToStorage(mergedPresets);
+                    renderCustomPresets();
+                    
+                    showNotification(translations[currentLang].presets_imported || 'Presets imported!');
+                } catch (error) {
+                    console.error('Import error:', error);
+                    showNotification(translations[currentLang].import_error || 'Import error. Invalid file format.');
+                }
+            };
+            
+            reader.readAsText(file);
+            // Reset file input so same file can be imported again
+            event.target.value = '';
         }
 
         // ==================== MULTI-SELECT ====================
