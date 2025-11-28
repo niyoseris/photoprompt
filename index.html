@@ -338,6 +338,83 @@
         .symbol-primary { color: var(--primary); }
         .symbol-secondary { color: var(--secondary); }
         .symbol-accent { color: var(--accent); }
+        
+        /* Multi-select checkbox component */
+        .multi-select-container {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .multi-select-container.expanded {
+            max-height: 250px;
+        }
+        
+        .multi-select-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.15s;
+        }
+        
+        .multi-select-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .multi-select-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+        
+        .multi-select-item label {
+            cursor: pointer;
+            flex: 1;
+            color: var(--text-primary);
+        }
+        
+        .multi-select-item.selected {
+            background: rgba(99, 102, 241, 0.15);
+        }
+        
+        .multi-select-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .multi-select-count {
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: var(--primary);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        
+        .multi-select-clear {
+            font-size: 11px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .multi-select-clear:hover {
+            background: var(--border);
+            color: var(--text-primary);
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -420,13 +497,11 @@
                             </div>
                             <div class="form-group context-option" data-context="landscape">
                                 <label class="form-label" data-i18n="terrain">Arazi</label>
-                                <select name="terrain" class="input-field w-full px-4 py-3" data-options="terrain">
-                                </select>
+                                <div id="multiselect_terrain" class="multi-select-container" data-multiselect="terrain"></div>
                             </div>
                             <div class="form-group context-option" data-context="landscape">
                                 <label class="form-label" data-i18n="natural_elements">Doğal Öğeler</label>
-                                <select name="natural_elements" class="input-field w-full px-4 py-3" data-options="natural_elements">
-                                </select>
+                                <div id="multiselect_natural_elements" class="multi-select-container" data-multiselect="natural_elements"></div>
                             </div>
                             
                             <!-- Portrait Options -->
@@ -1319,6 +1394,81 @@
             }
         }
 
+        // ==================== MULTI-SELECT ====================
+        
+        // State for multi-select fields
+        const multiSelectState = {};
+        
+        function initMultiSelects() {
+            document.querySelectorAll('[data-multiselect]').forEach(container => {
+                const optionKey = container.dataset.multiselect;
+                const options = promptOptions[optionKey] || [];
+                
+                // Initialize state
+                if (!multiSelectState[optionKey]) {
+                    multiSelectState[optionKey] = [];
+                }
+                
+                renderMultiSelect(container, optionKey, options);
+            });
+        }
+        
+        function renderMultiSelect(container, optionKey, options) {
+            const selected = multiSelectState[optionKey] || [];
+            const t = translations[currentLang];
+            
+            let html = `
+                <div class="multi-select-header">
+                    <span class="multi-select-count" style="display: ${selected.length > 0 ? 'inline' : 'none'}">${selected.length} seçili</span>
+                    <span class="multi-select-clear" onclick="clearMultiSelect('${optionKey}')" style="display: ${selected.length > 0 ? 'inline' : 'none'}">Temizle</span>
+                </div>
+            `;
+            
+            options.forEach((opt, idx) => {
+                const isSelected = selected.includes(opt);
+                const label = getOptionLabel(opt);
+                html += `
+                    <div class="multi-select-item ${isSelected ? 'selected' : ''}" onclick="toggleMultiSelectItem('${optionKey}', '${opt}')">
+                        <input type="checkbox" id="${optionKey}_${idx}" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleMultiSelectItem('${optionKey}', '${opt}')">
+                        <label for="${optionKey}_${idx}">${label}</label>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function toggleMultiSelectItem(optionKey, value) {
+            if (!multiSelectState[optionKey]) {
+                multiSelectState[optionKey] = [];
+            }
+            
+            const idx = multiSelectState[optionKey].indexOf(value);
+            if (idx > -1) {
+                multiSelectState[optionKey].splice(idx, 1);
+            } else {
+                multiSelectState[optionKey].push(value);
+            }
+            
+            // Re-render
+            const container = document.querySelector(`[data-multiselect="${optionKey}"]`);
+            if (container) {
+                renderMultiSelect(container, optionKey, promptOptions[optionKey] || []);
+            }
+        }
+        
+        function clearMultiSelect(optionKey) {
+            multiSelectState[optionKey] = [];
+            const container = document.querySelector(`[data-multiselect="${optionKey}"]`);
+            if (container) {
+                renderMultiSelect(container, optionKey, promptOptions[optionKey] || []);
+            }
+        }
+        
+        function getMultiSelectValues(optionKey) {
+            return multiSelectState[optionKey] || [];
+        }
+
         // ==================== CONTEXTUAL OPTIONS ====================
         
         function updateContextualOptions() {
@@ -1332,6 +1482,12 @@
                 // Reset the select value when hiding
                 const select = opt.querySelector('select');
                 if (select) select.value = '';
+                // Clear multi-selects
+                const multiSelect = opt.querySelector('[data-multiselect]');
+                if (multiSelect) {
+                    const key = multiSelect.dataset.multiselect;
+                    multiSelectState[key] = [];
+                }
             });
             
             // Show relevant options based on subject type
@@ -1342,6 +1498,8 @@
                     relevantOptions.forEach(opt => {
                         opt.style.display = 'block';
                     });
+                    // Re-init multi-selects for visible options
+                    initMultiSelects();
                 } else {
                     container.style.display = 'none';
                 }
@@ -1839,6 +1997,11 @@
             });
             saveNegativePrompts();
             renderNegativeTags();
+            // Clear multi-selects
+            Object.keys(multiSelectState).forEach(key => {
+                multiSelectState[key] = [];
+            });
+            initMultiSelects();
         }
 
         // ==================== INITIALIZATION ====================
@@ -1878,6 +2041,15 @@
                 const data = {};
                 formData.forEach((value, key) => {
                     data[key] = value;
+                });
+                
+                // Add multi-select values
+                Object.keys(multiSelectState).forEach(key => {
+                    const values = multiSelectState[key];
+                    if (values && values.length > 0) {
+                        data[key] = values.join(', ');
+                        data[key + '_array'] = values; // Keep array version too
+                    }
                 });
 
                 // Generate all formats
