@@ -1,25 +1,56 @@
-# Photo Prompt Generator
+# 📸 Photo Prompt Generator
 
-LLM Image Generation için detaylı prompt hazırlama aracı.
+LLM Image Generation için detaylı ve kapsamlı prompt hazırlama aracı.
 
 **Yapımcı:** [@niyoseris](https://twitter.com/niyoseris)
 
-## Özellikler
+![Photo Prompt Generator](https://img.shields.io/badge/version-2.0-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![JavaScript](https://img.shields.io/badge/vanilla-JS-yellow)
 
-- 🌍 **Çoklu Dil Desteği**: Türkçe ve İngilizce arayüz (promptlar her zaman İngilizce)
-- 📝 **Çoklu Format Desteği**:
-  - **[TOON](https://github.com/toon-format/toon)**: Token-Oriented Object Notation - LLM için optimize edilmiş kompakt format
-  - **[TONL](https://github.com/tonl-dev/tonl)**: Token-Optimized Notation Language - Şema-farkındalıklı veri formatı
-  - **JSON**: API entegrasyonları için standart format
-  - **Natural**: Virgülle ayrılmış doğal dil formatı
-- 🎨 **Hazır Preset'ler**: Sinematik, Portre gibi hazır şablonlar
-- 📋 **Tek Tıkla Kopyalama**: Oluşturulan prompt'ları hızlıca kopyalama
-- 🚫 **Negatif Prompt**: İstenmeyen öğeleri belirleme
-- ⚡ **Vanilla JS**: Hiçbir backend gerektirmez, tamamen statik
+## ✨ Özellikler
 
-## Kullanım
+### 🌍 Çoklu Dil Desteği
+- Türkçe ve İngilizce arayüz
+- Promptlar her zaman İngilizce üretilir (LLM uyumluluğu için)
 
-Sadece `index.html` dosyasını tarayıcınızda açın veya herhangi bir statik sunucu ile çalıştırın:
+### 📝 Çoklu Format Desteği
+- **[TOON](https://github.com/toon-format/toon)**: Token-Oriented Object Notation
+- **[TONL](https://github.com/tonl-dev/tonl)**: Token-Optimized Notation Language  
+- **JSON**: API entegrasyonları için
+- **Natural**: Virgülle ayrılmış doğal dil formatı
+
+### 🎯 Bağlamsal Alt-Seçenekler
+Konu tipine göre dinamik seçenekler:
+- **Manzara**: Arazi tipi, doğal öğeler (çoklu seçim)
+- **Portre**: Etnisite, vücut tipi, cinsiyet
+- **Mimari**: Bina tipi, mimari akım, dönem
+- **Yiyecek**: Mutfak, yiyecek stili, sunum
+- **Moda**: Kategori, sezon, marka stili
+- **Yaban Hayatı**: Hayvan türü, yaşam alanı, davranış
+- **Ürün**: Ürün tipi, malzeme, arka plan
+- **Sokak**: Sokak tipi, coğrafi bölge
+
+### 💾 Özel Preset Sistemi (CRUD)
+- Kendi preset'lerinizi kaydedin
+- Preset'leri yükleyin, düzenleyin veya silin
+- localStorage'da kalıcı saklama
+
+### ☑️ Çoklu Seçim (Multi-Select)
+- Checkbox tabanlı seçim
+- Birden fazla öğe seçebilme (örn: lake + river + trees)
+
+### 🚫 Negatif Prompt Yönetimi
+- Tag tabanlı negatif prompt seçimi
+- Özel tag ekleme/silme
+- Session'da otomatik kayıt
+
+### ⚡ Diğer Özellikler
+- Hazır preset'ler (Sinematik, Portre)
+- Tek tıkla kopyalama
+- Scroll destekli output alanları
+- Tamamen statik (backend gerektirmez)
+- Modern ve minimal arayüz
+
+## 🚀 Kullanım
 
 ```bash
 # Python ile
@@ -32,13 +63,20 @@ npx serve -p 5001
 open index.html
 ```
 
-## Nasıl Kullanılır
+Tarayıcıda açın: `http://localhost:5001`
 
-1. **Konu Ayarları**: Konu tipi, stil ve detaylı açıklama girin
-2. **Atmosfer**: Ruh hali, renk paleti ve aydınlatma seçin
-3. **Teknik Ayarlar**: Kamera açısı, ayarları ve kompozisyon belirleyin
-4. **Kalite**: Kalite modifikatörleri ve ek detaylar ekleyin
-5. **Prompt Oluştur**: Butona tıklayın ve 4 farklı formatta çıktı alın
+## 📖 Nasıl Kullanılır
+
+1. **Konu**: Konu tipi seçin, bağlamsal seçenekler otomatik görünür
+2. **Dönem & Zaman**: Era, günün zamanı, mevsim
+3. **Ortam**: Mekan, ortam, kalabalık, hava durumu
+4. **Atmosfer**: Ruh hali, renk paleti, aydınlatma
+5. **Karakter**: Kıyafet, yaş, saç, ifade, poz
+6. **Teknik**: Kamera, açı, ayarlar, kompozisyon
+7. **Kalite**: Kalite modifikatörleri, render stili
+8. **Negatif**: İstenmeyen öğeleri seçin
+9. **Kaydet**: "Preset Kaydet" ile ayarları saklayın
+10. **Oluştur**: 4 farklı formatta prompt alın
 
 ## Format Örnekleri
 
@@ -102,11 +140,45 @@ golden hour, dramatic atmosphere, warm tones color palette, ultra detailed
 blurry, low quality, distorted, deformed, ugly, watermark
 ```
 
-## Lisans
+## 🗂️ Proje Yapısı
+
+```
+photoprompt/
+├── index.html          # Ana uygulama (HTML + CSS + JS)
+├── README.md           # Dokümantasyon
+└── example prompts.md  # Örnek promptlar
+```
+
+## 💡 Parametre Kategorileri
+
+| Kategori | Parametreler |
+|----------|-------------|
+| **Konu** | Tip, Stil, Açıklama |
+| **Dönem** | Era, Günün Zamanı, Mevsim |
+| **Ortam** | Mekan, Ortam, Kalabalık, Hava, Mimari |
+| **Atmosfer** | Ruh Hali, Renk Paleti, Aydınlatma |
+| **Karakter** | Kıyafet, Yaş, Saç, İfade, Poz |
+| **Teknik** | Kamera, Açı, Ayarlar, Kompozisyon, Film, Oran |
+| **Kalite** | Modifikatörler, Render Stili, Detaylar |
+
+## 🔧 Teknolojiler
+
+- **Frontend**: Vanilla JavaScript (ES6+)
+- **Styling**: TailwindCSS + Custom CSS
+- **Fonts**: Inter, JetBrains Mono
+- **Storage**: localStorage (presets, settings)
+
+## 📄 Lisans
 
 MIT License
 
-## Krediler
+## 🙏 Krediler
 
 - **TOON Format**: [toon-format/toon](https://github.com/toon-format/toon)
 - **TONL Format**: [tonl-dev/tonl](https://github.com/tonl-dev/tonl)
+- **Fonts**: [Google Fonts](https://fonts.google.com/)
+- **CSS Framework**: [TailwindCSS](https://tailwindcss.com/)
+
+---
+
+Made with ❤️ by [@niyoseris](https://twitter.com/niyoseris)
