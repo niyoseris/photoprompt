@@ -2507,6 +2507,9 @@
                 const optionKey = wrapper.dataset.options;
                 renderMultiSelectDropdown(wrapper, selectName, optionKey);
             });
+            
+            // Update contextual options based on loaded subject_type
+            updateContextualOptions();
         }
         
         // Open edit preset modal
@@ -3528,10 +3531,35 @@
 
         function loadPreset(name) {
             const preset = presets[name];
-            Object.keys(preset).forEach(key => {
-                const element = document.querySelector(`[name="${key}"]`);
-                if (element) element.value = preset[key];
+            
+            // Clear existing multi-select states first
+            Object.keys(multiSelectState).forEach(key => {
+                multiSelectState[key] = [];
             });
+            
+            // Load preset values into multi-select state
+            Object.keys(preset).forEach(key => {
+                const value = preset[key];
+                // Check if this is a multi-select field
+                const wrapper = document.querySelector(`[data-multiselect="${key}"]`);
+                if (wrapper) {
+                    multiSelectState[key] = Array.isArray(value) ? value : [value];
+                } else {
+                    // For text inputs
+                    const element = document.querySelector(`textarea[name="${key}"], input[type="text"][name="${key}"]`);
+                    if (element) element.value = value;
+                }
+            });
+            
+            // Re-render all multi-selects
+            document.querySelectorAll('.multi-select-wrapper').forEach(wrapper => {
+                const selectName = wrapper.dataset.multiselect;
+                const optionKey = wrapper.dataset.options;
+                renderMultiSelectDropdown(wrapper, selectName, optionKey);
+            });
+            
+            // Update contextual options based on loaded subject_type
+            updateContextualOptions();
         }
 
         function clearForm() {
@@ -3556,6 +3584,9 @@
                     renderMultiSelectDropdown(wrapper, key, optionKey);
                 }
             });
+            
+            // Hide contextual options
+            updateContextualOptions();
         }
 
         // ==================== INITIALIZATION ====================
