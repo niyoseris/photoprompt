@@ -1,112 +1,107 @@
 # 📸 Photo Prompt Generator
 
-LLM Image Generation için detaylı ve kapsamlı prompt hazırlama aracı.
+Advanced prompt preparation tool for LLM Image Generation.
 
-**Yapımcı:** [@niyoseris](https://twitter.com/niyoseris)
+**Creator:** [@niyoseris](https://twitter.com/niyoseris)
 
-![Photo Prompt Generator](https://img.shields.io/badge/version-2.0-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![JavaScript](https://img.shields.io/badge/vanilla-JS-yellow)
+![Photo Prompt Generator](https://img.shields.io/badge/version-3.0-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![JavaScript](https://img.shields.io/badge/vanilla-JS-yellow)
 
-## ✨ Özellikler
+## ✨ Features
 
-### 🌍 Çoklu Dil Desteği
-- Türkçe ve İngilizce arayüz
-- Promptlar her zaman İngilizce üretilir (LLM uyumluluğu için)
+### 👥 Multi-Person Support
+- Add up to 4+ people/characters in a single prompt
+- Individual attributes for each person (gender, ethnicity, age, hair, clothing, etc.)
+- Custom value inputs for each attribute
+- Automatic redundant section hiding when people are enabled
 
-### 📝 Çoklu Format Desteği
+### 🎯 Objects & Props System
+- Add multiple objects/props to the scene
+- Detailed attributes for each object:
+  - Label, Category, Location, Prominence
+  - Color, Texture, Material, State
+  - Micro Details (comma-separated)
+- Object categories: Person, Clothing, Electronics, Furniture, Vehicle, Food/Drink, etc.
+
+### 🔗 Semantic Relationships
+- Define interactions between objects
+- Examples: "Subject is holding the coffee cup", "Cat is sitting on the windowsill"
+- Relationships appear in JSON and Natural prompt outputs
+
+### 📝 Multiple Output Formats
 - **[TOON](https://github.com/toon-format/toon)**: Token-Oriented Object Notation
 - **[TONL](https://github.com/tonl-dev/tonl)**: Token-Optimized Notation Language  
-- **JSON**: API entegrasyonları için
-- **Natural**: Virgülle ayrılmış doğal dil formatı
+- **JSON**: Structured format for API integrations
+- **Natural**: Comma-separated natural language format
 
-### 🎯 Bağlamsal Alt-Seçenekler
-Konu tipine göre dinamik seçenekler:
-- **Manzara**: Arazi tipi, doğal öğeler (çoklu seçim)
-- **Portre**: Etnisite, vücut tipi, cinsiyet
-- **Mimari**: Bina tipi, mimari akım, dönem
-- **Yiyecek**: Mutfak, yiyecek stili, sunum
-- **Moda**: Kategori, sezon, marka stili
-- **Yaban Hayatı**: Hayvan türü, yaşam alanı, davranış
-- **Ürün**: Ürün tipi, malzeme, arka plan
-- **Sokak**: Sokak tipi, coğrafi bölge
+### 🎨 Contextual Sub-Options
+Dynamic options based on subject type:
+- **Landscape**: Terrain type, natural elements (multi-select)
+- **Portrait**: Ethnicity, body type, gender
+- **Architecture**: Building type, architectural style, era
+- **Food**: Cuisine, food style, plating
+- **Fashion**: Category, season, brand style
+- **Wildlife**: Animal type, habitat, behavior
+- **Product**: Product type, material, background
+- **Street**: Street type, geographic region
 
-### 💾 Özel Preset Sistemi (CRUD)
-- Kendi preset'lerinizi kaydedin
-- Preset'leri yükleyin, düzenleyin veya silin
-- localStorage'da kalıcı saklama
+### 💾 Preset System
+- **100+ Ready-to-Use Presets** in 10 categories
+- Save your own custom presets
+- Export/Import presets as JSON
+- localStorage persistence
 
-### ☑️ Çoklu Seçim (Multi-Select)
-- Checkbox tabanlı seçim
-- Birden fazla öğe seçebilme (örn: lake + river + trees)
+### ➕ Custom Fields
+- Add custom fields to any section
+- Custom fields persist in localStorage
+- Appear in JSON output under their respective categories
 
-### 🚫 Negatif Prompt Yönetimi
-- Tag tabanlı negatif prompt seçimi
-- Özel tag ekleme/silme
-- Session'da otomatik kayıt
+### 🚫 Negative Prompt Management
+- Tag-based negative prompt selection
+- Add/remove custom tags
+- Automatic session saving
 
-### ⚡ Diğer Özellikler
-- Hazır preset'ler (Sinematik, Portre)
-- Tek tıkla kopyalama
-- Scroll destekli output alanları
-- Tamamen statik (backend gerektirmez)
-- Modern ve minimal arayüz
+### ⚡ Other Features
+- Quick presets (Cinematic, Portrait, Random)
+- One-click copy
+- Scrollable output areas
+- Fully static (no backend required)
+- Modern, responsive UI
+- Dark theme
 
-## 🚀 Kullanım
+## 🚀 Quick Start
 
 ```bash
-# Python ile
+# With Python
 python -m http.server 5001
 
-# Node.js ile
+# With Node.js
 npx serve -p 5001
 
-# Veya doğrudan dosyayı açın
+# Or open directly
 open index.html
 ```
 
-Tarayıcıda açın: `http://localhost:5001`
+Open in browser: `http://localhost:5001`
 
-## 📖 Nasıl Kullanılır
+## 📖 How to Use
 
-1. **Konu**: Konu tipi seçin, bağlamsal seçenekler otomatik görünür
-2. **Dönem & Zaman**: Era, günün zamanı, mevsim
-3. **Ortam**: Mekan, ortam, kalabalık, hava durumu
-4. **Atmosfer**: Ruh hali, renk paleti, aydınlatma
-5. **Karakter**: Kıyafet, yaş, saç, ifade, poz
-6. **Teknik**: Kamera, açı, ayarlar, kompozisyon
-7. **Kalite**: Kalite modifikatörleri, render stili
-8. **Negatif**: İstenmeyen öğeleri seçin
-9. **Kaydet**: "Preset Kaydet" ile ayarları saklayın
-10. **Oluştur**: 4 farklı formatta prompt alın
+1. **Subject**: Select subject type, contextual options appear automatically
+2. **People/Characters**: Enable to add detailed person descriptions
+3. **Era & Time**: Period, time of day, season
+4. **Environment**: Location, setting, crowd, weather
+5. **Atmosphere**: Mood, color palette, lighting
+6. **Character**: Clothing, age, hair, expression, pose
+7. **Objects & Props**: Add objects with detailed attributes
+8. **Relationships**: Define how objects interact
+9. **Technical**: Camera, angle, settings, composition
+10. **Quality**: Quality modifiers, render style
+11. **Negative**: Select unwanted elements
+12. **Save**: Save settings as preset
+13. **Generate**: Get prompts in 4 different formats
 
-## Format Örnekleri
+## Format Examples
 
-### TOON Format
-[Token-Oriented Object Notation](https://github.com/toon-format/toon) - YAML-benzeri indentation ile CSV-tarzı tablo formatı.
-
-```
-prompt:
-  type: portrait
-  subject: "A young woman with flowing red hair"
-  style: cinematic
-  mood: dramatic
-  colors: warm tones
-  lighting: golden hour
-  quality: ultra detailed
-negative[6]: blurry,low quality,distorted,deformed,ugly,watermark
-```
-
-### TONL Format
-[Token-Optimized Notation Language](https://github.com/tonl-dev/tonl) - Şema-farkındalıklı kompakt serileştirme.
-
-```
-#version 1.0
-prompt{type:str,subject:str,style:str,mood:str,colors:str,lighting:str,quality:str}:
-  portrait, "A young woman with flowing red hair", cinematic, dramatic, warm tones, golden hour, ultra detailed
-negative[6]: blurry, low quality, distorted, deformed, ugly, watermark
-```
-
-### JSON Format
-API entegrasyonları için standart format.
+### JSON Format (with Objects & Relationships)
 
 ```json
 {
@@ -115,64 +110,97 @@ API entegrasyonları için standart format.
       "type": "portrait",
       "description": "A young woman with flowing red hair"
     },
-    "style": {
-      "artistic_style": "cinematic",
+    "atmosphere": {
       "mood": "dramatic",
-      "color_palette": "warm tones"
-    },
-    "technical": {
+      "color_palette": "warm tones",
       "lighting": "golden hour"
-    },
-    "quality": "ultra detailed"
+    }
   },
-  "negative_prompt": "blurry, low quality..."
+  "objects": [
+    {
+      "label": "Coffee Cup",
+      "category": "Food/Drink",
+      "location": "Foreground",
+      "prominence": "Primary Focus",
+      "visual_attributes": {
+        "color": "White ceramic",
+        "texture": "Smooth, glossy",
+        "material": "Porcelain",
+        "state": "Hot, steaming"
+      },
+      "micro_details": ["Steam rising", "condensation visible"]
+    }
+  ],
+  "semantic_relationships": [
+    "Subject is holding the coffee cup",
+    "Steam creates dreamy atmosphere"
+  ],
+  "negative_prompt": ["blurry", "low quality", "distorted"]
 }
 ```
 
+### TOON Format
+[Token-Oriented Object Notation](https://github.com/toon-format/toon) - YAML-like indentation with CSV-style tabular arrays.
+
+```
+prompt:
+  type: portrait
+  subject: "A young woman with flowing red hair"
+  style: cinematic
+  mood: dramatic
+  lighting: golden hour
+negative[6]: blurry,low quality,distorted,deformed,ugly,watermark
+```
+
 ### Natural Format
-Direkt kullanıma hazır virgülle ayrılmış format.
+Ready-to-use comma-separated format.
 
 ```
 A young woman with flowing red hair, cinematic style, portrait photography, 
-golden hour, dramatic atmosphere, warm tones color palette, ultra detailed
+golden hour, dramatic atmosphere, warm tones, with White ceramic Coffee Cup 
+in the foreground, Subject is holding the coffee cup
 
 --negative--
 blurry, low quality, distorted, deformed, ugly, watermark
 ```
 
-## 🗂️ Proje Yapısı
+## 🗂️ Project Structure
 
 ```
 photoprompt/
-├── index.html          # Ana uygulama (HTML + CSS + JS)
-├── README.md           # Dokümantasyon
-└── example prompts.md  # Örnek promptlar
+├── index.html          # Main application (HTML + CSS + JS)
+├── presets.js          # Default preset definitions
+├── favicon.svg         # App icon
+├── README.md           # Documentation
+└── example prompts.md  # Example prompts
 ```
 
-## 💡 Parametre Kategorileri
+## 💡 Parameter Categories
 
-| Kategori | Parametreler |
-|----------|-------------|
-| **Konu** | Tip, Stil, Açıklama |
-| **Dönem** | Era, Günün Zamanı, Mevsim |
-| **Ortam** | Mekan, Ortam, Kalabalık, Hava, Mimari |
-| **Atmosfer** | Ruh Hali, Renk Paleti, Aydınlatma |
-| **Karakter** | Kıyafet, Yaş, Saç, İfade, Poz |
-| **Teknik** | Kamera, Açı, Ayarlar, Kompozisyon, Film, Oran |
-| **Kalite** | Modifikatörler, Render Stili, Detaylar |
+| Category | Parameters |
+|----------|------------|
+| **Subject** | Type, Style, Description, Contextual options |
+| **People** | Gender, Ethnicity, Age, Body Type, Hair, Clothing, Accessories |
+| **Era** | Period, Time of Day, Season |
+| **Environment** | Location, Setting, Crowd, Weather, Architecture |
+| **Atmosphere** | Mood, Color Palette, Lighting |
+| **Objects** | Label, Category, Location, Prominence, Visual Attributes, Details |
+| **Relationships** | Object interactions and spatial relationships |
+| **Technical** | Camera, Angle, Settings, Composition, Film, Aspect Ratio |
+| **Quality** | Modifiers, Render Style, Additional Details |
 
-## 🔧 Teknolojiler
+## 🔧 Technologies
 
 - **Frontend**: Vanilla JavaScript (ES6+)
 - **Styling**: TailwindCSS + Custom CSS
 - **Fonts**: Inter, JetBrains Mono
-- **Storage**: localStorage (presets, settings)
+- **Storage**: localStorage (presets, custom fields, settings)
 
-## 📄 Lisans
+## 📄 License
 
 MIT License
 
-## 🙏 Krediler
+## 🙏 Credits
 
 - **TOON Format**: [toon-format/toon](https://github.com/toon-format/toon)
 - **TONL Format**: [tonl-dev/tonl](https://github.com/tonl-dev/tonl)

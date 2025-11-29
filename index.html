@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photo Prompt Generator</title>
-    <meta name="description" content="LLM Image Generation için detaylı prompt hazırlama aracı. TOON ve TONL formatlarını destekler.">
+    <meta name="description" content="Advanced prompt preparation tool for LLM Image Generation. Supports TOON and TONL formats.">
     <meta name="author" content="@niyoseris">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Clean Modern Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -761,7 +762,231 @@
             background: var(--border);
             color: var(--text-primary);
         }
+        
+        /* Multi-Person Styles */
+        .person-panel {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        
+        .person-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .person-panel-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary);
+        }
+        
+        .person-count-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: 8px;
+            border: 1px dashed var(--primary);
+        }
+        
+        .person-count-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+        
+        .person-count-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .person-count-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+        
+        .remove-person-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: none;
+            background: var(--error);
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        
+        .remove-person-btn:hover {
+            opacity: 1;
+        }
+        
+        /* Preset Gallery Styles */
+        .preset-gallery {
+            margin-bottom: 20px;
+        }
+        
+        .preset-category-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .preset-category-tab {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: #fff;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+        
+        .preset-category-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .preset-category-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+        
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            max-height: 280px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+        
+        .preset-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .preset-card:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .preset-card-icon {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+        
+        .preset-card-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .preset-card-desc {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .person-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            padding: 2px 6px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 10px;
+            margin-top: 6px;
+        }
+        
+        /* Custom Fields */
+        .add-custom-field-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            font-size: 11px;
+            background: transparent;
+            border: 1px dashed var(--border);
+            color: var(--text-secondary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+        .add-custom-field-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+        .remove-custom-field-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0 4px;
+            font-size: 14px;
+            margin-left: 4px;
+        }
+        .remove-custom-field-btn:hover {
+            color: #ef4444;
+        }
+        .custom-field-item {
+            background: rgba(99, 102, 241, 0.03);
+            border: 1px dashed rgba(99, 102, 241, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        .custom-fields-container {
+            margin-top: 12px;
+        }
     </style>
+    <script src="presets.js"></script>
 </head>
 <body class="p-4 md:p-8">
     <div class="max-w-7xl mx-auto">
@@ -820,6 +1045,34 @@
                         <span class="text-xs" style="color: var(--text-secondary);" data-i18n="no_presets">No saved presets yet</span>
                     </div>
                 </div>
+                
+                <!-- Default Preset Gallery -->
+                <div class="preset-gallery mb-6 p-4" style="background: var(--bg-input); border-radius: 8px; border: 1px solid var(--border);">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm font-medium" style="color: var(--text-secondary);">
+                            📚 <span data-i18n="preset_gallery">Ready-to-Use Presets (100)</span>
+                        </span>
+                        <button onclick="togglePresetGallery()" class="preset-btn" id="toggleGalleryBtn">
+                            ▼ <span data-i18n="show_presets">Show</span>
+                        </button>
+                    </div>
+                    <div id="presetGalleryContent" style="display: none;">
+                        <div class="preset-category-tabs" id="presetCategoryTabs">
+                            <button class="preset-category-tab active" onclick="filterPresetCategory('all')">🌟 All</button>
+                            <button class="preset-category-tab" onclick="filterPresetCategory('portrait')">👤 Portrait</button>
+                            <button class="preset-category-tab" onclick="filterPresetCategory('landscape')">🏞️ Landscape</button>
+                            <button class="preset-category-tab" onclick="filterPresetCategory('architecture')">🏛️ Architecture</button>
+                            <button class="preset-category-tab" onclick="filterPresetCategory('food')">🍽️ Food</button>
+                            <button class="preset-category-tab" onclick="filterPresetCategory('wildlife')">🦁 Wildlife</button>
+                            <button class="preset-category-tab" onclick="filterPresetCategory('product')">📱 Product</button>
+                            <button class="preset-category-tab" onclick="filterPresetCategory('street')">🚶 Street</button>
+                            <button class="preset-category-tab" onclick="filterPresetCategory('fashion')">👗 Fashion</button>
+                        </div>
+                        <div class="preset-grid" id="presetGrid">
+                            <!-- Presets will be rendered here -->
+                        </div>
+                    </div>
+                </div>
 
                 <form id="promptForm" class="space-y-4">
                     <!-- Subject Section -->
@@ -853,7 +1106,6 @@
                                 <select name="geographic_region" class="input-field w-full px-4 py-3" data-options="geographic_region">
                                 </select>
                             </div>
-                            
                             <!-- Landscape Options -->
                             <div class="form-group context-option" data-context="landscape">
                                 <label class="form-label" data-i18n="landscape_type">Manzara Tipi</label>
@@ -867,23 +1119,6 @@
                             <div class="form-group context-option" data-context="landscape">
                                 <label class="form-label" data-i18n="natural_elements">Doğal Öğeler</label>
                                 <div id="multiselect_natural_elements" class="multi-select-container" data-multiselect="natural_elements"></div>
-                            </div>
-                            
-                            <!-- Portrait Options -->
-                            <div class="form-group context-option" data-context="portrait">
-                                <label class="form-label" data-i18n="ethnicity">Etnisite</label>
-                                <select name="ethnicity" class="input-field w-full px-4 py-3" data-options="ethnicity">
-                                </select>
-                            </div>
-                            <div class="form-group context-option" data-context="portrait">
-                                <label class="form-label" data-i18n="body_type">Vücut Tipi</label>
-                                <select name="body_type" class="input-field w-full px-4 py-3" data-options="body_type">
-                                </select>
-                            </div>
-                            <div class="form-group context-option" data-context="portrait">
-                                <label class="form-label" data-i18n="gender">Cinsiyet</label>
-                                <select name="gender" class="input-field w-full px-4 py-3" data-options="gender">
-                                </select>
                             </div>
                             
                             <!-- Architecture Options -->
@@ -936,7 +1171,6 @@
                                 <select name="fashion_brand_style" class="input-field w-full px-4 py-3" data-options="fashion_brand_style">
                                 </select>
                             </div>
-                            
                             <!-- Wildlife Options -->
                             <div class="form-group context-option" data-context="wildlife">
                                 <label class="form-label" data-i18n="animal_type">Hayvan Türü</label>
@@ -973,9 +1207,71 @@
                         </div>
                         
                         <div class="form-group mt-4">
-                            <label class="form-label" data-i18n="subject_description">Konu Açıklaması</label>
+                            <label class="form-label" data-i18n="subject_description">Subject Description</label>
                             <textarea name="subject_description" class="input-field w-full px-4 py-3" rows="3" 
                                 data-i18n-placeholder="subject_placeholder"></textarea>
+                        </div>
+                        
+                        <!-- Custom Fields for Subject -->
+                        <div id="customFields_subject" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('subject')">
+                            ➕ Add Custom Field
+                        </button>
+                    </div>
+
+                    <!-- People/Characters Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            👥 <span data-i18n="people_section">People / Characters</span>
+                        </div>
+                        
+                        <!-- Include People Checkbox -->
+                        <div class="p-4" style="background: var(--bg-input); border-radius: 8px; border: 1px solid var(--border);">
+                            <label class="flex items-center gap-3 cursor-pointer mb-4">
+                                <input type="checkbox" id="includePeopleCheckbox" onchange="togglePeopleSection()" 
+                                    style="width: 20px; height: 20px; accent-color: var(--primary);">
+                                <span class="font-medium" data-i18n="include_people">Include people in the photo</span>
+                            </label>
+                            
+                            <!-- People Options (hidden by default) -->
+                            <div id="peopleOptionsContainer" style="display: none;">
+                                <!-- People Type Selection -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div class="form-group">
+                                        <label class="form-label">People Type</label>
+                                        <select id="peopleTypeSelect" class="input-field w-full px-4 py-3" onchange="togglePeopleType()">
+                                            <option value="specific">Specific People (Detailed)</option>
+                                            <option value="crowd">Crowd / Group (General)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" id="crowdTypeContainer" style="display: none;">
+                                        <label class="form-label">Crowd Type</label>
+                                        <select name="crowd" class="input-field w-full px-4 py-3" data-options="crowd">
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!-- Specific People Options -->
+                                <div id="specificPeopleContainer">
+                                    <!-- Person Count Selector -->
+                                    <div class="person-count-selector mb-4">
+                                        <span class="form-label" style="margin: 0; margin-right: 8px;">👥 Number of People:</span>
+                                        <button type="button" class="person-count-btn active" onclick="setPersonCount(1)">1</button>
+                                        <button type="button" class="person-count-btn" onclick="setPersonCount(2)">2</button>
+                                        <button type="button" class="person-count-btn" onclick="setPersonCount(3)">3</button>
+                                        <button type="button" class="person-count-btn" onclick="setPersonCount(4)">4+</button>
+                                    </div>
+                                    
+                                    <!-- Multi-Person Container -->
+                                    <div id="multiPersonContainer">
+                                        <!-- Person panels will be dynamically generated here -->
+                                    </div>
+                                </div>
+                                
+                                <!-- Custom Fields for People Section -->
+                                <div id="customFields_people" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4 mt-4"></div>
+                                <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('people')">➕ Add Custom Field</button>
+                            </div>
                         </div>
                     </div>
 
@@ -991,26 +1287,28 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="time_of_day">Günün Zamanı</label>
+                                <label class="form-label" data-i18n="time_of_day">Time of Day</label>
                                 <select name="time_of_day" class="input-field w-full px-4 py-3" data-options="time_of_day">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="season">Mevsim</label>
+                                <label class="form-label" data-i18n="season">Season</label>
                                 <select name="season" class="input-field w-full px-4 py-3" data-options="season">
                                 </select>
                             </div>
                         </div>
+                        <div id="customFields_era" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('era')">➕ Add Custom Field</button>
                     </div>
 
                     <!-- Environment Section -->
                     <div class="mb-6">
                         <div class="section-title mb-3">
-                            📍 <span data-i18n="environment_section">Environment & Setting</span>
+                            📍 <span data-i18n="environment_section">Environment & Location</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="location">Mekan Tipi</label>
+                                <label class="form-label" data-i18n="location">Location Type</label>
                                 <select name="location" class="input-field w-full px-4 py-3" data-options="location">
                                 </select>
                             </div>
@@ -1020,23 +1318,25 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="crowd">Kalabalık</label>
+                                <label class="form-label" data-i18n="crowd">Crowd Level</label>
                                 <select name="crowd" class="input-field w-full px-4 py-3" data-options="crowd">
                                 </select>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="weather">Hava Durumu</label>
+                                <label class="form-label" data-i18n="weather">Weather</label>
                                 <select name="weather" class="input-field w-full px-4 py-3" data-options="weather">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="architecture">Mimari Stil</label>
+                                <label class="form-label" data-i18n="architecture">Architecture Style</label>
                                 <select name="architecture" class="input-field w-full px-4 py-3" data-options="architecture">
                                 </select>
                             </div>
                         </div>
+                        <div id="customFields_environment" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('environment')">➕ Add Custom Field</button>
                     </div>
 
                     <!-- Atmosphere Section -->
@@ -1046,154 +1346,204 @@
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="mood">Ruh Hali</label>
+                                <label class="form-label" data-i18n="mood">Mood</label>
                                 <select name="mood" class="input-field w-full px-4 py-3" data-options="mood">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="color_palette">Renk Paleti</label>
+                                <label class="form-label" data-i18n="color_palette">Color Palette</label>
                                 <select name="color_palette" class="input-field w-full px-4 py-3" data-options="color_palette">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="lighting">Aydınlatma</label>
+                                <label class="form-label" data-i18n="lighting">Lighting</label>
                                 <select name="lighting" class="input-field w-full px-4 py-3" data-options="lighting">
                                 </select>
                             </div>
                         </div>
+                        <div id="customFields_atmosphere" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('atmosphere')">➕ Add Custom Field</button>
                     </div>
 
                     <!-- Character & Clothing Section -->
-                    <div class="mb-6">
+                    <div class="mb-6" id="characterSection">
                         <div class="section-title mb-3">
                             👕 <span data-i18n="character_section">Character & Clothing</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="clothing_type">Kıyafet Tipi</label>
+                                <label class="form-label" data-i18n="clothing_type">Clothing Type</label>
                                 <select name="clothing_type" class="input-field w-full px-4 py-3" data-options="clothing_type">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="clothing_color">Kıyafet Rengi</label>
+                                <label class="form-label" data-i18n="clothing_color">Clothing Color</label>
                                 <select name="clothing_color" class="input-field w-full px-4 py-3" data-options="clothing_color">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="clothing_material">Kumaş</label>
+                                <label class="form-label" data-i18n="clothing_material">Fabric</label>
                                 <select name="clothing_material" class="input-field w-full px-4 py-3" data-options="clothing_material">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="clothing_style">Kıyafet Stili</label>
+                                <label class="form-label" data-i18n="clothing_style">Clothing Style</label>
                                 <select name="clothing_style" class="input-field w-full px-4 py-3" data-options="clothing_style">
                                 </select>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="age_group">Yaş Grubu</label>
+                                <label class="form-label" data-i18n="age_group">Age Group</label>
                                 <select name="age_group" class="input-field w-full px-4 py-3" data-options="age_group">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="expression">İfade</label>
+                                <label class="form-label" data-i18n="expression">Expression</label>
                                 <select name="expression" class="input-field w-full px-4 py-3" data-options="expression">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="pose">Poz</label>
+                                <label class="form-label" data-i18n="pose">Pose</label>
                                 <select name="pose" class="input-field w-full px-4 py-3" data-options="pose">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="clothing_era">Kıyafet Dönemi</label>
+                                <label class="form-label" data-i18n="clothing_era">Clothing Era</label>
                                 <select name="clothing_era" class="input-field w-full px-4 py-3" data-options="clothing_era">
                                 </select>
                             </div>
                         </div>
+                        <div id="customFields_character" class="custom-fields-container grid grid-cols-1 md:grid-cols-4 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('character')">➕ Add Custom Field</button>
                     </div>
                     
                     <!-- Hair Section -->
-                    <div class="mb-6">
+                    <div class="mb-6" id="hairSection">
                         <div class="section-title mb-3">
                             💇 <span data-i18n="hair_section">Hair</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="hair_style">Saç Stili</label>
+                                <label class="form-label" data-i18n="hair_style">Hair Style</label>
                                 <select name="hair_style" class="input-field w-full px-4 py-3" data-options="hair_style">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="hair_color">Saç Rengi</label>
+                                <label class="form-label" data-i18n="hair_color">Hair Color</label>
                                 <select name="hair_color" class="input-field w-full px-4 py-3" data-options="hair_color">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="hair_length">Saç Uzunluğu</label>
+                                <label class="form-label" data-i18n="hair_length">Hair Length</label>
                                 <select name="hair_length" class="input-field w-full px-4 py-3" data-options="hair_length">
                                 </select>
                             </div>
                         </div>
+                        <div id="customFields_hair" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('hair')">➕ Add Custom Field</button>
                     </div>
                     
                     <!-- Face & Makeup Section -->
-                    <div class="mb-6">
+                    <div class="mb-6" id="faceSection">
                         <div class="section-title mb-3">
                             💄 <span data-i18n="face_section">Face & Makeup</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="skin_type">Cilt Tipi</label>
+                                <label class="form-label" data-i18n="skin_type">Skin Type</label>
                                 <select name="skin_type" class="input-field w-full px-4 py-3" data-options="skin_type">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="makeup_style">Makyaj Stili</label>
+                                <label class="form-label" data-i18n="makeup_style">Makeup Style</label>
                                 <select name="makeup_style" class="input-field w-full px-4 py-3" data-options="makeup_style">
                                 </select>
                             </div>
                         </div>
+                        <div id="customFields_face" class="custom-fields-container grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('face')">➕ Add Custom Field</button>
                     </div>
                     
                     <!-- Accessories Section -->
-                    <div class="mb-6">
+                    <div class="mb-6" id="accessoriesSection">
                         <div class="section-title mb-3">
                             💍 <span data-i18n="accessories_section">Accessories</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="eyewear">Gözlük</label>
+                                <label class="form-label" data-i18n="eyewear">Eyewear</label>
                                 <select name="eyewear" class="input-field w-full px-4 py-3" data-options="eyewear">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="earrings">Küpe</label>
+                                <label class="form-label" data-i18n="earrings">Earrings</label>
                                 <select name="earrings" class="input-field w-full px-4 py-3" data-options="earrings">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="necklace">Kolye</label>
+                                <label class="form-label" data-i18n="necklace">Necklace</label>
                                 <select name="necklace" class="input-field w-full px-4 py-3" data-options="necklace">
                                 </select>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="bracelet">Bileklik/Saat</label>
+                                <label class="form-label" data-i18n="bracelet">Bracelet/Watch</label>
                                 <select name="bracelet" class="input-field w-full px-4 py-3" data-options="bracelet">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="rings">Yüzük</label>
+                                <label class="form-label" data-i18n="rings">Rings</label>
                                 <select name="rings" class="input-field w-full px-4 py-3" data-options="rings">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="headwear">Şapka/Başlık</label>
+                                <label class="form-label" data-i18n="headwear">Headwear</label>
                                 <select name="headwear" class="input-field w-full px-4 py-3" data-options="headwear">
                                 </select>
+                            </div>
+                        </div>
+                        <div id="customFields_accessories" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('accessories')">➕ Add Custom Field</button>
+                    </div>
+
+                    <!-- Objects Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            🎯 <span>Objects & Props</span>
+                        </div>
+                        <div class="p-4" style="background: var(--bg-input); border-radius: 8px; border: 1px solid var(--border);">
+                            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+                                Add objects/props in the scene with their attributes and positions.
+                            </p>
+                            <div id="objectsContainer">
+                                <!-- Objects will be rendered here -->
+                            </div>
+                            <button type="button" class="add-custom-field-btn" onclick="addObject()" style="margin-top: 8px;">
+                                ➕ Add Object
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Relationships Section -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">
+                            🔗 <span>Semantic Relationships</span>
+                        </div>
+                        <div class="p-4" style="background: var(--bg-input); border-radius: 8px; border: 1px solid var(--border);">
+                            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+                                Define how objects interact with each other (e.g., "Person is holding the coffee cup").
+                            </p>
+                            <div id="relationshipsContainer">
+                                <!-- Relationships will be rendered here -->
+                            </div>
+                            <div class="flex gap-2 mt-2">
+                                <input type="text" id="newRelationshipInput" class="input-field flex-1 px-3 py-2" 
+                                    placeholder="e.g., Subject is sitting on the bench" style="font-size: 12px;">
+                                <button type="button" class="btn-primary px-4 py-2" onclick="addRelationship()" style="font-size: 12px;">
+                                    Add
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -1205,38 +1555,40 @@
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="camera_type">Kamera/Lens</label>
+                                <label class="form-label" data-i18n="camera_type">Camera/Lens</label>
                                 <select name="camera_type" class="input-field w-full px-4 py-3" data-options="camera_type">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="camera_angle">Kamera Açısı</label>
+                                <label class="form-label" data-i18n="camera_angle">Camera Angle</label>
                                 <select name="camera_angle" class="input-field w-full px-4 py-3" data-options="camera_angle">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="camera_settings">Kamera Ayarları</label>
+                                <label class="form-label" data-i18n="camera_settings">Camera Settings</label>
                                 <select name="camera_settings" class="input-field w-full px-4 py-3" data-options="camera_settings">
                                 </select>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                             <div class="form-group">
-                                <label class="form-label" data-i18n="composition">Kompozisyon</label>
+                                <label class="form-label" data-i18n="composition">Composition</label>
                                 <select name="composition" class="input-field w-full px-4 py-3" data-options="composition">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="film_type">Film Tipi</label>
+                                <label class="form-label" data-i18n="film_type">Film Type</label>
                                 <select name="film_type" class="input-field w-full px-4 py-3" data-options="film_type">
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" data-i18n="aspect_ratio">En Boy Oranı</label>
+                                <label class="form-label" data-i18n="aspect_ratio">Aspect Ratio</label>
                                 <select name="aspect_ratio" class="input-field w-full px-4 py-3" data-options="aspect_ratio">
                                 </select>
                             </div>
                         </div>
+                        <div id="customFields_technical" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('technical')">➕ Add Custom Field</button>
                     </div>
 
                     <!-- Quality Section -->
@@ -1257,7 +1609,7 @@
                             </div>
                         </div>
                         <div class="form-group mt-4">
-                            <label class="form-label" data-i18n="additional_details">Ek Detaylar</label>
+                            <label class="form-label" data-i18n="additional_details">Additional Details</label>
                             <textarea name="additional_details" class="input-field w-full px-4 py-3" rows="2" 
                                 data-i18n-placeholder="additional_placeholder"></textarea>
                         </div>
@@ -1273,6 +1625,8 @@
                                 </button>
                             </div>
                         </div>
+                        <div id="customFields_quality" class="custom-fields-container grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('quality')">➕ Add Custom Field</button>
                     </div>
 
                     <button type="submit" class="btn-primary w-full py-4 text-white text-lg">
@@ -1427,6 +1781,44 @@
             <div class="modal-footer">
                 <button class="modal-btn modal-btn-secondary" onclick="closeModal('deletePresetModal')" data-i18n="cancel">Cancel</button>
                 <button class="modal-btn modal-btn-danger" onclick="confirmDeletePreset()" data-i18n="delete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Field Modal -->
+    <div id="customFieldModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>➕ Add Custom Field</h3>
+                <button class="modal-close" onclick="closeCustomFieldModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-4">
+                    <label class="form-label">Field Name (internal)</label>
+                    <input type="text" id="customFieldName" class="input-field w-full px-4 py-3" 
+                        placeholder="e.g., my_custom_field">
+                </div>
+                <div class="form-group mb-4">
+                    <label class="form-label">Display Label</label>
+                    <input type="text" id="customFieldLabel" class="input-field w-full px-4 py-3" 
+                        placeholder="e.g., My Custom Field">
+                </div>
+                <div class="form-group mb-4">
+                    <label class="form-label">Field Type</label>
+                    <select id="customFieldType" class="input-field w-full px-4 py-3" onchange="toggleCustomFieldOptions()">
+                        <option value="text">Text Input</option>
+                        <option value="select">Dropdown Select</option>
+                    </select>
+                </div>
+                <div class="form-group mb-4" id="customFieldOptionsContainer" style="display: none;">
+                    <label class="form-label">Options (comma-separated)</label>
+                    <textarea id="customFieldOptions" class="input-field w-full px-4 py-3" rows="3" 
+                        placeholder="option1, option2, option3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="closeCustomFieldModal()">Cancel</button>
+                <button class="modal-btn modal-btn-primary" onclick="saveNewCustomField()">Add Field</button>
             </div>
         </div>
     </div>
@@ -2311,6 +2703,37 @@
         // ==================== STATE ====================
         let currentLang = 'en';
         
+        // Multi-person state
+        let personCount = 1;
+        let personsData = [{}]; // Array of person data objects
+        
+        // Objects state
+        let sceneObjects = [];
+        
+        // Relationships state
+        let semanticRelationships = [];
+        
+        // Custom fields state: { sectionName: [{ name, label, type, options }] }
+        function loadCustomFields() {
+            try {
+                const saved = localStorage.getItem('customFields');
+                return saved ? JSON.parse(saved) : {};
+            } catch (e) {
+                console.error('Error loading custom fields:', e);
+                return {};
+            }
+        }
+        
+        function saveCustomFields() {
+            try {
+                localStorage.setItem('customFields', JSON.stringify(customFields));
+            } catch (e) {
+                console.error('Error saving custom fields:', e);
+            }
+        }
+        
+        let customFields = loadCustomFields();
+        
         // Negative prompts state: { tag: boolean (selected or not), isCustom: boolean }
         let negativePrompts = loadNegativePrompts();
         
@@ -2430,6 +2853,15 @@
                     data[key + '_multi'] = multiSelectState[key];
                 }
             });
+            // Include multi-person data
+            if (includePeople && peopleType === 'specific' && personsData.length > 0) {
+                data.persons = personsData;
+                data.person_count = personCount;
+            }
+            // Include custom fields configuration (so they can be restored)
+            if (Object.keys(customFields).length > 0) {
+                data._customFieldsConfig = customFields;
+            }
             return data;
         }
         
@@ -2453,7 +2885,7 @@
         function saveCustomPreset() {
             const name = document.getElementById('presetNameInput').value.trim();
             if (!name) {
-                alert('Lütfen bir isim girin');
+                alert('Please enter a name');
                 return;
             }
             
@@ -2489,20 +2921,50 @@
                 multiSelectState[key] = [];
             });
             
+            // Load custom fields configuration if present
+            if (preset.data._customFieldsConfig) {
+                Object.assign(customFields, preset.data._customFieldsConfig);
+                saveCustomFields();
+                renderAllCustomFields();
+            }
+            
             // Load preset data into form
             Object.entries(preset.data).forEach(([key, value]) => {
+                if (key === '_customFieldsConfig' || key === 'persons' || key === 'person_count') return;
+                
                 if (key.endsWith('_multi')) {
                     // Handle multi-select arrays
                     const realKey = key.replace('_multi', '');
                     multiSelectState[realKey] = Array.isArray(value) ? value : [value];
                 } else {
-                    // For text inputs
-                    const element = document.querySelector(`textarea[name="${key}"], input[type="text"][name="${key}"]`);
+                    // For text inputs and custom fields
+                    const element = document.querySelector(`textarea[name="${key}"], input[type="text"][name="${key}"], select[name="${key}"]`);
                     if (element) {
                         element.value = value;
                     }
                 }
             });
+            
+            // Handle multi-person data
+            if (preset.data.persons && preset.data.persons.length > 0) {
+                includePeople = true;
+                peopleType = 'specific';
+                personCount = preset.data.person_count || preset.data.persons.length;
+                personsData = preset.data.persons.map(p => ({...p}));
+                
+                const checkbox = document.getElementById('includePeopleCheckbox');
+                if (checkbox) checkbox.checked = true;
+                const container = document.getElementById('peopleOptionsContainer');
+                if (container) container.style.display = 'block';
+                document.getElementById('specificPeopleContainer').style.display = 'block';
+                document.getElementById('crowdTypeContainer').style.display = 'none';
+                
+                document.querySelectorAll('.person-count-btn').forEach((btn, idx) => {
+                    btn.classList.toggle('active', idx + 1 === personCount || (personCount >= 4 && idx === 3));
+                });
+                
+                setTimeout(() => renderPersonPanels(), 100);
+            }
             
             // Re-render all multi-selects
             document.querySelectorAll('.multi-select-wrapper').forEach(wrapper => {
@@ -2513,6 +2975,8 @@
             
             // Update contextual options based on loaded subject_type
             updateContextualOptions();
+            
+            showNotification(`Preset loaded: ${preset.name}`);
         }
         
         // Open edit preset modal
@@ -2672,6 +3136,645 @@
             reader.readAsText(file);
             // Reset file input so same file can be imported again
             event.target.value = '';
+        }
+
+        // ==================== CUSTOM FIELDS SUPPORT ====================
+        
+        let currentCustomFieldSection = '';
+        
+        function openCustomFieldModal(sectionName) {
+            currentCustomFieldSection = sectionName;
+            document.getElementById('customFieldModal').classList.add('active');
+            document.getElementById('customFieldName').value = '';
+            document.getElementById('customFieldLabel').value = '';
+            document.getElementById('customFieldType').value = 'text';
+            document.getElementById('customFieldOptionsContainer').style.display = 'none';
+            document.getElementById('customFieldOptions').value = '';
+        }
+        
+        function closeCustomFieldModal() {
+            document.getElementById('customFieldModal').classList.remove('active');
+        }
+        
+        function toggleCustomFieldOptions() {
+            const type = document.getElementById('customFieldType').value;
+            document.getElementById('customFieldOptionsContainer').style.display = 
+                type === 'select' ? 'block' : 'none';
+        }
+        
+        function saveNewCustomField() {
+            const name = document.getElementById('customFieldName').value.trim().toLowerCase().replace(/\s+/g, '_');
+            const label = document.getElementById('customFieldLabel').value.trim();
+            const type = document.getElementById('customFieldType').value;
+            const optionsStr = document.getElementById('customFieldOptions').value.trim();
+            
+            if (!name || !label) {
+                showNotification('Please fill in field name and label', 'error');
+                return;
+            }
+            
+            if (!customFields[currentCustomFieldSection]) {
+                customFields[currentCustomFieldSection] = [];
+            }
+            
+            // Check for duplicate
+            if (customFields[currentCustomFieldSection].some(f => f.name === name)) {
+                showNotification('A field with this name already exists', 'error');
+                return;
+            }
+            
+            const field = { name, label, type };
+            if (type === 'select' && optionsStr) {
+                field.options = optionsStr.split(',').map(o => o.trim()).filter(o => o);
+            }
+            
+            customFields[currentCustomFieldSection].push(field);
+            saveCustomFields();
+            renderCustomFieldsForSection(currentCustomFieldSection);
+            closeCustomFieldModal();
+            showNotification(`Custom field "${label}" added!`);
+        }
+        
+        function removeCustomField(sectionName, fieldName) {
+            if (!customFields[sectionName]) return;
+            customFields[sectionName] = customFields[sectionName].filter(f => f.name !== fieldName);
+            saveCustomFields();
+            renderCustomFieldsForSection(sectionName);
+            showNotification('Custom field removed');
+        }
+        
+        function renderCustomFieldsForSection(sectionName) {
+            const container = document.getElementById(`customFields_${sectionName}`);
+            if (!container) return;
+            
+            const fields = customFields[sectionName] || [];
+            
+            if (fields.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            container.innerHTML = fields.map(field => `
+                <div class="form-group custom-field-item" style="position: relative;">
+                    <label class="form-label">${field.label}
+                        <button type="button" onclick="removeCustomField('${sectionName}', '${field.name}')" 
+                            class="remove-custom-field-btn" title="Remove field">×</button>
+                    </label>
+                    ${field.type === 'select' && field.options ? `
+                        <select name="${field.name}" class="input-field w-full px-4 py-3">
+                            <option value="">Select...</option>
+                            ${field.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                        </select>
+                    ` : `
+                        <input type="text" name="${field.name}" 
+                            class="input-field w-full px-4 py-3" placeholder="Enter ${field.label.toLowerCase()}...">
+                    `}
+                </div>
+            `).join('');
+        }
+        
+        function renderAllCustomFields() {
+            const sections = ['subject', 'people', 'era', 'environment', 'atmosphere', 'character', 'hair', 'face', 'accessories', 'technical', 'quality'];
+            sections.forEach(section => renderCustomFieldsForSection(section));
+        }
+
+        // ==================== OBJECTS & RELATIONSHIPS ====================
+        
+        // Object categories for dropdown
+        const OBJECT_CATEGORIES = [
+            'Person', 'Body Part', 'Clothing', 'Accessory', 'Electronics', 
+            'Furniture', 'Vehicle', 'Food/Drink', 'Plant', 'Animal', 
+            'Building', 'Nature', 'Sports Equipment', 'Musical Instrument',
+            'Art/Decor', 'Tool', 'Book/Document', 'Container', 'Other'
+        ];
+        
+        // Object locations for dropdown
+        const OBJECT_LOCATIONS = [
+            'Center', 'Left', 'Right', 'Top', 'Bottom',
+            'Top-Left', 'Top-Right', 'Bottom-Left', 'Bottom-Right',
+            'Foreground', 'Mid-ground', 'Background'
+        ];
+        
+        // Object prominence levels
+        const OBJECT_PROMINENCE = [
+            'Primary Focus', 'Secondary', 'Background Element', 'Detail/Accent'
+        ];
+        
+        function addObject() {
+            const newObject = {
+                id: 'obj_' + Date.now(),
+                label: '',
+                category: '',
+                location: '',
+                prominence: '',
+                color: '',
+                texture: '',
+                material: '',
+                state: '',
+                details: ''
+            };
+            sceneObjects.push(newObject);
+            renderObjects();
+        }
+        
+        function removeObject(index) {
+            sceneObjects.splice(index, 1);
+            renderObjects();
+        }
+        
+        function updateObject(index, field, value) {
+            if (sceneObjects[index]) {
+                sceneObjects[index][field] = value;
+            }
+        }
+        
+        function renderObjects() {
+            const container = document.getElementById('objectsContainer');
+            if (!container) return;
+            
+            if (sceneObjects.length === 0) {
+                container.innerHTML = '<p style="font-size: 12px; color: var(--text-secondary); font-style: italic;">No objects added yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = sceneObjects.map((obj, idx) => `
+                <div class="object-panel" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span style="font-weight: 600; font-size: 12px;">🎯 Object ${idx + 1}</span>
+                        <button type="button" onclick="removeObject(${idx})" style="background: none; border: none; color: var(--danger); cursor: pointer; font-size: 16px;">×</button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
+                        <div class="form-group">
+                            <label class="form-label" style="font-size: 10px;">Label *</label>
+                            <input type="text" class="input-field w-full px-2 py-1" style="font-size: 11px;" 
+                                placeholder="e.g., Coffee Cup" value="${obj.label || ''}"
+                                onchange="updateObject(${idx}, 'label', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="font-size: 10px;">Category</label>
+                            <select class="input-field w-full px-2 py-1" style="font-size: 11px;"
+                                onchange="updateObject(${idx}, 'category', this.value)">
+                                <option value="">Select...</option>
+                                ${OBJECT_CATEGORIES.map(cat => `<option value="${cat}" ${obj.category === cat ? 'selected' : ''}>${cat}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="font-size: 10px;">Location</label>
+                            <select class="input-field w-full px-2 py-1" style="font-size: 11px;"
+                                onchange="updateObject(${idx}, 'location', this.value)">
+                                <option value="">Select...</option>
+                                ${OBJECT_LOCATIONS.map(loc => `<option value="${loc}" ${obj.location === loc ? 'selected' : ''}>${loc}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="font-size: 10px;">Prominence</label>
+                            <select class="input-field w-full px-2 py-1" style="font-size: 11px;"
+                                onchange="updateObject(${idx}, 'prominence', this.value)">
+                                <option value="">Select...</option>
+                                ${OBJECT_PROMINENCE.map(p => `<option value="${p}" ${obj.prominence === p ? 'selected' : ''}>${p}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-2 mt-2">
+                        <div class="form-group">
+                            <label class="form-label" style="font-size: 10px;">Color</label>
+                            <input type="text" class="input-field w-full px-2 py-1" style="font-size: 11px;" 
+                                placeholder="e.g., White, Metallic" value="${obj.color || ''}"
+                                onchange="updateObject(${idx}, 'color', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="font-size: 10px;">Texture</label>
+                            <input type="text" class="input-field w-full px-2 py-1" style="font-size: 11px;" 
+                                placeholder="e.g., Smooth, Rough" value="${obj.texture || ''}"
+                                onchange="updateObject(${idx}, 'texture', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="font-size: 10px;">Material</label>
+                            <input type="text" class="input-field w-full px-2 py-1" style="font-size: 11px;" 
+                                placeholder="e.g., Ceramic, Metal" value="${obj.material || ''}"
+                                onchange="updateObject(${idx}, 'material', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" style="font-size: 10px;">State</label>
+                            <input type="text" class="input-field w-full px-2 py-1" style="font-size: 11px;" 
+                                placeholder="e.g., Hot, Worn, New" value="${obj.state || ''}"
+                                onchange="updateObject(${idx}, 'state', this.value)">
+                        </div>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label class="form-label" style="font-size: 10px;">Micro Details</label>
+                        <input type="text" class="input-field w-full px-2 py-1" style="font-size: 11px;" 
+                            placeholder="e.g., Steam rising, scratches on surface, brand logo visible" value="${obj.details || ''}"
+                            onchange="updateObject(${idx}, 'details', this.value)">
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Relationships functions
+        function addRelationship() {
+            const input = document.getElementById('newRelationshipInput');
+            const value = input.value.trim();
+            if (value) {
+                semanticRelationships.push(value);
+                input.value = '';
+                renderRelationships();
+            }
+        }
+        
+        function removeRelationship(index) {
+            semanticRelationships.splice(index, 1);
+            renderRelationships();
+        }
+        
+        function renderRelationships() {
+            const container = document.getElementById('relationshipsContainer');
+            if (!container) return;
+            
+            if (semanticRelationships.length === 0) {
+                container.innerHTML = '<p style="font-size: 12px; color: var(--text-secondary); font-style: italic;">No relationships defined yet.</p>';
+                return;
+            }
+            
+            container.innerHTML = semanticRelationships.map((rel, idx) => `
+                <div style="display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; margin-bottom: 4px;">
+                    <span style="flex: 1; font-size: 12px;">🔗 ${rel}</span>
+                    <button type="button" onclick="removeRelationship(${idx})" style="background: none; border: none; color: var(--danger); cursor: pointer; font-size: 14px;">×</button>
+                </div>
+            `).join('');
+        }
+
+        // ==================== MULTI-PERSON SUPPORT ====================
+        
+        // State for people inclusion
+        let includePeople = false;
+        let peopleType = 'specific'; // 'specific' or 'crowd'
+        
+        // Toggle people section visibility
+        function togglePeopleSection() {
+            const checkbox = document.getElementById('includePeopleCheckbox');
+            const container = document.getElementById('peopleOptionsContainer');
+            includePeople = checkbox.checked;
+            
+            container.style.display = includePeople ? 'block' : 'none';
+            
+            if (includePeople) {
+                togglePeopleType();
+                renderPersonPanels();
+            }
+            
+            // Hide/show character-related sections based on people settings
+            updateCharacterSectionsVisibility();
+        }
+        
+        // Toggle between specific people and crowd
+        function togglePeopleType() {
+            const select = document.getElementById('peopleTypeSelect');
+            peopleType = select.value;
+            
+            const specificContainer = document.getElementById('specificPeopleContainer');
+            const crowdContainer = document.getElementById('crowdTypeContainer');
+            
+            if (peopleType === 'specific') {
+                specificContainer.style.display = 'block';
+                crowdContainer.style.display = 'none';
+                renderPersonPanels();
+            } else {
+                specificContainer.style.display = 'none';
+                crowdContainer.style.display = 'block';
+            }
+            
+            // Update visibility of character sections
+            updateCharacterSectionsVisibility();
+        }
+        
+        // Hide Character, Hair, Face, Accessories sections when specific people are used
+        function updateCharacterSectionsVisibility() {
+            const sections = ['characterSection', 'hairSection', 'faceSection', 'accessoriesSection'];
+            const shouldHide = includePeople && peopleType === 'specific';
+            
+            sections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    if (shouldHide) {
+                        section.style.display = 'none';
+                    } else {
+                        section.style.display = 'block';
+                    }
+                }
+            });
+        }
+        
+        // Person property fields to include in each person panel
+        const PERSON_FIELDS = [
+            { name: 'gender', label: 'Gender', options: 'gender' },
+            { name: 'ethnicity', label: 'Ethnicity', options: 'ethnicity' },
+            { name: 'age_group', label: 'Age Group', options: 'age_group' },
+            { name: 'body_type', label: 'Body Type', options: 'body_type' },
+            { name: 'hair_style', label: 'Hair Style', options: 'hair_style' },
+            { name: 'hair_color', label: 'Hair Color', options: 'hair_color' },
+            { name: 'hair_length', label: 'Hair Length', options: 'hair_length' },
+            { name: 'expression', label: 'Expression', options: 'expression' },
+            { name: 'pose', label: 'Pose', options: 'pose' },
+            { name: 'skin_type', label: 'Skin Type', options: 'skin_type' },
+            { name: 'makeup_style', label: 'Makeup', options: 'makeup_style' },
+            { name: 'clothing_style', label: 'Clothing Style', options: 'clothing_style' },
+            { name: 'clothing_type', label: 'Clothing Type', options: 'clothing_type' },
+            { name: 'clothing_color', label: 'Clothing Color', options: 'clothing_color' },
+            { name: 'eyewear', label: 'Eyewear', options: 'eyewear' },
+            { name: 'earrings', label: 'Earrings', options: 'earrings' },
+            { name: 'necklace', label: 'Necklace', options: 'necklace' },
+            { name: 'headwear', label: 'Headwear', options: 'headwear' }
+        ];
+        
+        // Set person count and rebuild panels
+        function setPersonCount(count) {
+            personCount = count;
+            
+            // Update buttons
+            document.querySelectorAll('.person-count-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx + 1 === count || (count >= 4 && idx === 3));
+            });
+            
+            // Adjust personsData array
+            while (personsData.length < count) {
+                personsData.push({});
+            }
+            while (personsData.length > count) {
+                personsData.pop();
+            }
+            
+            renderPersonPanels();
+        }
+        
+        // Render all person panels
+        function renderPersonPanels() {
+            const container = document.getElementById('multiPersonContainer');
+            if (!container) return;
+            
+            const personLabels = ['Person 1 (Main Subject)', 'Person 2', 'Person 3', 'Person 4'];
+            
+            const panelHTML = personsData.map((personData, idx) => `
+                <div class="person-panel" data-person-index="${idx}">
+                    <div class="person-panel-header">
+                        <span class="person-panel-title">👤 ${personLabels[idx] || 'Person ' + (idx + 1)}</span>
+                        ${idx > 0 ? `<button type="button" class="remove-person-btn" onclick="removePerson(${idx})" title="Remove Person">×</button>` : ''}
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        ${PERSON_FIELDS.map(field => `
+                            <div class="form-group">
+                                <label class="form-label" style="font-size: 11px;">${field.label}</label>
+                                <select name="person_${idx}_${field.name}" class="input-field w-full px-3 py-2" style="font-size: 12px;" 
+                                    data-person="${idx}" data-field="${field.name}" onchange="updatePersonData(${idx}, '${field.name}', this.value)">
+                                    <option value="">Select...</option>
+                                    ${(promptOptions[field.options] || []).map(opt => 
+                                        `<option value="${opt}" ${personData[field.name] === opt ? 'selected' : ''}>${opt}</option>`
+                                    ).join('')}
+                                </select>
+                                <input type="text" class="custom-input" style="font-size: 11px; margin-top: 4px;" 
+                                    placeholder="or custom value..." 
+                                    data-person="${idx}" data-field="${field.name}"
+                                    value="${personData[field.name + '_custom'] || ''}"
+                                    onchange="updatePersonData(${idx}, '${field.name}_custom', this.value)">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = panelHTML;
+        }
+        
+        // Update person data when field changes
+        function updatePersonData(personIndex, fieldName, value) {
+            if (!personsData[personIndex]) {
+                personsData[personIndex] = {};
+            }
+            personsData[personIndex][fieldName] = value;
+        }
+        
+        // Remove a person
+        function removePerson(index) {
+            if (index > 0 && personsData.length > 1) {
+                personsData.splice(index, 1);
+                personCount = personsData.length;
+                
+                // Update buttons
+                document.querySelectorAll('.person-count-btn').forEach((btn, idx) => {
+                    btn.classList.toggle('active', idx + 1 === personCount || (personCount >= 4 && idx === 3));
+                });
+                
+                renderPersonPanels();
+            }
+        }
+        
+        // Get combined person descriptions for prompt
+        function getPersonDescriptions() {
+            if (personsData.length === 0 || Object.keys(personsData[0]).length === 0) {
+                return '';
+            }
+            
+            // Helper to get value (prefer custom if exists)
+            const getValue = (person, field) => person[field + '_custom'] || person[field] || '';
+            
+            return personsData.map((person, idx) => {
+                const parts = [];
+                const label = idx === 0 ? 'first person' : idx === 1 ? 'second person' : `person ${idx + 1}`;
+                
+                const gender = getValue(person, 'gender');
+                const ethnicity = getValue(person, 'ethnicity');
+                const age_group = getValue(person, 'age_group');
+                const body_type = getValue(person, 'body_type');
+                
+                if (gender) parts.push(gender);
+                if (ethnicity) parts.push(ethnicity);
+                if (age_group) parts.push(age_group);
+                if (body_type) parts.push(`${body_type} build`);
+                
+                // Hair
+                const hairParts = [];
+                const hair_color = getValue(person, 'hair_color');
+                const hair_length = getValue(person, 'hair_length');
+                const hair_style = getValue(person, 'hair_style');
+                if (hair_color) hairParts.push(hair_color);
+                if (hair_length) hairParts.push(hair_length);
+                if (hair_style) hairParts.push(hair_style);
+                if (hairParts.length) parts.push(`${hairParts.join(' ')} hair`);
+                
+                const skin_type = getValue(person, 'skin_type');
+                const expression = getValue(person, 'expression');
+                const pose = getValue(person, 'pose');
+                const makeup_style = getValue(person, 'makeup_style');
+                
+                if (skin_type) parts.push(`${skin_type} skin`);
+                if (expression) parts.push(`${expression} expression`);
+                if (pose) parts.push(`${pose} pose`);
+                if (makeup_style && makeup_style !== 'no makeup') parts.push(`${makeup_style} makeup`);
+                
+                // Clothing
+                const clothing_type = getValue(person, 'clothing_type');
+                const clothing_color = getValue(person, 'clothing_color');
+                const clothing_style = getValue(person, 'clothing_style');
+                
+                if (clothing_type) {
+                    let clothingDesc = clothing_type;
+                    if (clothing_color) clothingDesc = `${clothing_color} ${clothingDesc}`;
+                    parts.push(`wearing ${clothingDesc}`);
+                } else if (clothing_style) {
+                    parts.push(`wearing ${clothing_style} clothing`);
+                }
+                
+                // Accessories
+                const accessories = [];
+                const eyewear = getValue(person, 'eyewear');
+                const earrings = getValue(person, 'earrings');
+                const necklace = getValue(person, 'necklace');
+                const headwear = getValue(person, 'headwear');
+                if (eyewear && eyewear !== 'none') accessories.push(eyewear);
+                if (earrings && earrings !== 'none') accessories.push(earrings);
+                if (necklace && necklace !== 'none') accessories.push(necklace);
+                if (headwear && headwear !== 'none') accessories.push(headwear);
+                if (accessories.length) parts.push(`with ${accessories.join(', ')}`);
+                
+                if (parts.length === 0) return '';
+                return `[${label}: ${parts.join(', ')}]`;
+            }).filter(p => p).join(' ');
+        }
+        
+        // ==================== DEFAULT PRESET GALLERY ====================
+        
+        let presetGalleryVisible = false;
+        let currentPresetCategory = 'all';
+        
+        // Toggle preset gallery visibility
+        function togglePresetGallery() {
+            presetGalleryVisible = !presetGalleryVisible;
+            const content = document.getElementById('presetGalleryContent');
+            const btn = document.getElementById('toggleGalleryBtn');
+            
+            if (presetGalleryVisible) {
+                content.style.display = 'block';
+                btn.innerHTML = '▲ <span data-i18n="hide_presets">Hide</span>';
+                renderPresetGallery();
+            } else {
+                content.style.display = 'none';
+                btn.innerHTML = '▼ <span data-i18n="show_presets">Show</span>';
+            }
+        }
+        
+        // Filter preset category
+        function filterPresetCategory(category) {
+            currentPresetCategory = category;
+            
+            // Update tab buttons
+            document.querySelectorAll('.preset-category-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.textContent.toLowerCase().includes(category) || (category === 'all' && tab.textContent.includes('All')));
+            });
+            
+            renderPresetGallery();
+        }
+        
+        // Render preset gallery grid
+        function renderPresetGallery() {
+            const grid = document.getElementById('presetGrid');
+            if (!grid || typeof DEFAULT_PRESETS === 'undefined') return;
+            
+            const filteredPresets = Object.entries(DEFAULT_PRESETS).filter(([key, preset]) => {
+                if (currentPresetCategory === 'all') return true;
+                return preset.category === currentPresetCategory;
+            });
+            
+            grid.innerHTML = filteredPresets.map(([key, preset]) => `
+                <div class="preset-card" onclick="loadDefaultPreset('${key}')">
+                    <div class="preset-card-icon">${preset.icon}</div>
+                    <div class="preset-card-name">${preset.name}</div>
+                    <div class="preset-card-desc">${preset.description}</div>
+                    ${preset.data.person_count > 1 ? `<div class="person-badge">👥 ${preset.data.person_count} people</div>` : ''}
+                </div>
+            `).join('');
+        }
+        
+        // Load a default preset
+        function loadDefaultPreset(presetKey) {
+            if (typeof DEFAULT_PRESETS === 'undefined' || !DEFAULT_PRESETS[presetKey]) {
+                console.error('Preset not found:', presetKey);
+                return;
+            }
+            
+            const preset = DEFAULT_PRESETS[presetKey];
+            const data = preset.data;
+            
+            // Clear form first
+            clearForm();
+            
+            // Load basic fields into multi-select state
+            Object.entries(data).forEach(([key, value]) => {
+                if (key === 'persons' || key === 'person_count') return;
+                
+                if (Array.isArray(value)) {
+                    multiSelectState[key] = value;
+                } else if (value) {
+                    multiSelectState[key] = [value];
+                }
+            });
+            
+            // Handle multi-person data
+            const checkbox = document.getElementById('includePeopleCheckbox');
+            const peopleContainer = document.getElementById('peopleOptionsContainer');
+            const peopleTypeSelect = document.getElementById('peopleTypeSelect');
+            
+            if (data.persons && data.persons.length > 0) {
+                // Enable people section
+                includePeople = true;
+                checkbox.checked = true;
+                peopleContainer.style.display = 'block';
+                
+                personCount = data.person_count || data.persons.length;
+                personsData = data.persons.map(p => ({...p}));
+                
+                // Set to specific people mode
+                peopleType = 'specific';
+                peopleTypeSelect.value = 'specific';
+                document.getElementById('specificPeopleContainer').style.display = 'block';
+                document.getElementById('crowdTypeContainer').style.display = 'none';
+                
+                // Update person count buttons
+                document.querySelectorAll('.person-count-btn').forEach((btn, idx) => {
+                    btn.classList.toggle('active', idx + 1 === personCount || (personCount >= 4 && idx === 3));
+                });
+                
+                // Render person panels
+                setTimeout(() => renderPersonPanels(), 100);
+            } else if (data.crowd) {
+                // Enable people section with crowd mode
+                includePeople = true;
+                checkbox.checked = true;
+                peopleContainer.style.display = 'block';
+                
+                peopleType = 'crowd';
+                peopleTypeSelect.value = 'crowd';
+                document.getElementById('specificPeopleContainer').style.display = 'none';
+                document.getElementById('crowdTypeContainer').style.display = 'block';
+            } else {
+                // No people
+                includePeople = false;
+                checkbox.checked = false;
+                peopleContainer.style.display = 'none';
+                personCount = 1;
+                personsData = [{}];
+            }
+            
+            // Re-render multi-selects
+            document.querySelectorAll('.multi-select-wrapper').forEach(wrapper => {
+                const selectName = wrapper.dataset.multiselect;
+                const optionKey = wrapper.dataset.options;
+                renderMultiSelectDropdown(wrapper, selectName, optionKey);
+            });
+            
+            // Update contextual options
+            updateContextualOptions();
+            
+            showNotification(`Preset loaded: ${preset.name}`);
         }
 
         // ==================== MULTI-SELECT DROPDOWN ====================
@@ -3201,6 +4304,18 @@
                 return Object.keys(cleaned).length ? cleaned : null;
             };
             
+            // Helper to get custom fields for a section
+            const getCustomFieldsForSection = (sectionName) => {
+                const fields = customFields[sectionName] || [];
+                const result = {};
+                fields.forEach(field => {
+                    if (data[field.name]) {
+                        result[field.name] = data[field.name];
+                    }
+                });
+                return result;
+            };
+            
             const promptData = {
                 prompt: {
                     subject: cleanObj({
@@ -3230,24 +4345,28 @@
                         animal_behavior: data.animal_behavior,
                         product_type: data.product_type,
                         product_material: data.product_material,
-                        product_background: data.product_background
+                        product_background: data.product_background,
+                        ...getCustomFieldsForSection('subject')
                     }),
                     era: cleanObj({
                         period: data.era,
                         time_of_day: data.time_of_day,
-                        season: data.season
+                        season: data.season,
+                        ...getCustomFieldsForSection('era')
                     }),
                     environment: cleanObj({
                         location: data.location,
                         setting: data.setting,
                         crowd: data.crowd,
                         weather: data.weather,
-                        architecture: data.architecture
+                        architecture: data.architecture,
+                        ...getCustomFieldsForSection('environment')
                     }),
                     atmosphere: cleanObj({
                         mood: data.mood,
                         color_palette: data.color_palette,
-                        lighting: data.lighting
+                        lighting: data.lighting,
+                        ...getCustomFieldsForSection('atmosphere')
                     }),
                     character: cleanObj({
                         clothing_type: data.clothing_type,
@@ -3257,24 +4376,40 @@
                         clothing_era: data.clothing_era,
                         age_group: data.age_group,
                         expression: data.expression,
-                        pose: data.pose
+                        pose: data.pose,
+                        ...getCustomFieldsForSection('character')
                     }),
                     hair: cleanObj({
                         style: data.hair_style,
                         color: data.hair_color,
-                        length: data.hair_length
+                        length: data.hair_length,
+                        ...getCustomFieldsForSection('hair')
                     }),
                     face: cleanObj({
                         skin_type: data.skin_type,
-                        makeup_style: data.makeup_style
+                        makeup_style: data.makeup_style,
+                        ...getCustomFieldsForSection('face')
                     }),
+                    // Multi-person data with custom fields
+                    persons: data.persons && data.persons.length > 0 ? data.persons.map((p, idx) => {
+                        const personData = {};
+                        Object.entries(p).forEach(([k, v]) => {
+                            if (v && v !== '') personData[k] = v;
+                        });
+                        // Add people section custom fields to each person
+                        const peopleCustom = getCustomFieldsForSection('people');
+                        Object.assign(personData, peopleCustom);
+                        return Object.keys(personData).length > 0 ? { person: idx + 1, ...personData } : null;
+                    }).filter(p => p) : undefined,
+                    person_count: data.person_count > 1 ? data.person_count : undefined,
                     accessories: cleanObj({
                         eyewear: data.eyewear,
                         earrings: data.earrings,
                         necklace: data.necklace,
                         bracelet: data.bracelet,
                         rings: data.rings,
-                        headwear: data.headwear
+                        headwear: data.headwear,
+                        ...getCustomFieldsForSection('accessories')
                     }),
                     technical: cleanObj({
                         camera: data.camera_type,
@@ -3282,14 +4417,35 @@
                         settings: data.camera_settings,
                         composition: data.composition,
                         film_type: data.film_type,
-                        aspect_ratio: data.aspect_ratio
+                        aspect_ratio: data.aspect_ratio,
+                        ...getCustomFieldsForSection('technical')
                     }),
                     quality: cleanObj({
                         modifiers: data.quality_modifiers,
                         render_style: data.render_style,
-                        additional_details: data.additional_details
+                        additional_details: data.additional_details,
+                        ...getCustomFieldsForSection('quality')
                     })
                 },
+                // Objects in scene
+                objects: sceneObjects.length > 0 ? sceneObjects.map(obj => {
+                    const cleanObj = {};
+                    if (obj.label) cleanObj.label = obj.label;
+                    if (obj.category) cleanObj.category = obj.category;
+                    if (obj.location) cleanObj.location = obj.location;
+                    if (obj.prominence) cleanObj.prominence = obj.prominence;
+                    if (obj.color || obj.texture || obj.material || obj.state) {
+                        cleanObj.visual_attributes = {};
+                        if (obj.color) cleanObj.visual_attributes.color = obj.color;
+                        if (obj.texture) cleanObj.visual_attributes.texture = obj.texture;
+                        if (obj.material) cleanObj.visual_attributes.material = obj.material;
+                        if (obj.state) cleanObj.visual_attributes.state = obj.state;
+                    }
+                    if (obj.details) cleanObj.micro_details = obj.details.split(',').map(d => d.trim()).filter(d => d);
+                    return cleanObj;
+                }) : undefined,
+                // Semantic relationships
+                semantic_relationships: semanticRelationships.length > 0 ? semanticRelationships : undefined,
                 negative_prompt: getSelectedNegativePrompts(),
                 metadata: {
                     format_version: "2.0",
@@ -3315,6 +4471,11 @@
             if (data.subject_description) parts.push(data.subject_description);
             if (data.style) parts.push(`${data.style} style`);
             if (data.subject_type) parts.push(`${data.subject_type} photography`);
+            
+            // Multi-person descriptions (if available)
+            if (data.person_descriptions) {
+                parts.push(data.person_descriptions);
+            }
             
             // Contextual details
             if (data.street_type) parts.push(`in ${data.street_type}`);
@@ -3407,6 +4568,35 @@
             if (data.quality_modifiers) parts.push(data.quality_modifiers);
             if (data.render_style) parts.push(data.render_style);
             if (data.additional_details) parts.push(data.additional_details);
+            
+            // Custom fields
+            Object.keys(customFields).forEach(section => {
+                customFields[section].forEach(field => {
+                    if (data[field.name]) {
+                        parts.push(data[field.name]);
+                    }
+                });
+            });
+            
+            // Objects in scene
+            if (sceneObjects.length > 0) {
+                const objDescriptions = sceneObjects.map(obj => {
+                    const desc = [];
+                    if (obj.color) desc.push(obj.color);
+                    if (obj.material) desc.push(obj.material);
+                    if (obj.label) desc.push(obj.label);
+                    if (obj.location) desc.push(`in the ${obj.location.toLowerCase()}`);
+                    return desc.join(' ');
+                }).filter(d => d);
+                if (objDescriptions.length) {
+                    parts.push(`with ${objDescriptions.join(', ')}`);
+                }
+            }
+            
+            // Semantic relationships
+            if (semanticRelationships.length > 0) {
+                parts.push(semanticRelationships.join(', '));
+            }
             
             const prompt = parts.join(', ');
             const negative = getSelectedNegativePrompts().join(', ');
@@ -3692,6 +4882,18 @@
                 }
             });
             
+            // Reset people section
+            includePeople = false;
+            peopleType = 'specific';
+            personCount = 1;
+            personsData = [{}];
+            const checkbox = document.getElementById('includePeopleCheckbox');
+            if (checkbox) checkbox.checked = false;
+            const peopleContainer = document.getElementById('peopleOptionsContainer');
+            if (peopleContainer) peopleContainer.style.display = 'none';
+            const multiPersonContainer = document.getElementById('multiPersonContainer');
+            if (multiPersonContainer) multiPersonContainer.innerHTML = '';
+            
             // Hide contextual options
             updateContextualOptions();
         }
@@ -3710,6 +4912,19 @@
             
             // Initialize custom presets
             renderCustomPresets();
+            
+            // Initialize custom fields
+            renderAllCustomFields();
+            
+            // Initialize objects and relationships
+            renderObjects();
+            renderRelationships();
+            
+            // Initialize multi-person panels (will render when portrait is selected)
+            // Ensure personsData has at least one entry
+            if (personsData.length === 0) {
+                personsData = [{}];
+            }
             
             // Enter key to add tag
             document.getElementById('newTagInput').addEventListener('keypress', (e) => {
@@ -3770,6 +4985,26 @@
                         }
                     }
                 });
+                
+                // Collect custom fields values
+                Object.keys(customFields).forEach(section => {
+                    customFields[section].forEach(field => {
+                        const element = document.querySelector(`[name="${field.name}"]`);
+                        if (element && element.value && element.value.trim()) {
+                            data[field.name] = element.value.trim();
+                        }
+                    });
+                });
+                
+                // Add multi-person data only if people are included
+                if (includePeople) {
+                    if (peopleType === 'specific' && personsData.length > 0 && Object.keys(personsData[0]).length > 0) {
+                        data.person_count = personCount;
+                        data.persons = personsData;
+                        data.person_descriptions = getPersonDescriptions();
+                    }
+                    // Crowd data is already collected from form inputs
+                }
 
                 // Generate all formats
                 document.getElementById('text-natural').textContent = generateNaturalPrompt(data);
