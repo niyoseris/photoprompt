@@ -4193,6 +4193,36 @@
                 Object.entries(quality).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
             }
             
+            // Objects in scene
+            if (sceneObjects.length > 0) {
+                lines.push('objects:');
+                sceneObjects.forEach((obj, idx) => {
+                    const objParts = [];
+                    if (obj.label) objParts.push(`label: ${escapeValue(obj.label)}`);
+                    if (obj.category) objParts.push(`category: ${escapeValue(obj.category)}`);
+                    if (obj.location) objParts.push(`location: ${escapeValue(obj.location)}`);
+                    if (obj.prominence) objParts.push(`prominence: ${escapeValue(obj.prominence)}`);
+                    if (obj.color) objParts.push(`color: ${escapeValue(obj.color)}`);
+                    if (obj.texture) objParts.push(`texture: ${escapeValue(obj.texture)}`);
+                    if (obj.material) objParts.push(`material: ${escapeValue(obj.material)}`);
+                    if (obj.state) objParts.push(`state: ${escapeValue(obj.state)}`);
+                    if (obj.details) objParts.push(`details: ${escapeValue(obj.details)}`);
+                    if (objParts.length > 0) {
+                        lines.push(`  - ${objParts.join(', ')}`);
+                    }
+                });
+            }
+            
+            // Semantic relationships
+            if (semanticRelationships.length > 0) {
+                lines.push('relationships:');
+                semanticRelationships.forEach(rel => {
+                    if (rel.subject && rel.action && rel.object) {
+                        lines.push(`  - ${escapeValue(rel.subject)} ${escapeValue(rel.action)} ${escapeValue(rel.object)}`);
+                    }
+                });
+            }
+            
             // Negative prompt as array
             const negativeItems = getSelectedNegativePrompts();
             lines.push(`negative[${negativeItems.length}]: ${negativeItems.join(',')}`);
@@ -4293,6 +4323,35 @@
             if (fields.length > 0) {
                 lines.push(`prompt{${fields.join(',')}}:`);
                 lines.push(`  ${values.join(', ')}`);
+            }
+            
+            // Objects in scene for TONL
+            if (sceneObjects.length > 0) {
+                const objFields = ['label:str', 'cat:str', 'loc:str', 'prom:str', 'color:str', 'tex:str', 'mat:str', 'state:str', 'det:str'];
+                lines.push(`objects[${sceneObjects.length}]{${objFields.join(',')}}:`);
+                sceneObjects.forEach(obj => {
+                    const objValues = [];
+                    objValues.push(obj.label ? `"${obj.label}"` : '""');
+                    objValues.push(obj.category || '-');
+                    objValues.push(obj.location || '-');
+                    objValues.push(obj.prominence || '-');
+                    objValues.push(obj.color || '-');
+                    objValues.push(obj.texture || '-');
+                    objValues.push(obj.material || '-');
+                    objValues.push(obj.state || '-');
+                    objValues.push(obj.details ? `"${obj.details}"` : '""');
+                    lines.push(`  ${objValues.join(', ')}`);
+                });
+            }
+            
+            // Semantic relationships for TONL
+            if (semanticRelationships.length > 0) {
+                lines.push(`relations[${semanticRelationships.length}]:`);
+                semanticRelationships.forEach(rel => {
+                    if (rel.subject && rel.action && rel.object) {
+                        lines.push(`  "${rel.subject}" ${rel.action} "${rel.object}"`);
+                    }
+                });
             }
             
             const negativeItems = getSelectedNegativePrompts();
