@@ -1832,6 +1832,29 @@
         </div>
     </div>
 
+    <!-- Backend Info Footer -->
+    <footer style="background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 20px; margin-top: 40px;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div style="font-size: 13px; color: var(--text-secondary);">
+                    <span style="font-weight: 600; color: var(--text-primary);">📊 Backend Dashboard:</span>
+                    <a href="http://localhost:5002" target="_blank" style="color: var(--accent); text-decoration: none; margin-left: 8px;">
+                        http://localhost:5002
+                    </a>
+                </div>
+                <div style="font-size: 13px; color: var(--text-secondary);">
+                    <span style="font-weight: 600; color: var(--text-primary);">Status:</span>
+                    <span id="backendStatus" style="margin-left: 8px;">
+                        <span style="color: #ef4444;">● Checking...</span>
+                    </span>
+                </div>
+            </div>
+            <div style="font-size: 12px; color: var(--text-secondary);">
+                💡 Backend'i başlatmak için: <code style="background: var(--bg-input); padding: 2px 8px; border-radius: 4px;">cd backend && pip install -r requirements.txt && python app.py</code>
+            </div>
+        </div>
+    </footer>
+
     <script>
         // ==================== TRANSLATIONS ====================
         const translations = {
@@ -5200,10 +5223,24 @@
                 }
 
                 // Generate all formats
-                document.getElementById('text-natural').textContent = generateNaturalPrompt(data);
-                document.getElementById('text-toon').textContent = generateToonFormat(data);
-                document.getElementById('text-tonl').textContent = generateTonlFormat(data);
-                document.getElementById('text-json').textContent = generateJsonFormat(data);
+                const naturalPrompt = generateNaturalPrompt(data);
+                const toonFormat = generateToonFormat(data);
+                const tonlFormat = generateTonlFormat(data);
+                const jsonFormat = generateJsonFormat(data);
+                
+                document.getElementById('text-natural').textContent = naturalPrompt;
+                document.getElementById('text-toon').textContent = toonFormat;
+                document.getElementById('text-tonl').textContent = tonlFormat;
+                document.getElementById('text-json').textContent = jsonFormat;
+                
+                // Send to backend (if available)
+                sendToBackend({
+                    ...data,
+                    natural_prompt: naturalPrompt,
+                    toon_format: toonFormat,
+                    tonl_format: tonlFormat,
+                    json_format: jsonFormat
+                });
                 
                 // Add animation
                 document.querySelectorAll('.output-box').forEach(box => {
@@ -5212,6 +5249,60 @@
                 });
             });
         });
+        
+        // Backend API URL
+        const BACKEND_URL = 'http://localhost:5002';
+        
+        // Send prompt data to backend
+        async function sendToBackend(data) {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/prompts`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log('Prompt sent to backend:', result);
+                    updateBackendStatus(true);
+                } else {
+                    console.warn('Backend response not ok:', response.status);
+                    updateBackendStatus(false);
+                }
+            } catch (error) {
+                console.log('Backend not available:', error.message);
+                updateBackendStatus(false);
+            }
+        }
+        
+        // Update backend connection status in footer
+        function updateBackendStatus(connected) {
+            const statusEl = document.getElementById('backendStatus');
+            if (statusEl) {
+                if (connected) {
+                    statusEl.innerHTML = '<span style="color: #10b981;">● Connected</span>';
+                } else {
+                    statusEl.innerHTML = '<span style="color: #ef4444;">● Not Connected</span>';
+                }
+            }
+        }
+        
+        // Check backend status on load
+        async function checkBackendStatus() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/stats`);
+                updateBackendStatus(response.ok);
+            } catch {
+                updateBackendStatus(false);
+            }
+        }
+        
+        // Check backend status periodically
+        checkBackendStatus();
+        setInterval(checkBackendStatus, 30000);
     </script>
 </body>
 </html>
