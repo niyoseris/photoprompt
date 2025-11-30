@@ -4046,30 +4046,43 @@
             const container = document.getElementById('contextualOptions');
             const allOptions = document.querySelectorAll('.context-option');
             
-            // Hide all contextual options first
+            // Process all contextual options
             allOptions.forEach(opt => {
-                opt.style.display = 'none';
-                // Reset the select value when hiding
-                const select = opt.querySelector('select');
-                if (select) select.value = '';
-                // Clear multi-selects
-                const multiSelect = opt.querySelector('[data-multiselect]');
-                if (multiSelect) {
-                    const key = multiSelect.dataset.multiselect;
-                    multiSelectState[key] = [];
+                const optContext = opt.dataset.context;
+                const isRelevant = subjectType && optContext === subjectType;
+                
+                if (isRelevant) {
+                    // Show relevant options
+                    opt.style.display = 'block';
+                } else {
+                    // Hide non-relevant options and clear their state
+                    opt.style.display = 'none';
+                    // Reset the select value when hiding
+                    const select = opt.querySelector('select');
+                    if (select) select.value = '';
+                    // Clear multi-selects only for hidden options
+                    const multiSelect = opt.querySelector('[data-multiselect]');
+                    if (multiSelect) {
+                        const key = multiSelect.dataset.multiselect;
+                        multiSelectState[key] = [];
+                    }
                 }
             });
             
-            // Show relevant options based on subject type
+            // Show/hide container based on subject type
             if (subjectType) {
                 const relevantOptions = document.querySelectorAll(`.context-option[data-context="${subjectType}"]`);
                 if (relevantOptions.length > 0) {
                     container.style.display = 'grid';
+                    // Re-render multi-selects for visible options to show their current state
                     relevantOptions.forEach(opt => {
-                        opt.style.display = 'block';
+                        const wrapper = opt.querySelector('.multi-select-wrapper');
+                        if (wrapper) {
+                            const selectName = wrapper.dataset.multiselect;
+                            const optionKey = wrapper.dataset.options;
+                            renderMultiSelectDropdown(wrapper, selectName, optionKey);
+                        }
                     });
-                    // Re-init multi-selects for visible options
-                    initMultiSelects();
                 } else {
                     container.style.display = 'none';
                 }
