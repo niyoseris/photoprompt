@@ -5217,27 +5217,20 @@
                     // Crowd data is already collected from form inputs
                 }
                 
-                // Include scene objects
+                // Add scene objects if any
                 if (sceneObjects.length > 0) {
                     data._sceneObjects = sceneObjects;
                 }
                 
-                // Include semantic relationships
+                // Add semantic relationships if any
                 if (semanticRelationships.length > 0) {
                     data._semanticRelationships = semanticRelationships;
                 }
                 
-                // Include custom fields configuration
-                if (Object.keys(customFields).length > 0) {
+                // Add custom fields config if any
+                if (Object.keys(customFields).some(k => customFields[k].length > 0)) {
                     data._customFieldsConfig = customFields;
                 }
-                
-                // Include multi-select state for preset compatibility
-                Object.keys(multiSelectState).forEach(key => {
-                    if (multiSelectState[key] && multiSelectState[key].length > 0) {
-                        data[key + '_multi'] = multiSelectState[key];
-                    }
-                });
 
                 // Generate all formats
                 const naturalPrompt = generateNaturalPrompt(data);
