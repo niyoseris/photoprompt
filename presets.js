@@ -15,7 +15,15 @@ const DEFAULT_PRESETS = {
                 { gender: "female", ethnicity: "mediterranean", age_group: "young adult", body_type: "slim", hair_style: "long flowing", hair_color: "dark brown", expression: "gentle smile", pose: "leaning", clothing_style: "elegant", clothing_type: "dress", clothing_color: "burgundy" },
                 { gender: "male", ethnicity: "mediterranean", age_group: "young adult", body_type: "athletic", hair_style: "short cropped", hair_color: "black", expression: "smiling", pose: "standing", clothing_style: "formal", clothing_type: "suit", clothing_color: "navy blue" }
             ],
-            lighting: "golden hour", mood: "romantic", color_palette: "warm tones"
+            lighting: "golden hour", mood: "romantic", color_palette: "warm tones", setting: "outdoor",
+            _sceneObjects: [
+                { label: "Red roses bouquet", category: "props", location: "foreground", prominence: "secondary", color: "deep red", material: "natural", state: "fresh blooming" },
+                { label: "Vintage bench", category: "furniture", location: "center", prominence: "background", color: "weathered white", material: "wrought iron" }
+            ],
+            _semanticRelationships: [
+                { subject: "Woman", action: "holding", object: "roses bouquet" },
+                { subject: "Man", action: "embracing", object: "woman" }
+            ]
         }
     },
     "fashion_duo": {
@@ -27,7 +35,15 @@ const DEFAULT_PRESETS = {
                 { gender: "female", ethnicity: "east asian", age_group: "young adult", body_type: "model physique", hair_style: "bob cut", hair_color: "black", expression: "serious", pose: "action pose", clothing_style: "haute couture", clothing_type: "gown", clothing_color: "white", makeup_style: "editorial" },
                 { gender: "female", ethnicity: "african", age_group: "young adult", body_type: "model physique", hair_style: "afro", hair_color: "black", expression: "confident", pose: "formal pose", clothing_style: "avant-garde", clothing_type: "jacket", clothing_color: "black", makeup_style: "bold lip" }
             ],
-            lighting: "studio lighting", mood: "intense", color_palette: "monochrome"
+            lighting: "studio lighting", mood: "intense", color_palette: "monochrome",
+            _sceneObjects: [
+                { label: "Designer handbag", category: "props", location: "foreground", prominence: "secondary", color: "metallic silver", material: "leather", state: "pristine" },
+                { label: "Studio backdrop", category: "background", location: "background", prominence: "background", color: "pure white", texture: "seamless" }
+            ],
+            _semanticRelationships: [
+                { subject: "Model 1", action: "posing with", object: "designer handbag" },
+                { subject: "Models", action: "standing", object: "back to back" }
+            ]
         }
     },
     "family_portrait": {
@@ -40,7 +56,15 @@ const DEFAULT_PRESETS = {
                 { gender: "male", ethnicity: "caucasian", age_group: "adult", body_type: "average", hair_style: "short cropped", hair_color: "medium brown", expression: "smiling", pose: "sitting", clothing_style: "casual", clothing_type: "shirt", clothing_color: "navy blue" },
                 { gender: "female", ethnicity: "caucasian", age_group: "child", body_type: "petite", hair_style: "braided", hair_color: "light brown", expression: "laughing", pose: "candid", clothing_style: "casual", clothing_type: "dress", clothing_color: "pink" }
             ],
-            lighting: "natural light", mood: "joyful", setting: "cozy cafe"
+            lighting: "natural light", mood: "joyful", setting: "cozy cafe",
+            _sceneObjects: [
+                { label: "Plush teddy bear", category: "props", location: "foreground", prominence: "secondary", color: "light brown", material: "soft fabric" },
+                { label: "Cozy sofa", category: "furniture", location: "center", prominence: "primary", color: "beige", material: "linen" }
+            ],
+            _semanticRelationships: [
+                { subject: "Child", action: "sitting between", object: "parents" },
+                { subject: "Child", action: "holding", object: "teddy bear" }
+            ]
         }
     },
     "business_team": {
@@ -215,7 +239,16 @@ const DEFAULT_PRESETS = {
                 { gender: "female", ethnicity: "east asian", age_group: "adult", hair_style: "bob cut", hair_color: "dark brown", expression: "smiling", pose: "sitting", clothing_style: "casual", clothing_type: "sweater", clothing_color: "beige" },
                 { gender: "male", ethnicity: "caucasian", age_group: "adult", hair_style: "messy", hair_color: "medium brown", expression: "smiling", pose: "sitting", clothing_style: "casual", clothing_type: "shirt", clothing_color: "white" }
             ],
-            lighting: "soft", mood: "peaceful", setting: "cozy cafe"
+            lighting: "soft", mood: "peaceful", setting: "cozy cafe",
+            _sceneObjects: [
+                { label: "Latte art cups", category: "props", location: "table", prominence: "secondary", color: "white ceramic", material: "porcelain" },
+                { label: "Croissants", category: "props", location: "table", prominence: "detail", color: "golden brown", state: "freshly baked" },
+                { label: "Rustic wooden table", category: "furniture", location: "center", prominence: "primary", color: "natural wood" }
+            ],
+            _semanticRelationships: [
+                { subject: "Couple", action: "sitting at", object: "rustic table" },
+                { subject: "Woman", action: "holding", object: "latte cup" }
+            ]
         }
     },
     "yoga_class": {
@@ -256,12 +289,22 @@ const DEFAULT_PRESETS = {
         }
     },
     "cyberpunk_rebel": {
-        name: "Cyberpunk Rebel", icon: "🌆", category: "portrait",
+        name: "Cyberpunk Rebel", icon: "�️", category: "portrait",
         description: "Futuristic cyberpunk character",
         data: {
             subject_type: "portrait", style: "sci-fi", era: "cyberpunk future", person_count: 1,
             persons: [{ gender: "androgynous", ethnicity: "east asian", age_group: "young adult", hair_style: "mohawk", hair_color: "pink", expression: "intense", clothing_style: "futuristic", clothing_type: "jacket", clothing_color: "black", eyewear: "mirrored sunglasses" }],
-            lighting: "neon", mood: "intense", setting: "futuristic city", time_of_day: "night"
+            lighting: "neon", mood: "intense", setting: "futuristic city", time_of_day: "night",
+            _sceneObjects: [
+                { label: "Holographic display", category: "props", location: "foreground", prominence: "secondary", color: "cyan and magenta", material: "light projection" },
+                { label: "Neon signs", category: "background", location: "background", prominence: "primary", color: "pink and blue", state: "glowing in rain" },
+                { label: "Cybernetic arm", category: "props", location: "arm", prominence: "detail", color: "chrome and LED", material: "metal" },
+                { label: "Wet streets", category: "background", location: "ground", prominence: "background", texture: "reflective puddles" }
+            ],
+            _semanticRelationships: [
+                { subject: "Rebel", action: "interacting with", object: "holographic display" },
+                { subject: "Neon lights", action: "reflecting off", object: "wet streets" }
+            ]
         }
     },
     "classical_beauty": {
@@ -387,7 +430,19 @@ const DEFAULT_PRESETS = {
     "dramatic_mountain": {
         name: "Dramatic Mountain", icon: "🏔️", category: "landscape",
         description: "Epic mountain at golden hour",
-        data: { subject_type: "landscape", style: "photorealistic", landscape_type: "mountain range", terrain: ["rocky", "snowy"], natural_elements: ["clouds", "sun rays"], time_of_day: "golden hour", lighting: "golden hour", mood: "epic" }
+        data: {
+            subject_type: "landscape", style: "photorealistic", landscape_type: "mountain range", terrain: "rocky, snowy", natural_elements: "clouds, sun rays", time_of_day: "golden hour", lighting: "golden hour", mood: "epic",
+            _sceneObjects: [
+                { label: "Snow-capped peak", category: "natural", location: "center", prominence: "primary", color: "white and grey", texture: "rugged rock" },
+                { label: "Alpine lake", category: "natural", location: "foreground", prominence: "secondary", color: "crystal blue", state: "mirror reflection" },
+                { label: "Pine forest", category: "natural", location: "midground", prominence: "secondary", color: "deep green" },
+                { label: "Golden sun rays", category: "lighting", location: "sky", prominence: "primary", color: "warm gold", state: "breaking through clouds" }
+            ],
+            _semanticRelationships: [
+                { subject: "Mountain", action: "reflected in", object: "alpine lake" },
+                { subject: "Sun rays", action: "illuminating", object: "mountain peak" }
+            ]
+        }
     },
     "misty_forest": {
         name: "Misty Forest", icon: "🌲", category: "landscape",
@@ -465,7 +520,19 @@ const DEFAULT_PRESETS = {
     "gothic_cathedral": {
         name: "Gothic Cathedral", icon: "⛪", category: "architecture",
         description: "Majestic gothic cathedral",
-        data: { subject_type: "architecture", building_type: "cathedral", arch_style: "gothic", arch_era: "medieval", lighting: "volumetric", mood: "mysterious" }
+        data: {
+            subject_type: "architecture", building_type: "cathedral", arch_style: "gothic", arch_era: "medieval", lighting: "volumetric", mood: "mysterious",
+            _sceneObjects: [
+                { label: "Rose window", category: "architectural", location: "facade", prominence: "primary", color: "stained glass colors", material: "colored glass", state: "light streaming through" },
+                { label: "Flying buttresses", category: "architectural", location: "sides", prominence: "secondary", color: "aged stone", material: "limestone" },
+                { label: "Gothic spires", category: "architectural", location: "top", prominence: "primary", color: "dark stone", state: "reaching toward sky" },
+                { label: "Gargoyles", category: "architectural", location: "corners", prominence: "detail", color: "weathered grey", material: "stone" }
+            ],
+            _semanticRelationships: [
+                { subject: "Light", action: "streaming through", object: "rose window" },
+                { subject: "Spires", action: "piercing", object: "cloudy sky" }
+            ]
+        }
     },
     "modern_skyscraper": {
         name: "Modern Skyscraper", icon: "🏙️", category: "architecture",
@@ -518,7 +585,20 @@ const DEFAULT_PRESETS = {
     "fine_dining": {
         name: "Fine Dining", icon: "🍽️", category: "food",
         description: "Elegant fine dining",
-        data: { subject_type: "food", cuisine_type: "french", food_style: "fine dining", plating: "fine dining arrangement", lighting: "soft" }
+        data: {
+            subject_type: "food", cuisine_type: "french", food_style: "fine dining", plating: "fine dining arrangement", lighting: "soft",
+            _sceneObjects: [
+                { label: "Gourmet main course", category: "food", location: "center", prominence: "primary", color: "artfully arranged", state: "steaming" },
+                { label: "Crystal wine glass", category: "props", location: "right", prominence: "secondary", color: "clear with red wine", material: "crystal" },
+                { label: "White porcelain plate", category: "props", location: "center", prominence: "primary", color: "pure white", material: "fine china" },
+                { label: "Silver cutlery", category: "props", location: "sides", prominence: "secondary", color: "polished silver", material: "sterling silver" },
+                { label: "Linen napkin", category: "props", location: "left", prominence: "detail", color: "cream", material: "linen", state: "elegantly folded" }
+            ],
+            _semanticRelationships: [
+                { subject: "Main course", action: "presented on", object: "white porcelain plate" },
+                { subject: "Sauce", action: "drizzled around", object: "dish" }
+            ]
+        }
     },
     "street_food_tokyo": {
         name: "Tokyo Street Food", icon: "🍜", category: "food",
@@ -533,7 +613,21 @@ const DEFAULT_PRESETS = {
     "sushi_art": {
         name: "Sushi Art", icon: "🍣", category: "food",
         description: "Artistic sushi presentation",
-        data: { subject_type: "food", cuisine_type: "japanese", food_style: "sushi", plating: "minimalist plating" }
+        data: {
+            subject_type: "food", cuisine_type: "japanese", food_style: "sushi", plating: "minimalist plating",
+            _sceneObjects: [
+                { label: "Assorted nigiri sushi", category: "food", location: "center", prominence: "primary", color: "salmon pink, tuna red, white fish", state: "freshly prepared" },
+                { label: "Wooden serving board", category: "props", location: "center", prominence: "primary", color: "natural wood", material: "hinoki cypress" },
+                { label: "Wasabi mound", category: "food", location: "corner", prominence: "detail", color: "vibrant green" },
+                { label: "Pickled ginger", category: "food", location: "corner", prominence: "detail", color: "pale pink" },
+                { label: "Soy sauce dish", category: "props", location: "side", prominence: "secondary", color: "black ceramic", material: "ceramic" },
+                { label: "Chopsticks", category: "props", location: "side", prominence: "secondary", color: "lacquered black", material: "bamboo" }
+            ],
+            _semanticRelationships: [
+                { subject: "Sushi pieces", action: "arranged on", object: "wooden board" },
+                { subject: "Chef's knife", action: "resting beside", object: "cutting board" }
+            ]
+        }
     },
     "dessert_heaven": {
         name: "Dessert Heaven", icon: "🍰", category: "food",
@@ -571,7 +665,19 @@ const DEFAULT_PRESETS = {
     "african_safari": {
         name: "African Safari", icon: "🦁", category: "wildlife",
         description: "Majestic lion on savanna",
-        data: { subject_type: "wildlife", animal_type: "big cat", habitat: "african savanna", animal_behavior: "alert", time_of_day: "golden hour" }
+        data: {
+            subject_type: "wildlife", animal_type: "big cat", habitat: "african savanna", animal_behavior: "alert", time_of_day: "golden hour",
+            _sceneObjects: [
+                { label: "Male lion", category: "animal", location: "center", prominence: "primary", color: "golden mane", state: "majestic stance" },
+                { label: "Acacia tree", category: "natural", location: "background", prominence: "secondary", color: "dark silhouette" },
+                { label: "Tall savanna grass", category: "natural", location: "foreground", prominence: "secondary", color: "golden dry grass" },
+                { label: "African sunset", category: "background", location: "horizon", prominence: "background", color: "orange and red", state: "blazing" }
+            ],
+            _semanticRelationships: [
+                { subject: "Lion", action: "surveying", object: "savanna territory" },
+                { subject: "Sun", action: "setting behind", object: "acacia tree" }
+            ]
+        }
     },
     "underwater_world": {
         name: "Underwater World", icon: "🐠", category: "wildlife",
@@ -624,12 +730,35 @@ const DEFAULT_PRESETS = {
     "luxury_watch": {
         name: "Luxury Watch", icon: "⌚", category: "product",
         description: "Premium watch shot",
-        data: { subject_type: "product", product_type: "watch", product_material: "gold", product_background: "reflective surface", quality_modifiers: "ultra detailed" }
+        data: {
+            subject_type: "product", product_type: "watch", product_material: "gold", product_background: "reflective surface", quality_modifiers: "ultra detailed",
+            _sceneObjects: [
+                { label: "Luxury gold watch", category: "product", location: "center", prominence: "primary", color: "rose gold", material: "18k gold", state: "pristine" },
+                { label: "Black velvet display", category: "background", location: "base", prominence: "background", color: "deep black", material: "velvet", texture: "soft" },
+                { label: "Subtle light reflections", category: "lighting", location: "surface", prominence: "detail", color: "golden highlights" }
+            ],
+            _semanticRelationships: [
+                { subject: "Watch", action: "resting on", object: "velvet display" },
+                { subject: "Light", action: "reflecting off", object: "polished gold surface" }
+            ]
+        }
     },
     "perfume_bottle": {
         name: "Perfume Elegance", icon: "🧴", category: "product",
         description: "Elegant perfume bottle",
-        data: { subject_type: "product", product_type: "perfume", product_material: "glass", product_background: "gradient", lighting: "dramatic" }
+        data: {
+            subject_type: "product", product_type: "perfume", product_material: "glass", product_background: "gradient", lighting: "dramatic",
+            _sceneObjects: [
+                { label: "Crystal perfume bottle", category: "product", location: "center", prominence: "primary", color: "amber liquid", material: "cut crystal", state: "catching light" },
+                { label: "Rose petals", category: "props", location: "scattered", prominence: "secondary", color: "soft pink", material: "fresh petals" },
+                { label: "Mist spray", category: "atmosphere", location: "air", prominence: "detail", color: "golden droplets", state: "frozen mid-spray" },
+                { label: "Marble surface", category: "background", location: "base", prominence: "background", color: "white with grey veins", material: "marble" }
+            ],
+            _semanticRelationships: [
+                { subject: "Perfume bottle", action: "standing on", object: "marble surface" },
+                { subject: "Rose petals", action: "scattered around", object: "bottle base" }
+            ]
+        }
     },
     "sneaker_showcase": {
         name: "Sneaker Showcase", icon: "👟", category: "product",
@@ -677,12 +806,39 @@ const DEFAULT_PRESETS = {
     "tokyo_neon": {
         name: "Tokyo Neon", icon: "🗼", category: "street",
         description: "Vibrant Tokyo night streets",
-        data: { subject_type: "street", street_type: "busy downtown", geographic_region: "tokyo japan", time_of_day: "night", lighting: "neon", weather: "light rain" }
+        data: {
+            subject_type: "street", street_type: "busy downtown", geographic_region: "tokyo japan", time_of_day: "night", lighting: "neon", weather: "light rain",
+            _sceneObjects: [
+                { label: "Neon signs in Japanese", category: "background", location: "buildings", prominence: "primary", color: "pink, blue, yellow", state: "glowing brightly" },
+                { label: "Wet pavement", category: "background", location: "ground", prominence: "secondary", color: "reflective", state: "reflecting neon lights" },
+                { label: "Vending machines", category: "props", location: "sidewalk", prominence: "secondary", color: "illuminated", state: "glowing" },
+                { label: "Umbrellas", category: "props", location: "crowd", prominence: "detail", color: "clear and colorful" },
+                { label: "Steam from grates", category: "atmosphere", location: "street level", prominence: "detail", color: "white mist" }
+            ],
+            _semanticRelationships: [
+                { subject: "Neon lights", action: "reflecting on", object: "wet pavement" },
+                { subject: "People", action: "walking through", object: "rainy street" },
+                { subject: "Steam", action: "rising from", object: "subway grates" }
+            ]
+        }
     },
     "paris_cafe": {
         name: "Paris Cafe", icon: "🗼", category: "street",
         description: "Parisian sidewalk cafe",
-        data: { subject_type: "street", street_type: "sidewalk cafe", geographic_region: "paris france", time_of_day: "afternoon", mood: "romantic" }
+        data: {
+            subject_type: "street", street_type: "sidewalk cafe", geographic_region: "paris france", time_of_day: "afternoon", mood: "romantic",
+            _sceneObjects: [
+                { label: "Bistro chairs", category: "furniture", location: "foreground", prominence: "primary", color: "classic rattan", material: "woven cane" },
+                { label: "Marble cafe tables", category: "furniture", location: "foreground", prominence: "primary", color: "white marble tops", material: "marble and iron" },
+                { label: "Espresso cups", category: "props", location: "tables", prominence: "detail", color: "white porcelain" },
+                { label: "Striped awning", category: "background", location: "above", prominence: "secondary", color: "red and white stripes" },
+                { label: "Haussmann building", category: "background", location: "background", prominence: "background", color: "cream stone", state: "classic Parisian" }
+            ],
+            _semanticRelationships: [
+                { subject: "Cafe", action: "spilling onto", object: "Parisian sidewalk" },
+                { subject: "Afternoon sun", action: "filtering through", object: "awning" }
+            ]
+        }
     },
     "new_york_hustle": {
         name: "New York Hustle", icon: "🗽", category: "street",
