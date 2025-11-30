@@ -3223,16 +3223,25 @@
                     // Get existing presets
                     const existingPresets = loadCustomPresets();
                     
-                    // Merge presets (avoid duplicates by ID, add new IDs for conflicts)
+                    // Merge presets (avoid duplicates by name or ID)
                     const mergedPresets = [...existingPresets];
                     const existingIds = new Set(existingPresets.map(p => p.id));
+                    const existingNames = new Set(existingPresets.map(p => p.name.toLowerCase()));
                     
+                    let skipped = 0;
                     importData.presets.forEach(preset => {
+                        // Skip if preset with same name already exists
+                        if (existingNames.has(preset.name.toLowerCase())) {
+                            skipped++;
+                            return;
+                        }
+                        // Generate new ID if ID already exists
                         if (existingIds.has(preset.id)) {
-                            // Generate new ID for duplicate
                             preset.id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
                         }
                         mergedPresets.push(preset);
+                        existingNames.add(preset.name.toLowerCase());
+                        existingIds.add(preset.id);
                     });
                     
                     // Save merged presets
