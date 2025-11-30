@@ -2856,9 +2856,19 @@
             formData.forEach((value, key) => {
                 if (value) data[key] = value;
             });
-            // Include multi-select values
+            
+            // Get current subject type to filter contextual fields
+            const currentSubjectTypes = multiSelectState['subject_type'] || [];
+            const currentSubjectType = currentSubjectTypes[0] || '';
+            const relevantContextFields = contextualFieldsMap[currentSubjectType] || [];
+            
+            // Include multi-select values, filtering out irrelevant contextual fields
             Object.keys(multiSelectState).forEach(key => {
                 if (multiSelectState[key] && multiSelectState[key].length > 0) {
+                    // Skip contextual fields that don't belong to current subject type
+                    if (allContextualFields.includes(key) && !relevantContextFields.includes(key)) {
+                        return; // Skip this field
+                    }
                     data[key + '_multi'] = multiSelectState[key];
                 }
             });
@@ -3817,6 +3827,21 @@
         // State for multi-select fields
         const multiSelectState = {};
         let activeDropdown = null;
+        
+        // Contextual fields mapping - which fields belong to which subject type
+        const contextualFieldsMap = {
+            'street': ['street_type', 'geographic_region'],
+            'landscape': ['landscape_type', 'terrain', 'natural_elements'],
+            'portrait': ['ethnicity', 'body_type', 'gender'],
+            'architecture': ['building_type', 'arch_style', 'arch_era'],
+            'food': ['cuisine_type', 'food_style', 'plating'],
+            'fashion': ['fashion_category', 'fashion_season', 'fashion_brand_style'],
+            'wildlife': ['animal_type', 'habitat', 'animal_behavior'],
+            'product': ['product_type', 'product_material', 'product_background']
+        };
+        
+        // Get all contextual field names
+        const allContextualFields = Object.values(contextualFieldsMap).flat();
         
         // Initialize all multi-selects from select elements
         function initAllMultiSelects() {
@@ -4932,20 +4957,14 @@
                 }
             });
             
-            // Contextual fields based on subject type
-            const contextMap = {
-                'street': ['street_type', 'geographic_region'],
-                'landscape': ['landscape_type', 'terrain', 'natural_elements'],
-                'portrait': ['ethnicity', 'body_type', 'gender'],
-                'architecture': ['building_type', 'arch_style', 'arch_era'],
-                'food': ['cuisine_type', 'food_style', 'plating'],
-                'fashion': ['fashion_category', 'fashion_season', 'fashion_brand_style'],
-                'wildlife': ['animal_type', 'habitat', 'animal_behavior'],
-                'product': ['product_type', 'product_material', 'product_background']
-            };
+            // Clear all contextual fields first, then set relevant ones
+            allContextualFields.forEach(field => {
+                multiSelectState[field] = [];
+            });
             
-            if (subjectType && contextMap[subjectType]) {
-                contextMap[subjectType].forEach(field => {
+            // Set contextual fields based on subject type
+            if (subjectType && contextualFieldsMap[subjectType]) {
+                contextualFieldsMap[subjectType].forEach(field => {
                     if (promptOptions[field]) {
                         multiSelectState[field] = getRandomItems(promptOptions[field], 1, 2);
                     }
@@ -5060,10 +5079,19 @@
                 // Collect data from multi-select state
                 const data = {};
                 
-                // Get all multi-select values
+                // Get current subject type to filter contextual fields
+                const currentSubjectTypes = multiSelectState['subject_type'] || [];
+                const currentSubjectType = currentSubjectTypes[0] || '';
+                const relevantContextFields = contextualFieldsMap[currentSubjectType] || [];
+                
+                // Get all multi-select values, filtering out irrelevant contextual fields
                 Object.keys(multiSelectState).forEach(key => {
                     const values = multiSelectState[key];
                     if (values && values.length > 0) {
+                        // Skip contextual fields that don't belong to current subject type
+                        if (allContextualFields.includes(key) && !relevantContextFields.includes(key)) {
+                            return; // Skip this field
+                        }
                         data[key] = values.join(', ');
                         data[key + '_array'] = values; // Keep array version too
                     }
