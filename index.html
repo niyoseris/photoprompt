@@ -4091,6 +4091,11 @@
                         const key = multiSelect.dataset.multiselect;
                         multiSelectState[key] = [];
                     }
+                    // Clear custom input values for hidden options
+                    const customInput = opt.querySelector('.custom-input');
+                    if (customInput) {
+                        customInput.value = '';
+                    }
                 }
             });
             
@@ -5109,10 +5114,17 @@
                 });
                 
                 // Process custom input values - they append to multi-select values
+                // Filter out custom inputs for irrelevant contextual fields
                 document.querySelectorAll('.custom-input').forEach(input => {
                     if (input.value.trim()) {
                         const baseKey = input.name.replace('_custom', '');
                         const customValue = input.value.trim();
+                        
+                        // Skip custom inputs for contextual fields that don't belong to current subject type
+                        if (allContextualFields.includes(baseKey) && !relevantContextFields.includes(baseKey)) {
+                            return; // Skip this custom input
+                        }
+                        
                         if (!data[baseKey] || data[baseKey] === '') {
                             data[baseKey] = customValue;
                         } else {
