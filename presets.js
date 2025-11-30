@@ -456,7 +456,20 @@ const DEFAULT_PRESETS = {
     "misty_forest": {
         name: "Misty Forest", icon: "🌲", category: "landscape",
         description: "Ethereal misty forest",
-        data: { subject_type: "landscape", style: "photorealistic", landscape_type: "misty forest", terrain: ["moss covered", "pine forest"], natural_elements: ["fog", "sun rays"], time_of_day: "early morning", lighting: "volumetric", mood: "mysterious" }
+        data: {
+            subject_type: "landscape", style: "photorealistic", landscape_type: "misty forest", terrain: "moss covered, pine forest", natural_elements: "fog, sun rays", time_of_day: "early morning", lighting: "volumetric", mood: "mysterious",
+            _sceneObjects: [
+                { label: "Ancient pine trees", category: "natural", location: "throughout", prominence: "primary", color: "dark green silhouettes", state: "towering" },
+                { label: "Morning mist", category: "atmosphere", location: "ground level", prominence: "primary", color: "ethereal white", state: "slowly drifting" },
+                { label: "Moss-covered rocks", category: "natural", location: "foreground", prominence: "secondary", color: "emerald green", texture: "soft and damp" },
+                { label: "Light rays", category: "lighting", location: "canopy", prominence: "secondary", color: "golden beams", state: "breaking through trees" },
+                { label: "Forest path", category: "natural", location: "center", prominence: "secondary", color: "earthy brown", state: "winding into mist" }
+            ],
+            _semanticRelationships: [
+                { subject: "Sunbeams", action: "piercing through", object: "forest canopy" },
+                { subject: "Mist", action: "swirling around", object: "tree trunks" }
+            ]
+        }
     },
     "tropical_paradise": {
         name: "Tropical Paradise", icon: "🏝️", category: "landscape",
@@ -659,7 +672,20 @@ const DEFAULT_PRESETS = {
     "morning_breakfast": {
         name: "Morning Breakfast", icon: "🥐", category: "food",
         description: "Cozy morning breakfast",
-        data: { subject_type: "food", food_style: "breakfast", plating: "rustic presentation", time_of_day: "morning" }
+        data: {
+            subject_type: "food", food_style: "breakfast", plating: "rustic presentation", time_of_day: "morning",
+            _sceneObjects: [
+                { label: "Stack of pancakes", category: "food", location: "center", prominence: "primary", color: "golden brown", state: "dripping with maple syrup" },
+                { label: "Fresh berries", category: "food", location: "top", prominence: "secondary", color: "red and blue", state: "fresh" },
+                { label: "Coffee cup", category: "props", location: "side", prominence: "secondary", color: "white ceramic", state: "steaming" },
+                { label: "Linen napkin", category: "props", location: "side", prominence: "detail", color: "cream", material: "linen" },
+                { label: "Morning sunlight", category: "lighting", location: "window", prominence: "background", color: "warm golden", state: "streaming in" }
+            ],
+            _semanticRelationships: [
+                { subject: "Maple syrup", action: "dripping down", object: "pancake stack" },
+                { subject: "Steam", action: "rising from", object: "coffee cup" }
+            ]
+        }
     },
     "indian_spices": {
         name: "Indian Spices", icon: "🍛", category: "food",
@@ -819,7 +845,19 @@ const DEFAULT_PRESETS = {
     "jewelry_display": {
         name: "Jewelry Display", icon: "💎", category: "product",
         description: "Sparkling jewelry",
-        data: { subject_type: "product", product_type: "jewelry", product_material: "crystal", product_background: "black seamless", quality_modifiers: "8K" }
+        data: {
+            subject_type: "product", product_type: "jewelry", product_material: "crystal", product_background: "black seamless", quality_modifiers: "8K",
+            _sceneObjects: [
+                { label: "Diamond necklace", category: "product", location: "center", prominence: "primary", color: "brilliant white diamonds", material: "platinum and diamonds", state: "catching light" },
+                { label: "Velvet jewelry box", category: "props", location: "base", prominence: "secondary", color: "deep navy", material: "velvet" },
+                { label: "Light sparkles", category: "lighting", location: "diamonds", prominence: "detail", color: "rainbow prisms", state: "dancing" },
+                { label: "Mirror surface", category: "background", location: "below", prominence: "background", color: "black reflective" }
+            ],
+            _semanticRelationships: [
+                { subject: "Diamonds", action: "refracting", object: "light into prisms" },
+                { subject: "Necklace", action: "draped over", object: "velvet display" }
+            ]
+        }
     },
     "cosmetics_flat": {
         name: "Cosmetics Flat Lay", icon: "💄", category: "product",
@@ -894,7 +932,20 @@ const DEFAULT_PRESETS = {
     "marrakech_souk": {
         name: "Marrakech Souk", icon: "🕌", category: "street",
         description: "Colorful Moroccan market",
-        data: { subject_type: "street", street_type: "bazaar", geographic_region: "marrakech morocco", color_palette: "jewel tones" }
+        data: {
+            subject_type: "street", street_type: "bazaar", geographic_region: "marrakech morocco", color_palette: "jewel tones",
+            _sceneObjects: [
+                { label: "Colorful spice mounds", category: "props", location: "stalls", prominence: "primary", color: "saffron yellow, paprika red, turmeric orange", state: "piled high" },
+                { label: "Hanging brass lanterns", category: "props", location: "above", prominence: "secondary", color: "golden brass", material: "pierced metalwork" },
+                { label: "Woven rugs", category: "props", location: "walls", prominence: "secondary", color: "rich reds and blues", material: "hand-woven wool" },
+                { label: "Ceramic tagines", category: "props", location: "displays", prominence: "secondary", color: "colorful glazed", material: "painted ceramic" },
+                { label: "Narrow alleyway", category: "background", location: "background", prominence: "background", state: "bustling with activity" }
+            ],
+            _semanticRelationships: [
+                { subject: "Sunlight", action: "filtering through", object: "hanging fabrics" },
+                { subject: "Merchants", action: "displaying", object: "colorful wares" }
+            ]
+        }
     },
     "london_rain": {
         name: "London Rain", icon: "☔", category: "street",
