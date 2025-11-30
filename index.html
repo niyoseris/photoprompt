@@ -5272,8 +5272,50 @@
         // Backend API URL
         const BACKEND_URL = 'https://niyo.link/pp';
         
+        // Spam protection - rate limiting
+        const SUBMISSION_COOLDOWN = 5000; // 5 seconds between submissions
+        let lastSubmissionTime = 0;
+        let submissionCount = 0;
+        const MAX_SUBMISSIONS_PER_MINUTE = 10;
+        let submissionResetTime = Date.now();
+        
+        function canSubmit() {
+            const now = Date.now();
+            
+            // Reset counter every minute
+            if (now - submissionResetTime > 60000) {
+                submissionCount = 0;
+                submissionResetTime = now;
+            }
+            
+            // Check rate limit
+            if (submissionCount >= MAX_SUBMISSIONS_PER_MINUTE) {
+                showNotification('Too many submissions. Please wait a minute.');
+                return false;
+            }
+            
+            // Check cooldown
+            if (now - lastSubmissionTime < SUBMISSION_COOLDOWN) {
+                const waitTime = Math.ceil((SUBMISSION_COOLDOWN - (now - lastSubmissionTime)) / 1000);
+                showNotification(`Please wait ${waitTime} seconds before generating again.`);
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function recordSubmission() {
+            lastSubmissionTime = Date.now();
+            submissionCount++;
+        }
+        
         // Send prompt data to backend
         async function sendToBackend(data) {
+            // Check if submission is allowed
+            if (!canSubmit()) {
+                return;
+            }
+            
             try {
                 const response = await fetch(`${BACKEND_URL}/api/prompts`, {
                     method: 'POST',
@@ -5287,6 +5329,10 @@
                     const result = await response.json();
                     console.log('Prompt sent to backend:', result);
                     updateBackendStatus(true);
+                    recordSubmission();
+                } else if (response.status === 429) {
+                    console.warn('Rate limited by server');
+                    showNotification('Too many requests. Please slow down.');
                 } else {
                     console.warn('Backend response not ok:', response.status);
                     updateBackendStatus(false);
