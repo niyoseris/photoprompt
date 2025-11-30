@@ -90,7 +90,16 @@ const DEFAULT_PRESETS = {
                 { gender: "female", ethnicity: "caucasian", age_group: "young adult", body_type: "slim", hair_style: "half up half down", hair_color: "light brown", expression: "gentle smile", clothing_style: "elegant", clothing_type: "gown", clothing_color: "white", makeup_style: "soft glam" },
                 { gender: "male", ethnicity: "caucasian", age_group: "young adult", body_type: "athletic", hair_style: "slicked back", hair_color: "dark brown", expression: "smiling", clothing_style: "formal", clothing_type: "suit", clothing_color: "black" }
             ],
-            lighting: "golden hour", mood: "romantic", setting: "japanese garden"
+            lighting: "golden hour", mood: "romantic", setting: "japanese garden",
+            _sceneObjects: [
+                { label: "Bridal bouquet", category: "props", location: "hands", prominence: "secondary", color: "white and blush", material: "fresh flowers" },
+                { label: "Wedding rings", category: "props", location: "hands", prominence: "detail", color: "gold", material: "precious metal" },
+                { label: "Flowing veil", category: "clothing", location: "bride", prominence: "secondary", color: "ivory", material: "delicate lace" }
+            ],
+            _semanticRelationships: [
+                { subject: "Bride", action: "holding", object: "bridal bouquet" },
+                { subject: "Groom", action: "holding hands with", object: "bride" }
+            ]
         }
     },
     "street_friends": {
@@ -542,7 +551,20 @@ const DEFAULT_PRESETS = {
     "japanese_temple": {
         name: "Japanese Temple", icon: "⛩️", category: "architecture",
         description: "Traditional Japanese temple",
-        data: { subject_type: "architecture", building_type: "temple", arch_style: "japanese", lighting: "golden hour", setting: "japanese garden", season: "autumn" }
+        data: {
+            subject_type: "architecture", building_type: "temple", arch_style: "japanese", lighting: "golden hour", setting: "japanese garden", season: "autumn",
+            _sceneObjects: [
+                { label: "Pagoda", category: "architectural", location: "center", prominence: "primary", color: "vermillion red", material: "wood" },
+                { label: "Torii gate", category: "architectural", location: "entrance", prominence: "secondary", color: "bright red", material: "wood" },
+                { label: "Maple trees", category: "natural", location: "surrounding", prominence: "secondary", color: "red and orange leaves", state: "autumn foliage" },
+                { label: "Stone lantern", category: "props", location: "path", prominence: "detail", color: "moss-covered grey", material: "stone" },
+                { label: "Koi pond", category: "natural", location: "foreground", prominence: "secondary", color: "clear water with orange koi" }
+            ],
+            _semanticRelationships: [
+                { subject: "Maple leaves", action: "falling around", object: "temple" },
+                { subject: "Koi", action: "swimming in", object: "pond" }
+            ]
+        }
     },
     "art_deco_building": {
         name: "Art Deco", icon: "🏛️", category: "architecture",
@@ -682,7 +704,19 @@ const DEFAULT_PRESETS = {
     "underwater_world": {
         name: "Underwater World", icon: "🐠", category: "wildlife",
         description: "Vibrant coral reef",
-        data: { subject_type: "wildlife", animal_type: "sea turtle", habitat: "coral reef", animal_behavior: "swimming", location: "underwater" }
+        data: {
+            subject_type: "wildlife", animal_type: "sea turtle", habitat: "coral reef", animal_behavior: "swimming", location: "underwater",
+            _sceneObjects: [
+                { label: "Green sea turtle", category: "animal", location: "center", prominence: "primary", color: "olive green shell", state: "gracefully swimming" },
+                { label: "Coral reef", category: "natural", location: "background", prominence: "secondary", color: "vibrant multicolor", state: "teeming with life" },
+                { label: "Tropical fish school", category: "animal", location: "around", prominence: "secondary", color: "yellow, blue, orange" },
+                { label: "Sunbeams", category: "lighting", location: "above", prominence: "detail", color: "golden rays", state: "penetrating water" }
+            ],
+            _semanticRelationships: [
+                { subject: "Sea turtle", action: "gliding through", object: "coral reef" },
+                { subject: "Fish", action: "swimming around", object: "turtle" }
+            ]
+        }
     },
     "arctic_expedition": {
         name: "Arctic Wildlife", icon: "🐻‍❄️", category: "wildlife",
@@ -763,7 +797,19 @@ const DEFAULT_PRESETS = {
     "sneaker_showcase": {
         name: "Sneaker Showcase", icon: "👟", category: "product",
         description: "Dynamic sneaker shot",
-        data: { subject_type: "product", product_type: "shoes", product_background: "floating", mood: "energetic" }
+        data: {
+            subject_type: "product", product_type: "shoes", product_background: "floating", mood: "energetic",
+            _sceneObjects: [
+                { label: "Limited edition sneakers", category: "product", location: "center", prominence: "primary", color: "white with neon accents", material: "leather and mesh", state: "brand new" },
+                { label: "Floating dust particles", category: "atmosphere", location: "around", prominence: "secondary", color: "golden", state: "suspended in air" },
+                { label: "Dramatic shadow", category: "lighting", location: "below", prominence: "detail", color: "dark" },
+                { label: "Splash of paint", category: "props", location: "background", prominence: "secondary", color: "neon pink and blue", state: "frozen motion" }
+            ],
+            _semanticRelationships: [
+                { subject: "Sneakers", action: "floating above", object: "dramatic shadow" },
+                { subject: "Paint splash", action: "frozen behind", object: "sneakers" }
+            ]
+        }
     },
     "tech_gadget": {
         name: "Tech Gadget", icon: "📱", category: "product",
