@@ -2871,6 +2871,14 @@
             if (Object.keys(customFields).length > 0) {
                 data._customFieldsConfig = customFields;
             }
+            // Include scene objects
+            if (sceneObjects.length > 0) {
+                data._sceneObjects = sceneObjects;
+            }
+            // Include semantic relationships
+            if (semanticRelationships.length > 0) {
+                data._semanticRelationships = semanticRelationships;
+            }
             return data;
         }
         
@@ -2973,6 +2981,24 @@
                 });
                 
                 setTimeout(() => renderPersonPanels(), 100);
+            }
+            
+            // Load scene objects
+            if (preset.data._sceneObjects && preset.data._sceneObjects.length > 0) {
+                sceneObjects = preset.data._sceneObjects.map(obj => ({...obj}));
+                renderObjects();
+            } else {
+                sceneObjects = [];
+                renderObjects();
+            }
+            
+            // Load semantic relationships
+            if (preset.data._semanticRelationships && preset.data._semanticRelationships.length > 0) {
+                semanticRelationships = preset.data._semanticRelationships.map(rel => ({...rel}));
+                renderRelationships();
+            } else {
+                semanticRelationships = [];
+                renderRelationships();
             }
             
             // Re-render all multi-selects
