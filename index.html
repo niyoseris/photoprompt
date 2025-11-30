@@ -2813,6 +2813,61 @@
             }
         }
 
+        // ==================== RESET ALL FIELDS ====================
+        
+        // Complete reset of all form fields and states
+        function resetAllFields() {
+            // 1. Reset the form
+            document.getElementById('promptForm').reset();
+            
+            // 2. Clear ALL multi-select states
+            Object.keys(multiSelectState).forEach(key => {
+                multiSelectState[key] = [];
+            });
+            
+            // 3. Clear all custom input values
+            document.querySelectorAll('.custom-input').forEach(input => {
+                input.value = '';
+            });
+            
+            // 4. Clear all text inputs and textareas
+            document.querySelectorAll('#promptForm textarea, #promptForm input[type="text"]').forEach(el => {
+                el.value = '';
+            });
+            
+            // 5. Reset scene objects
+            sceneObjects = [];
+            renderObjects();
+            
+            // 6. Reset semantic relationships
+            semanticRelationships = [];
+            renderRelationships();
+            
+            // 7. Reset person data
+            includePeople = false;
+            peopleType = 'specific';
+            personCount = 1;
+            personsData = [{}];
+            const checkbox = document.getElementById('includePeopleCheckbox');
+            if (checkbox) checkbox.checked = false;
+            const peopleContainer = document.getElementById('peopleOptionsContainer');
+            if (peopleContainer) peopleContainer.style.display = 'none';
+            
+            // 8. Hide contextual options
+            const contextualContainer = document.getElementById('contextualOptions');
+            if (contextualContainer) contextualContainer.style.display = 'none';
+            document.querySelectorAll('.context-option').forEach(opt => {
+                opt.style.display = 'none';
+            });
+            
+            // 9. Re-render all multi-selects to show empty state
+            document.querySelectorAll('.multi-select-wrapper').forEach(wrapper => {
+                const selectName = wrapper.dataset.multiselect;
+                const optionKey = wrapper.dataset.options;
+                renderMultiSelectDropdown(wrapper, selectName, optionKey);
+            });
+        }
+
         // ==================== CUSTOM PRESETS CRUD ====================
         
         // Load custom presets from localStorage
@@ -2940,13 +2995,8 @@
             
             if (!preset) return;
             
-            // Clear form first
-            document.getElementById('promptForm').reset();
-            
-            // Clear all multi-select states first
-            Object.keys(multiSelectState).forEach(key => {
-                multiSelectState[key] = [];
-            });
+            // Complete reset of all fields first
+            resetAllFields();
             
             // Load custom fields configuration if present
             if (preset.data._customFieldsConfig) {
@@ -4862,10 +4912,8 @@
         function loadPreset(name) {
             const preset = presets[name];
             
-            // Clear existing multi-select states first
-            Object.keys(multiSelectState).forEach(key => {
-                multiSelectState[key] = [];
-            });
+            // Complete reset of all fields first
+            resetAllFields();
             
             // Load preset values into multi-select state
             Object.keys(preset).forEach(key => {
@@ -4907,10 +4955,8 @@
                 return arr[Math.floor(Math.random() * arr.length)];
             };
             
-            // Clear existing states
-            Object.keys(multiSelectState).forEach(key => {
-                multiSelectState[key] = [];
-            });
+            // Complete reset of all fields first
+            resetAllFields();
             
             // Randomly select subject type first (single selection)
             const subjectType = getRandomItem(promptOptions.subject_type);
