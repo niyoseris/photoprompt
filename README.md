@@ -45,7 +45,13 @@ Dynamic options based on subject type:
 - **Street**: Street type, geographic region
 
 ### 💾 Preset System
-- **100+ Ready-to-Use Presets** in 10 categories
+- **130+ Ready-to-Use Presets** in 11 categories
+- **🔥 Trending Presets** - Viral styles from Twitter/X (2024-2025):
+  - Studio Ghibli Style, Action Figure Box, Cyberpunk Glow-Up
+  - Oil Painting, Magazine Cover, Surreal Dream
+  - Anime Action, Film Noir, 3D Marble Sculpture
+  - Pixar Character, Comic Book Hero, Vaporwave, Lo-Fi Album Cover
+  - And 15+ more viral styles with credits to original creators
 - Save your own custom presets
 - Export/Import presets as JSON
 - localStorage persistence
@@ -206,6 +212,15 @@ MIT License
 - **TONL Format**: [tonl-dev/tonl](https://github.com/tonl-dev/tonl)
 - **Fonts**: [Google Fonts](https://fonts.google.com/)
 - **CSS Framework**: [TailwindCSS](https://tailwindcss.com/)
+
+### 🔥 Trending Presets Sources
+- [@godofprompt](https://x.com/godofprompt) - ChatGPT Image Mastery Guide
+- [@JoshDance](https://x.com/JoshDance) - Ghibli Style Tutorial
+- [@patife](https://x.com/patife) - Action Figure Trend
+- [@heyBarsee](https://x.com/heyBarsee) - AI Image Examples
+- [@techhalla](https://x.com/techhalla) - Prompt Collections
+- [LightX Editor](https://lightxeditor.com) - AI Photo Editing Trends
+- [FelloAI](https://felloai.com) - AI Image Generation Guide
 
 ---
 

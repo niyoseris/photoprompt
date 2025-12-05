@@ -934,11 +934,24 @@
             font-size: 10px;
             color: var(--text-secondary);
             margin-top: 4px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+        }
+        
+        .preset-card-credit {
+            font-size: 9px;
+            color: var(--primary);
+            margin-top: 4px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+        
+        .preset-card.trending {
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+            border-color: rgba(245, 87, 108, 0.3);
+        }
+        
+        .preset-card.trending:hover {
+            border-color: #f5576c;
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.15) 0%, rgba(245, 87, 108, 0.15) 100%);
         }
         
         .person-badge {
@@ -1059,7 +1072,7 @@
                 <div class="preset-gallery mb-6 p-4" style="background: var(--bg-input); border-radius: 8px; border: 1px solid var(--border);">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-sm font-medium" style="color: var(--text-secondary);">
-                            📚 <span data-i18n="preset_gallery">Ready-to-Use Presets (100)</span>
+                            📚 <span data-i18n="preset_gallery">Ready-to-Use Presets (130+)</span>
                         </span>
                         <button onclick="togglePresetGallery()" class="preset-btn" id="toggleGalleryBtn">
                             ▼ <span data-i18n="show_presets">Show</span>
@@ -1068,6 +1081,7 @@
                     <div id="presetGalleryContent" style="display: none;">
                         <div class="preset-category-tabs" id="presetCategoryTabs">
                             <button class="preset-category-tab active" onclick="filterPresetCategory('all')">🌟 All</button>
+                            <button class="preset-category-tab" onclick="filterPresetCategory('trending')" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-color: #f5576c; color: #fff;">🔥 Trending</button>
                             <button class="preset-category-tab" onclick="filterPresetCategory('portrait')">👤 Portrait</button>
                             <button class="preset-category-tab" onclick="filterPresetCategory('landscape')">🏞️ Landscape</button>
                             <button class="preset-category-tab" onclick="filterPresetCategory('architecture')">🏛️ Architecture</button>
@@ -3807,10 +3821,11 @@
             });
             
             grid.innerHTML = filteredPresets.map(([key, preset]) => `
-                <div class="preset-card" onclick="loadDefaultPreset('${key}')">
+                <div class="preset-card ${preset.category === 'trending' ? 'trending' : ''}" onclick="loadDefaultPreset('${key}')" title="${preset.credit || preset.description}">
                     <div class="preset-card-icon">${preset.icon}</div>
                     <div class="preset-card-name">${preset.name}</div>
                     <div class="preset-card-desc">${preset.description}</div>
+                    ${preset.credit ? `<div class="preset-card-credit">📌 ${preset.credit}</div>` : ''}
                     ${preset.data.person_count > 1 ? `<div class="person-badge">👥 ${preset.data.person_count} people</div>` : ''}
                 </div>
             `).join('');
@@ -4782,6 +4797,9 @@
             if (data.quality_modifiers) parts.push(data.quality_modifiers);
             if (data.render_style) parts.push(data.render_style);
             if (data.additional_details) parts.push(data.additional_details);
+            
+            // Style modifiers (for trending presets)
+            if (data.style_modifiers) parts.push(data.style_modifiers);
             
             // Custom fields
             Object.keys(customFields).forEach(section => {
