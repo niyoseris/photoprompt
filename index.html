@@ -3086,7 +3086,9 @@
             
             // Load semantic relationships
             if (preset.data._semanticRelationships && preset.data._semanticRelationships.length > 0) {
-                semanticRelationships = preset.data._semanticRelationships.map(rel => ({...rel}));
+                semanticRelationships = preset.data._semanticRelationships
+                    .map(normalizeSemanticRelationship)
+                    .filter(rel => rel);
                 renderRelationships();
             } else {
                 semanticRelationships = [];
@@ -3508,6 +3510,18 @@
         }
         
         // Relationships functions
+        function normalizeSemanticRelationship(rel) {
+            if (!rel) return '';
+            if (typeof rel === 'string') return rel.trim();
+            if (typeof rel === 'object') {
+                const subject = (rel.subject || '').toString().trim();
+                const action = (rel.action || '').toString().trim();
+                const object = (rel.object || '').toString().trim();
+                return [subject, action, object].filter(Boolean).join(' ').trim();
+            }
+            return '';
+        }
+
         function addRelationship() {
             const input = document.getElementById('newRelationshipInput');
             const value = input.value.trim();

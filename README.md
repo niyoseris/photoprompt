@@ -45,7 +45,7 @@ Dynamic options based on subject type:
 - **Street**: Street type, geographic region
 
 ### 💾 Preset System
-- **130+ Ready-to-Use Presets** in 11 categories
+- **100 Ready-to-Use Presets** in 11 categories
 - **🔥 Trending Presets** - Viral styles from Twitter/X (2024-2025):
   - Studio Ghibli Style, Action Figure Box, Cyberpunk Glow-Up
   - Oil Painting, Magazine Cover, Surreal Dream
@@ -104,6 +104,25 @@ Open in browser: `http://localhost:5001`
 11. **Negative**: Select unwanted elements
 12. **Save**: Save settings as preset
 13. **Generate**: Get prompts in 4 different formats
+
+## 🔎 Before vs After (Why Presets + Relationships Matter)
+
+### Before
+A simple prompt with minimal structure (harder to control scene intent):
+
+```
+A young woman with red hair, golden hour, warm tones, coffee cup
+```
+
+### After
+Same idea, but with:
+- A preset (style + lighting + quality defaults)
+- Explicit objects
+- Explicit semantic relationships (who is doing what / where)
+
+A young woman with flowing red hair, cinematic style, portrait photography,
+golden hour, dramatic atmosphere, warm tones, with White ceramic Coffee Cup
+in the foreground, Subject is holding the coffee cup, Steam creates dreamy atmosphere
 
 ## Format Examples
 
@@ -169,6 +188,26 @@ in the foreground, Subject is holding the coffee cup
 --negative--
 blurry, low quality, distorted, deformed, ugly, watermark
 ```
+
+## 🧾 JSON Cheat-Sheet (Most Useful Fields)
+
+These are the fields most people use when integrating the generator output into other tools.
+
+| Field | Type | What it does | Example |
+|------|------|-------------|---------|
+| `prompt.subject.type` | string | High-level subject category (drives contextual options) | `"portrait"` |
+| `prompt.subject.description` | string | Main subject text | `"A young woman with flowing red hair"` |
+| `prompt.subject.style` | string | Overall style preset / rendering style | `"cinematic"` |
+| `prompt.atmosphere.mood` | string | Mood / vibe | `"dramatic"` |
+| `prompt.atmosphere.lighting` | string | Lighting intent | `"golden hour"` |
+| `prompt.environment.location` | string | Where the scene is | `"cozy cafe"` |
+| `prompt.era.period` | string | Historical period / era | `"1980s"` |
+| `prompt.technical.aspect_ratio` | string | Framing ratio | `"3:2"` |
+| `prompt.persons[]` | array | Multi-person descriptions (when enabled) | `[{"person":1,"gender":"female"}]` |
+| `objects[]` | array | Structured scene objects/props | `[{"label":"Coffee Cup","location":"Foreground"}]` |
+| `semantic_relationships[]` | array | Relationship strings (interaction/spatial intent) | `["Subject is holding the coffee cup"]` |
+| `negative_prompt[]` | array | Unwanted elements | `["blurry","watermark"]` |
+| `metadata.format_version` | string | Output format version for your parser | `"2.0"` |
 
 ## 🗂️ Project Structure
 

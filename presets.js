@@ -298,7 +298,7 @@ const DEFAULT_PRESETS = {
         }
     },
     "cyberpunk_rebel": {
-        name: "Cyberpunk Rebel", icon: "�️", category: "portrait",
+        name: "Cyberpunk Rebel", icon: "🦾", category: "portrait",
         description: "Futuristic cyberpunk character",
         data: {
             subject_type: "portrait", style: "sci-fi", era: "cyberpunk future", person_count: 1,
@@ -556,11 +556,6 @@ const DEFAULT_PRESETS = {
             ]
         }
     },
-    "modern_skyscraper": {
-        name: "Modern Skyscraper", icon: "🏙️", category: "architecture",
-        description: "Sleek modern skyscraper",
-        data: { subject_type: "architecture", building_type: "skyscraper", arch_style: "contemporary", lighting: "blue hour", camera_angle: "worm's eye" }
-    },
     "japanese_temple": {
         name: "Japanese Temple", icon: "⛩️", category: "architecture",
         description: "Traditional Japanese temple",
@@ -579,35 +574,15 @@ const DEFAULT_PRESETS = {
             ]
         }
     },
-    "art_deco_building": {
-        name: "Art Deco", icon: "🏛️", category: "architecture",
-        description: "Classic Art Deco architecture",
-        data: { subject_type: "architecture", building_type: "office tower", arch_style: "art deco", arch_era: "early 20th century", era: "1920s art deco" }
-    },
     "brutalist_concrete": {
         name: "Brutalist", icon: "🔲", category: "architecture",
         description: "Bold brutalist architecture",
         data: { subject_type: "architecture", building_type: "museum", arch_style: "brutalist", lighting: "overcast", color_palette: "monochrome" }
     },
-    "moroccan_palace": {
-        name: "Moroccan Palace", icon: "🕌", category: "architecture",
-        description: "Ornate Moroccan palace",
-        data: { subject_type: "architecture", building_type: "palace", arch_style: "islamic", color_palette: "jewel tones" }
-    },
-    "scandinavian_minimal": {
-        name: "Scandinavian Home", icon: "🏠", category: "architecture",
-        description: "Minimalist Scandinavian",
-        data: { subject_type: "architecture", building_type: "cottage", arch_style: "minimalist", mood: "peaceful" }
-    },
     "futuristic_building": {
         name: "Futuristic Building", icon: "🚀", category: "architecture",
         description: "Futuristic architecture",
         data: { subject_type: "architecture", building_type: "tower", arch_style: "futuristic", lighting: "neon", time_of_day: "night" }
-    },
-    "ancient_ruins": {
-        name: "Ancient Ruins", icon: "🏚️", category: "architecture",
-        description: "Atmospheric ancient ruins",
-        data: { subject_type: "architecture", building_type: "monument", arch_style: "classical", arch_era: "ancient", setting: "ancient ruins" }
     },
     "victorian_mansion": {
         name: "Victorian Mansion", icon: "🏰", category: "architecture",
@@ -635,16 +610,6 @@ const DEFAULT_PRESETS = {
             ]
         }
     },
-    "street_food_tokyo": {
-        name: "Tokyo Street Food", icon: "🍜", category: "food",
-        description: "Vibrant Tokyo street food",
-        data: { subject_type: "food", cuisine_type: "japanese", food_style: "street food", geographic_region: "tokyo japan", mood: "energetic" }
-    },
-    "italian_feast": {
-        name: "Italian Feast", icon: "🍝", category: "food",
-        description: "Traditional Italian meal",
-        data: { subject_type: "food", cuisine_type: "italian", food_style: "comfort food", plating: "family style" }
-    },
     "sushi_art": {
         name: "Sushi Art", icon: "🍣", category: "food",
         description: "Artistic sushi presentation",
@@ -664,11 +629,6 @@ const DEFAULT_PRESETS = {
             ]
         }
     },
-    "dessert_heaven": {
-        name: "Dessert Heaven", icon: "🍰", category: "food",
-        description: "Decadent dessert showcase",
-        data: { subject_type: "food", cuisine_type: "french", food_style: "dessert", plating: "artistic drizzle", color_palette: "pastel" }
-    },
     "morning_breakfast": {
         name: "Morning Breakfast", icon: "🥐", category: "food",
         description: "Cozy morning breakfast",
@@ -686,26 +646,6 @@ const DEFAULT_PRESETS = {
                 { subject: "Steam", action: "rising from", object: "coffee cup" }
             ]
         }
-    },
-    "indian_spices": {
-        name: "Indian Spices", icon: "🍛", category: "food",
-        description: "Vibrant Indian cuisine",
-        data: { subject_type: "food", cuisine_type: "indian", color_palette: "jewel tones" }
-    },
-    "cocktail_bar": {
-        name: "Cocktail Bar", icon: "🍸", category: "food",
-        description: "Elegant cocktail",
-        data: { subject_type: "food", food_style: "cocktails", lighting: "dramatic", time_of_day: "evening" }
-    },
-    "mexican_fiesta": {
-        name: "Mexican Fiesta", icon: "🌮", category: "food",
-        description: "Colorful Mexican food",
-        data: { subject_type: "food", cuisine_type: "mexican", food_style: "street food", color_palette: "vibrant" }
-    },
-    "cheese_board": {
-        name: "Cheese Board", icon: "🧀", category: "food",
-        description: "Artisanal cheese board",
-        data: { subject_type: "food", plating: "cheese board", color_palette: "earth tones" }
     },
 
     // ==================== WILDLIFE PRESETS (71-80) ====================
@@ -743,46 +683,6 @@ const DEFAULT_PRESETS = {
                 { subject: "Fish", action: "swimming around", object: "turtle" }
             ]
         }
-    },
-    "arctic_expedition": {
-        name: "Arctic Wildlife", icon: "🐻‍❄️", category: "wildlife",
-        description: "Polar bear in arctic",
-        data: { subject_type: "wildlife", animal_type: "bear", habitat: "arctic tundra", weather: "snow" }
-    },
-    "rainforest_birds": {
-        name: "Rainforest Birds", icon: "🦜", category: "wildlife",
-        description: "Colorful parrot",
-        data: { subject_type: "wildlife", animal_type: "parrot", habitat: "amazon rainforest", animal_behavior: "flying" }
-    },
-    "mountain_eagle": {
-        name: "Mountain Eagle", icon: "🦅", category: "wildlife",
-        description: "Eagle soaring",
-        data: { subject_type: "wildlife", animal_type: "bird of prey", habitat: "mountain peak", animal_behavior: "flying" }
-    },
-    "butterfly_garden": {
-        name: "Butterfly Garden", icon: "🦋", category: "wildlife",
-        description: "Macro butterfly",
-        data: { subject_type: "wildlife", animal_type: "butterfly", camera_settings: "macro", mood: "peaceful" }
-    },
-    "wolf_pack": {
-        name: "Wolf Pack", icon: "🐺", category: "wildlife",
-        description: "Wolf in snowy forest",
-        data: { subject_type: "wildlife", animal_type: "wolf", habitat: "temperate forest", weather: "snow", season: "winter" }
-    },
-    "ocean_giants": {
-        name: "Ocean Giants", icon: "🐋", category: "wildlife",
-        description: "Majestic whale",
-        data: { subject_type: "wildlife", animal_type: "whale", habitat: "deep ocean", mood: "serene" }
-    },
-    "jungle_primate": {
-        name: "Jungle Primate", icon: "🦍", category: "wildlife",
-        description: "Gorilla in misty jungle",
-        data: { subject_type: "wildlife", animal_type: "primate", habitat: "amazon rainforest", weather: "mist" }
-    },
-    "desert_fox": {
-        name: "Desert Fox", icon: "🦊", category: "wildlife",
-        description: "Fennec fox at sunset",
-        data: { subject_type: "wildlife", animal_type: "fox", habitat: "desert", time_of_day: "sunset" }
     },
 
     // ==================== PRODUCT PRESETS (81-90) ====================
@@ -837,11 +737,6 @@ const DEFAULT_PRESETS = {
             ]
         }
     },
-    "tech_gadget": {
-        name: "Tech Gadget", icon: "📱", category: "product",
-        description: "Modern tech product",
-        data: { subject_type: "product", product_type: "tech gadgets", product_material: "brushed aluminum", product_background: "white seamless" }
-    },
     "jewelry_display": {
         name: "Jewelry Display", icon: "💎", category: "product",
         description: "Sparkling jewelry",
@@ -858,31 +753,6 @@ const DEFAULT_PRESETS = {
                 { subject: "Necklace", action: "draped over", object: "velvet display" }
             ]
         }
-    },
-    "cosmetics_flat": {
-        name: "Cosmetics Flat Lay", icon: "💄", category: "product",
-        description: "Beauty products flat lay",
-        data: { subject_type: "product", product_type: "cosmetics", product_background: "marble slab", camera_angle: "bird's eye", color_palette: "pastel" }
-    },
-    "leather_bag": {
-        name: "Leather Bag", icon: "👜", category: "product",
-        description: "Luxury leather bag",
-        data: { subject_type: "product", product_type: "bags", product_material: "leather", color_palette: "earth tones" }
-    },
-    "sunglasses_shot": {
-        name: "Sunglasses", icon: "🕶️", category: "product",
-        description: "Stylish sunglasses",
-        data: { subject_type: "product", product_type: "eyewear", product_material: "metal", product_background: "gradient" }
-    },
-    "wine_bottle": {
-        name: "Wine Bottle", icon: "🍷", category: "product",
-        description: "Elegant wine bottle",
-        data: { subject_type: "product", product_type: "beverages", product_material: "glass", product_background: "wooden table", lighting: "dramatic" }
-    },
-    "headphones_hero": {
-        name: "Headphones Hero", icon: "🎧", category: "product",
-        description: "Premium headphones",
-        data: { subject_type: "product", product_type: "electronics", product_material: "matte black", product_background: "black seamless", lighting: "rim light" }
     },
 
     // ==================== STREET PHOTOGRAPHY PRESETS (91-100) ====================
@@ -924,11 +794,6 @@ const DEFAULT_PRESETS = {
             ]
         }
     },
-    "new_york_hustle": {
-        name: "New York Hustle", icon: "🗽", category: "street",
-        description: "Busy New York streets",
-        data: { subject_type: "street", street_type: "busy downtown", geographic_region: "new york usa", time_of_day: "morning", crowd: "busy crowd" }
-    },
     "marrakech_souk": {
         name: "Marrakech Souk", icon: "🕌", category: "street",
         description: "Colorful Moroccan market",
@@ -947,11 +812,6 @@ const DEFAULT_PRESETS = {
             ]
         }
     },
-    "london_rain": {
-        name: "London Rain", icon: "☔", category: "street",
-        description: "Rainy London streets",
-        data: { subject_type: "street", street_type: "historic district", geographic_region: "london uk", weather: "light rain", mood: "melancholic" }
-    },
     "hong_kong_density": {
         name: "Hong Kong Density", icon: "🏙️", category: "street",
         description: "Dense Hong Kong scene",
@@ -961,11 +821,6 @@ const DEFAULT_PRESETS = {
         name: "Havana Vintage", icon: "🚗", category: "street",
         description: "Colorful Havana streets",
         data: { subject_type: "street", street_type: "residential street", geographic_region: "havana cuba", time_of_day: "golden hour", mood: "nostalgic", color_palette: "vibrant" }
-    },
-    "amsterdam_canals": {
-        name: "Amsterdam Canals", icon: "🚲", category: "street",
-        description: "Picturesque Amsterdam",
-        data: { subject_type: "street", geographic_region: "amsterdam netherlands", time_of_day: "afternoon", season: "spring" }
     },
     "istanbul_bazaar": {
         name: "Istanbul Bazaar", icon: "🕌", category: "street",
