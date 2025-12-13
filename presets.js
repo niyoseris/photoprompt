@@ -827,394 +827,400 @@ const DEFAULT_PRESETS = {
         description: "Historic Istanbul bazaar",
         data: { subject_type: "street", street_type: "bazaar", geographic_region: "istanbul turkey", lighting: "natural light", color_palette: "warm tones" }
     },
-    "seoul_nightlife": {
-        name: "Seoul Nightlife", icon: "🌃", category: "street",
-        description: "Vibrant Seoul night scene",
-        data: { subject_type: "street", street_type: "night market", geographic_region: "seoul korea", time_of_day: "night", lighting: "neon", mood: "energetic" }
-    },
+	    "seoul_nightlife": {
+	        name: "Seoul Nightlife", icon: "🌃", category: "street",
+	        description: "Vibrant Seoul night scene",
+	        data: { subject_type: "street", street_type: "night market", geographic_region: "seoul korea", time_of_day: "night", lighting: "neon", mood: "energetic" }
+	    },
 
-    // ==================== VIRAL TRENDING PRESETS (Twitter/X 2024-2025) ====================
-    // Credits: @godofprompt, @JoshDance, @patife, @heyBarsee, @techhalla, LightX, FelloAI
-    
-    "ghibli_style": {
-        name: "Studio Ghibli Style", icon: "🌸", category: "trending",
-        description: "Viral Ghibli anime aesthetic - soft, dreamy, storybook vibes",
-        credit: "@JoshDance, @heyBarsee on X",
-        data: {
-            subject_type: "portrait", style: "anime", person_count: 1,
-            persons: [{ gender: "female", age_group: "young adult", hair_style: "long flowing", hair_color: "dark brown", expression: "gentle smile", pose: "candid", clothing_style: "casual", clothing_type: "dress", clothing_color: "soft blue" }],
-            lighting: "soft", mood: "dreamy", color_palette: "pastel", setting: "countryside",
-            style_modifiers: "Studio Ghibli style, hand-drawn anime aesthetic, soft watercolor textures, whimsical atmosphere, Hayao Miyazaki inspired, detailed background art, warm nostalgic feeling",
-            _sceneObjects: [
-                { label: "Floating clouds", category: "atmosphere", location: "sky", prominence: "background", color: "fluffy white", state: "gently drifting" },
-                { label: "Wildflowers", category: "natural", location: "foreground", prominence: "secondary", color: "soft pastels", state: "swaying in breeze" },
-                { label: "Distant hills", category: "landscape", location: "background", prominence: "background", color: "soft green and blue" }
-            ]
-        }
-    },
-    "action_figure_box": {
-        name: "Action Figure Box", icon: "📦", category: "trending",
-        description: "Viral toy packaging trend - turn into collectible action figure",
-        credit: "@patife on X, LightX",
-        data: {
-            subject_type: "product", style: "photorealistic", person_count: 1,
-            persons: [{ gender: "male", age_group: "adult", body_type: "athletic", hair_style: "short cropped", hair_color: "dark brown", expression: "confident", pose: "action pose", clothing_style: "casual", clothing_type: "jacket", clothing_color: "black" }],
-            lighting: "studio lighting", mood: "playful", color_palette: "vibrant",
-            style_modifiers: "packaged action figure toy, plastic blister packaging, cardboard backing with character name, toy accessories beside figure, retail toy store display, highly detailed miniature, collectible figurine, 1/6 scale figure",
-            _sceneObjects: [
-                { label: "Blister packaging", category: "props", location: "surrounding", prominence: "primary", color: "clear plastic", material: "transparent plastic" },
-                { label: "Cardboard backing", category: "props", location: "background", prominence: "primary", color: "colorful printed", material: "glossy cardboard" },
-                { label: "Toy accessories", category: "props", location: "beside figure", prominence: "secondary", color: "matching theme", state: "neatly arranged" },
-                { label: "Price tag", category: "props", location: "corner", prominence: "detail", color: "white", state: "retail style" }
-            ]
-        }
-    },
-    "cyberpunk_portrait": {
-        name: "Cyberpunk Glow-Up", icon: "🌆", category: "trending",
-        description: "Neon-lit futuristic sci-fi portrait with glowing effects",
-        credit: "@godofprompt, viral on X",
-        data: {
-            subject_type: "portrait", style: "sci-fi", era: "cyberpunk future", person_count: 1,
-            persons: [{ gender: "female", ethnicity: "east asian", age_group: "young adult", hair_style: "bob cut", hair_color: "neon blue", expression: "intense", pose: "profile view", clothing_style: "futuristic", clothing_type: "jacket", clothing_color: "black with neon trim" }],
-            lighting: "neon", mood: "intense", color_palette: "neon", setting: "futuristic city", time_of_day: "night",
-            style_modifiers: "cyberpunk aesthetic, neon glow effects, rain-soaked streets, holographic elements, LED accents, futuristic HUD overlay, blade runner inspired, high contrast lighting",
-            _sceneObjects: [
-                { label: "Neon signs", category: "background", location: "background", prominence: "primary", color: "pink and cyan", state: "glowing intensely" },
-                { label: "Rain droplets", category: "atmosphere", location: "throughout", prominence: "secondary", state: "falling, catching neon light" },
-                { label: "Holographic ads", category: "background", location: "midground", prominence: "secondary", color: "blue and purple", material: "light projection" },
-                { label: "Wet streets", category: "background", location: "ground", prominence: "background", texture: "reflective puddles with neon reflections" }
-            ]
-        }
-    },
-    "oil_painting_portrait": {
-        name: "Classic Oil Painting", icon: "🎨", category: "trending",
-        description: "Transform photo into timeless oil painting masterpiece",
-        credit: "@godofprompt, viral art style",
-        data: {
-            subject_type: "portrait", style: "renaissance", person_count: 1,
-            persons: [{ gender: "female", ethnicity: "caucasian", age_group: "adult", hair_style: "long flowing", hair_color: "auburn", expression: "contemplative", pose: "three-quarter view", clothing_style: "elegant", clothing_type: "dress", clothing_color: "deep burgundy" }],
-            lighting: "rembrandt lighting", mood: "serene", color_palette: "warm tones",
-            style_modifiers: "classical oil painting, visible brushstrokes, rich textures, old masters technique, museum quality, baroque lighting, canvas texture, gallery worthy, Rembrandt inspired chiaroscuro"
-        }
-    },
-    "magazine_cover": {
-        name: "Magazine Cover Edit", icon: "📰", category: "trending",
-        description: "High-end editorial magazine cover aesthetic",
-        credit: "@godofprompt, editorial trend",
-        data: {
-            subject_type: "fashion", style: "photorealistic", person_count: 1,
-            persons: [{ gender: "female", ethnicity: "african", age_group: "young adult", body_type: "model physique", hair_style: "natural curls", hair_color: "black", expression: "confident", pose: "formal pose", clothing_style: "haute couture", clothing_type: "gown", clothing_color: "metallic gold", makeup_style: "editorial" }],
-            lighting: "studio lighting", mood: "glamorous", color_palette: "high contrast",
-            style_modifiers: "Vogue magazine cover, high fashion editorial, professional retouching, perfect skin, dramatic makeup, luxury branding aesthetic, glossy magazine quality, fashion photography"
-        }
-    },
-    "surreal_dreamscape": {
-        name: "Surreal Dream Filter", icon: "🌙", category: "trending",
-        description: "Whimsical surrealist art with dreamlike distortions",
-        credit: "@godofprompt, surrealist trend",
-        data: {
-            subject_type: "portrait", style: "fantasy", person_count: 1,
-            persons: [{ gender: "female", age_group: "young adult", hair_style: "long flowing", hair_color: "silver", expression: "peaceful", pose: "floating", clothing_style: "ethereal", clothing_type: "dress", clothing_color: "white" }],
-            lighting: "soft", mood: "dreamy", color_palette: "pastel",
-            style_modifiers: "Salvador Dali inspired, melting elements, impossible geometry, floating objects, soft pastel colors, dreamcore aesthetic, ethereal atmosphere, clouds and stars mixed",
-            _sceneObjects: [
-                { label: "Floating islands", category: "surreal", location: "background", prominence: "secondary", state: "defying gravity" },
-                { label: "Oversized flowers", category: "surreal", location: "foreground", prominence: "secondary", color: "soft pink and purple" },
-                { label: "Liquid sky", category: "atmosphere", location: "sky", prominence: "background", color: "gradient pastels", state: "melting and flowing" }
-            ]
-        }
-    },
-    "anime_action_scene": {
-        name: "Anime Action Scene", icon: "⚡", category: "trending",
-        description: "Dynamic anime style with action effects and speed lines",
-        credit: "@godofprompt, anime trend",
-        data: {
-            subject_type: "portrait", style: "anime", person_count: 1,
-            persons: [{ gender: "male", age_group: "teenager", body_type: "athletic", hair_style: "spiky", hair_color: "black with highlights", expression: "determined", pose: "action pose", clothing_style: "casual", clothing_type: "jacket", clothing_color: "red" }],
-            lighting: "dramatic", mood: "intense", color_palette: "vibrant",
-            style_modifiers: "anime art style, dynamic action pose, speed lines, energy aura, dramatic shading, manga illustration, bold outlines, cel shading, shonen anime aesthetic"
-        }
-    },
-    "film_noir": {
-        name: "Film Noir Treatment", icon: "🎬", category: "trending",
-        description: "Classic black and white noir with dramatic shadows",
-        credit: "@godofprompt, noir aesthetic",
-        data: {
-            subject_type: "portrait", style: "noir", person_count: 1,
-            persons: [{ gender: "male", ethnicity: "caucasian", age_group: "adult", hair_style: "slicked back", hair_color: "dark brown", expression: "mysterious", pose: "profile view", clothing_style: "vintage", clothing_type: "suit", clothing_color: "charcoal", hat: "fedora" }],
-            lighting: "chiaroscuro", mood: "mysterious", color_palette: "black and white",
-            style_modifiers: "1940s film noir, high contrast black and white, venetian blind shadows, cigarette smoke, moody atmosphere, detective movie aesthetic, dramatic lighting"
-        }
-    },
-    "3d_sculpture_marble": {
-        name: "3D Marble Sculpture", icon: "🗿", category: "trending",
-        description: "Transform into classical marble statue sculpture",
-        credit: "@godofprompt, sculpture trend",
-        data: {
-            subject_type: "portrait", style: "photorealistic", person_count: 1,
-            persons: [{ gender: "male", ethnicity: "mediterranean", age_group: "adult", body_type: "athletic", hair_style: "curly", hair_color: "white marble", expression: "stoic", pose: "heroic" }],
-            lighting: "museum lighting", mood: "epic", color_palette: "monochrome",
-            style_modifiers: "classical marble sculpture, Michelangelo style, museum display, white Carrara marble, chiseled details, Greek god aesthetic, pedestal display, dramatic museum lighting, Renaissance sculpture"
-        }
-    },
-    "golden_hour_glow": {
-        name: "Golden Hour Magic", icon: "🌅", category: "trending",
-        description: "Perfect sunset lighting with warm golden tones",
-        credit: "@godofprompt, photography trend",
-        data: {
-            subject_type: "portrait", style: "cinematic", person_count: 1,
-            persons: [{ gender: "female", age_group: "young adult", hair_style: "beach waves", hair_color: "golden blonde", expression: "peaceful", pose: "candid", clothing_style: "bohemian", clothing_type: "dress", clothing_color: "white" }],
-            lighting: "golden hour", mood: "romantic", color_palette: "warm tones", time_of_day: "sunset",
-            style_modifiers: "golden hour photography, warm sunlight, lens flare, backlit silhouette, sun-kissed skin, romantic atmosphere, natural outdoor lighting, Instagram aesthetic"
-        }
-    },
-    "polaroid_retro": {
-        name: "Retro Polaroid", icon: "📸", category: "trending",
-        description: "Vintage Polaroid instant camera aesthetic",
-        credit: "LightX, retro photography trend",
-        data: {
-            subject_type: "portrait", style: "vintage", era: "1980s", person_count: 1,
-            persons: [{ gender: "female", age_group: "young adult", hair_style: "wavy", hair_color: "brown", expression: "candid", pose: "candid", clothing_style: "vintage", clothing_type: "sweater", clothing_color: "cream" }],
-            lighting: "natural light", mood: "nostalgic", color_palette: "vintage",
-            style_modifiers: "Polaroid instant photo, white border frame, slightly faded colors, light leak effects, vintage grain, 1980s aesthetic, analog photography look, warm vintage tones"
-        }
-    },
-    "pixel_art_retro": {
-        name: "8-Bit Pixel Art", icon: "👾", category: "trending",
-        description: "Retro video game pixel art style",
-        credit: "viral gaming aesthetic",
-        data: {
-            subject_type: "portrait", style: "pixel art", person_count: 1,
-            persons: [{ gender: "male", age_group: "young adult", expression: "determined", clothing_style: "casual" }],
-            lighting: "flat", mood: "playful", color_palette: "vibrant",
-            style_modifiers: "16-bit pixel art, retro video game sprite, limited color palette, blocky pixels, NES/SNES era aesthetic, nostalgic gaming look, chiptune vibes"
-        }
-    },
-    "vaporwave_aesthetic": {
-        name: "Vaporwave Dream", icon: "🌴", category: "trending",
-        description: "80s/90s aesthetic with neon pink and teal",
-        credit: "vaporwave aesthetic trend",
-        data: {
-            subject_type: "portrait", style: "digital art", era: "1980s", person_count: 1,
-            persons: [{ gender: "female", age_group: "young adult", hair_style: "long flowing", hair_color: "pink", expression: "mysterious", clothing_style: "retro", clothing_type: "jacket", clothing_color: "purple" }],
-            lighting: "neon", mood: "dreamy", color_palette: "neon",
-            style_modifiers: "vaporwave aesthetic, pink and cyan neon, Greek statue elements, palm trees, sunset gradients, retro 80s vibes, synthwave, lo-fi hip hop visual style, VHS glitch effects",
-            _sceneObjects: [
-                { label: "Greek columns", category: "props", location: "background", prominence: "secondary", color: "white marble with pink glow" },
-                { label: "Palm trees", category: "natural", location: "sides", prominence: "secondary", color: "silhouette with neon outline" },
-                { label: "Grid floor", category: "background", location: "ground", prominence: "background", color: "neon pink lines", state: "perspective grid" }
-            ]
-        }
-    },
-    "disney_pixar_character": {
-        name: "Pixar Character Style", icon: "🎭", category: "trending",
-        description: "3D animated character in Pixar/Disney style",
-        credit: "@godofprompt, Pixar trend",
-        data: {
-            subject_type: "portrait", style: "3d cartoon", person_count: 1,
-            persons: [{ gender: "female", age_group: "young adult", body_type: "average", hair_style: "ponytail", hair_color: "brown", expression: "smiling", pose: "expressive", clothing_style: "casual", clothing_type: "t-shirt", clothing_color: "teal" }],
-            lighting: "soft", mood: "joyful", color_palette: "vibrant",
-            style_modifiers: "Pixar 3D animation style, Disney character design, big expressive eyes, smooth 3D render, subsurface skin scattering, stylized proportions, Toy Story/Incredibles aesthetic, cute and appealing"
-        }
-    },
-    "comic_book_hero": {
-        name: "Comic Book Hero", icon: "💥", category: "trending",
-        description: "Bold comic book illustration style",
-        credit: "Marvel/DC comic aesthetic",
-        data: {
-            subject_type: "portrait", style: "comic book", person_count: 1,
-            persons: [{ gender: "male", age_group: "adult", body_type: "muscular", hair_style: "short cropped", hair_color: "black", expression: "determined", pose: "heroic", clothing_style: "superhero", clothing_type: "uniform", clothing_color: "blue and red" }],
-            lighting: "dramatic", mood: "epic", color_palette: "vibrant",
-            style_modifiers: "Marvel comic book style, bold ink outlines, halftone dots, dynamic pose, action comic panel, vibrant flat colors, superhero aesthetic, Jim Lee inspired art"
-        }
-    },
-    "watercolor_portrait": {
-        name: "Soft Watercolor", icon: "💧", category: "trending",
-        description: "Delicate watercolor painting with soft edges",
-        credit: "artistic illustration trend",
-        data: {
-            subject_type: "portrait", style: "watercolor", person_count: 1,
-            persons: [{ gender: "female", age_group: "adult", hair_style: "loose bun", hair_color: "auburn", expression: "peaceful", pose: "relaxed", clothing_style: "casual", clothing_type: "blouse", clothing_color: "soft blue" }],
-            lighting: "soft", mood: "serene", color_palette: "pastel",
-            style_modifiers: "watercolor painting, soft wet edges, paper texture, color bleeding effects, artistic brush strokes, loose illustration style, delicate and ethereal"
-        }
-    },
-    "baroque_portrait": {
-        name: "Baroque Masterpiece", icon: "👑", category: "trending",
-        description: "Ornate baroque style with rich fabrics and drama",
-        credit: "FelloAI, classical art trend",
-        data: {
-            subject_type: "portrait", style: "renaissance", era: "baroque", person_count: 1,
-            persons: [{ gender: "female", ethnicity: "caucasian", age_group: "adult", hair_style: "elaborate updo", hair_color: "dark brown", expression: "regal", pose: "formal pose", clothing_style: "traditional", clothing_type: "gown", clothing_color: "deep red velvet", earrings: "pearl drop earrings", necklace: "pearl necklace" }],
-            lighting: "rembrandt lighting", mood: "dramatic", color_palette: "jewel tones",
-            style_modifiers: "baroque painting, Caravaggio lighting, rich velvet textures, gold leaf accents, dramatic chiaroscuro, royal portrait, museum masterpiece, ornate details"
-        }
-    },
-    "double_exposure": {
-        name: "Double Exposure Art", icon: "🌳", category: "trending",
-        description: "Artistic double exposure with nature overlay",
-        credit: "photography trend",
-        data: {
-            subject_type: "portrait", style: "artistic", person_count: 1,
-            persons: [{ gender: "female", age_group: "young adult", hair_style: "long flowing", expression: "peaceful", pose: "profile view" }],
-            lighting: "soft", mood: "dreamy", color_palette: "monochrome",
-            style_modifiers: "double exposure photography, silhouette filled with forest, trees and nature overlay, ethereal blend, artistic portrait, two images merged, environmental portrait",
-            _sceneObjects: [
-                { label: "Forest trees", category: "overlay", location: "inside silhouette", prominence: "primary", state: "blending with portrait" },
-                { label: "Birds flying", category: "overlay", location: "scattered", prominence: "secondary", state: "silhouettes" }
-            ]
-        }
-    },
-    "lo_fi_album_cover": {
-        name: "Lo-Fi Album Cover", icon: "🎧", category: "trending",
-        description: "Cozy lo-fi aesthetic for music/study vibes",
-        credit: "lo-fi hip hop trend",
-        data: {
-            subject_type: "portrait", style: "anime", person_count: 1,
-            persons: [{ gender: "female", age_group: "teenager", hair_style: "messy bun", hair_color: "dark brown", expression: "focused", pose: "sitting", clothing_style: "casual", clothing_type: "hoodie", clothing_color: "oversized grey" }],
-            lighting: "soft", mood: "peaceful", color_palette: "warm tones", time_of_day: "night",
-            style_modifiers: "lo-fi hip hop aesthetic, anime study girl, cozy room, warm lighting, headphones on, desk with books, rainy window, late night study vibes, chill beats aesthetic",
-            _sceneObjects: [
-                { label: "Desk lamp", category: "props", location: "desk", prominence: "secondary", color: "warm orange glow" },
-                { label: "Coffee cup", category: "props", location: "desk", prominence: "detail", state: "steaming" },
-                { label: "Rainy window", category: "background", location: "behind", prominence: "secondary", state: "rain droplets on glass" },
-                { label: "Plants", category: "props", location: "windowsill", prominence: "detail", color: "green" }
-            ]
-        }
-    },
-    "ukiyo_e_japanese": {
-        name: "Ukiyo-e Japanese Art", icon: "🗾", category: "trending",
-        description: "Traditional Japanese woodblock print style",
-        credit: "FelloAI, Japanese art trend",
-        data: {
-            subject_type: "portrait", style: "traditional", era: "edo period", person_count: 1,
-            persons: [{ gender: "female", ethnicity: "east asian", age_group: "adult", hair_style: "traditional updo", hair_color: "black", expression: "serene", clothing_style: "traditional", clothing_type: "robe", clothing_color: "deep blue with patterns" }],
-            lighting: "flat", mood: "serene", color_palette: "muted",
-            style_modifiers: "ukiyo-e woodblock print, Hokusai inspired, flat color areas, black outlines, traditional Japanese art, Edo period aesthetic, wave patterns, cherry blossoms"
-        }
-    },
-    "synthwave_retrowave": {
-        name: "Synthwave Driver", icon: "🚗", category: "trending",
-        description: "Retro-futuristic synthwave car scene",
-        credit: "synthwave aesthetic trend",
-        data: {
-            subject_type: "landscape", style: "digital art",
-            lighting: "neon", mood: "intense", color_palette: "neon", time_of_day: "night",
-            style_modifiers: "synthwave aesthetic, 80s retro-futurism, neon grid, sunset gradient sky, chrome sports car, palm trees, outrun aesthetic, retrowave, neon pink and blue",
-            _sceneObjects: [
-                { label: "Chrome sports car", category: "vehicle", location: "center", prominence: "primary", color: "reflective chrome with neon glow" },
-                { label: "Neon grid road", category: "background", location: "ground", prominence: "secondary", color: "glowing magenta lines" },
-                { label: "Gradient sunset", category: "background", location: "sky", prominence: "background", color: "orange to purple to pink" },
-                { label: "Palm tree silhouettes", category: "natural", location: "sides", prominence: "secondary", color: "black silhouette" },
-                { label: "Distant city", category: "background", location: "horizon", prominence: "background", color: "neon skyline" }
-            ]
-        }
-    },
-    "glitch_art": {
-        name: "Glitch Art Effect", icon: "📺", category: "trending",
-        description: "Digital glitch aesthetic with RGB split",
-        credit: "digital art trend",
-        data: {
-            subject_type: "portrait", style: "digital art", person_count: 1,
-            persons: [{ gender: "androgynous", age_group: "young adult", hair_style: "short cropped", expression: "neutral", clothing_style: "futuristic" }],
-            lighting: "harsh", mood: "intense", color_palette: "high contrast",
-            style_modifiers: "glitch art, RGB color split, scan lines, digital corruption, VHS distortion, databending effect, cyberpunk aesthetic, broken pixels, chromatic aberration"
-        }
-    },
-    "miniature_diorama": {
-        name: "Miniature World", icon: "🔍", category: "trending",
-        description: "Tilt-shift miniature diorama effect",
-        credit: "photography trend",
-        data: {
-            subject_type: "landscape", style: "photorealistic",
-            lighting: "natural light", mood: "whimsical", color_palette: "vibrant",
-            style_modifiers: "tilt-shift photography, miniature diorama, tiny world effect, selective focus blur, toy-like appearance, model train aesthetic, miniature people and buildings"
-        }
-    },
-    "stained_glass": {
-        name: "Stained Glass Art", icon: "⛪", category: "trending",
-        description: "Medieval stained glass window effect",
-        credit: "artistic filter trend",
-        data: {
-            subject_type: "portrait", style: "artistic", person_count: 1,
-            persons: [{ gender: "female", age_group: "adult", expression: "serene", clothing_style: "elegant" }],
-            lighting: "backlit", mood: "spiritual", color_palette: "jewel tones",
-            style_modifiers: "stained glass window art, lead line segments, translucent colored glass, cathedral window, Gothic art style, light shining through, religious art aesthetic, jewel tones"
-        }
-    },
-    "pop_art_warhol": {
-        name: "Pop Art Portrait", icon: "🎨", category: "trending",
-        description: "Andy Warhol style pop art with bold colors",
-        credit: "pop art trend",
-        data: {
-            subject_type: "portrait", style: "pop art", person_count: 1,
-            persons: [{ gender: "female", age_group: "young adult", hair_style: "short cropped", expression: "confident", makeup_style: "bold lip" }],
-            lighting: "flat", mood: "bold", color_palette: "vibrant",
-            style_modifiers: "Andy Warhol pop art, bold flat colors, halftone dots, high contrast, screen print aesthetic, 1960s pop art, multiple color variations, celebrity portrait style"
-        }
-    },
-    "knolling_photography": {
-        name: "Knolling Flat Lay", icon: "📐", category: "trending",
-        description: "Organized flat lay with items arranged perfectly",
-        credit: "product photography trend",
-        data: {
-            subject_type: "product", style: "photorealistic",
-            lighting: "studio lighting", mood: "organized", color_palette: "clean",
-            style_modifiers: "knolling photography, flat lay arrangement, items at 90 degree angles, organized grid, top-down view, satisfying arrangement, minimalist aesthetic, clean background",
-            _sceneObjects: [
-                { label: "Everyday carry items", category: "props", location: "center", prominence: "primary", state: "neatly arranged at right angles" },
-                { label: "Clean background", category: "background", location: "background", prominence: "background", color: "white or wood texture" }
-            ]
-        }
-    },
-    "receipt_meme": {
-        name: "Receipt Life Summary", icon: "🧾", category: "trending",
-        description: "Viral receipt-style life/personality summary",
-        credit: "viral X/Twitter trend 2024",
-        data: {
-            subject_type: "graphic", style: "minimalist",
-            lighting: "flat", mood: "humorous", color_palette: "monochrome",
-            style_modifiers: "thermal receipt paper, dot matrix printed text, itemized list format, quirky life summary, personality traits as line items, total at bottom, store receipt aesthetic, black text on white paper"
-        }
-    },
-    "pet_renaissance": {
-        name: "Pet Renaissance", icon: "🐕", category: "trending",
-        description: "Pet as royal renaissance portrait",
-        credit: "LightX, pet portrait trend",
-        data: {
-            subject_type: "portrait", style: "renaissance", person_count: 0,
-            lighting: "rembrandt lighting", mood: "regal", color_palette: "warm tones",
-            style_modifiers: "renaissance pet portrait, dog or cat as noble, royal attire, ornate gold frame, oil painting style, aristocratic pose, Sir or Lady pet, velvet robes, crown or ruff collar"
-        }
-    },
-    "cosmic_astronaut": {
-        name: "Cosmic Astronaut", icon: "🧑‍🚀", category: "trending",
-        description: "Astronaut in space with cosmic visuals",
-        credit: "sci-fi art trend",
-        data: {
-            subject_type: "portrait", style: "sci-fi", person_count: 1,
-            persons: [{ gender: "neutral", age_group: "adult", clothing_style: "futuristic", clothing_type: "uniform", clothing_color: "white space suit" }],
-            lighting: "dramatic", mood: "epic", color_palette: "cosmic",
-            style_modifiers: "astronaut in space, cosmic background, nebula colors, floating in zero gravity, Earth reflection in helmet visor, stars and galaxies, NASA aesthetic, space exploration",
-            _sceneObjects: [
-                { label: "Nebula clouds", category: "background", location: "background", prominence: "primary", color: "purple and blue cosmic gas" },
-                { label: "Distant planets", category: "background", location: "scattered", prominence: "secondary", state: "orbiting" },
-                { label: "Starfield", category: "background", location: "throughout", prominence: "background", state: "twinkling" }
-            ]
-        }
-    },
-    "art_nouveau": {
-        name: "Art Nouveau Portrait", icon: "🌺", category: "trending",
-        description: "Alphonse Mucha inspired decorative art",
-        credit: "FelloAI, art nouveau trend",
-        data: {
-            subject_type: "portrait", style: "art nouveau", person_count: 1,
-            persons: [{ gender: "female", age_group: "young adult", hair_style: "long flowing", hair_color: "auburn", expression: "serene", clothing_style: "elegant", clothing_type: "dress", clothing_color: "muted pastels" }],
-            lighting: "soft", mood: "romantic", color_palette: "muted",
-            style_modifiers: "Art Nouveau style, Alphonse Mucha inspired, decorative floral borders, flowing hair with flowers, ornate circular frame, pastel colors, elegant curves, poster art aesthetic"
-        }
-    }
-};
+	    // ==================== VIRAL TRENDING PRESETS (Twitter/X 2024-2025) ====================
+	    // Credits: @godofprompt, @JoshDance, @patife, @heyBarsee, @techhalla, LightX, FelloAI
+	    
+	    "starter_pack": {
+	        name: "Starter Pack (Boxed Figure)", icon: "📦", category: "trending",
+	        description: "Viral ‘starter pack’ packaging: boxed figure + themed accessories",
+	        credit: "anntoine.com, FelloAI (prompt template)",
+	        data: {
+	            subject_type: "product", style: "3D render", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "adult", expression: "smiling", pose: "standing", clothing_style: "casual" }],
+	            lighting: "studio lighting", mood: "playful", color_palette: "vibrant",
+	            style_modifiers: "collectible starter pack packaging, clean minimalist cardboard backing, clear plastic blister front, hanging hole, boxed toy product shot, crisp studio reflections, generic packaging, no brand logos",
+	            _sceneObjects: [
+	                { label: "Cardboard backing", category: "props", location: "background", prominence: "primary", color: "bold solid color", material: "matte cardboard" },
+	                { label: "Plastic blister", category: "props", location: "foreground", prominence: "primary", color: "clear", material: "transparent plastic" },
+	                { label: "Accessory compartments", category: "props", location: "right side", prominence: "secondary", state: "custom-fit molds" },
+	                { label: "Hanging hole", category: "props", location: "top", prominence: "detail", state: "retail hook slot" }
+	            ],
+	            _semanticRelationships: [
+	                { subject: "Figure", action: "sealed inside", object: "blister packaging" },
+	                { subject: "Accessories", action: "organized in", object: "separate compartments" }
+	            ]
+	        }
+	    },
+	    "figurine_desk_zbrush": {
+	        name: "3D Figurine on Desk (Behind-the-Scenes)", icon: "🖥️", category: "trending",
+	        description: "Viral ‘3D figure’ trend: figurine on desk + packaging + modeling screen",
+	        credit: "cyberlink.com (Gemini AI figure prompt)",
+	        data: {
+	            subject_type: "product", style: "photorealistic",
+	            lighting: "studio lighting", mood: "professional", color_palette: "clean",
+	            style_modifiers: "realistic 1/7 scale PVC figurine on a round display base, computer desk scene, monitor showing 3D sculpting software interface, glossy commercial packaging box with rounded corners, transparent window, blister insert, collectible figure photography, realistic depth and materials",
+	            _sceneObjects: [
+	                { label: "PVC figurine", category: "props", location: "center", prominence: "primary", material: "painted PVC", state: "on display base" },
+	                { label: "Round display base", category: "props", location: "under figure", prominence: "secondary", material: "plastic", color: "neutral" },
+	                { label: "Computer monitor", category: "props", location: "background", prominence: "secondary", state: "shows 3D modeling UI" },
+	                { label: "Packaging box", category: "props", location: "beside figure", prominence: "secondary", material: "glossy cardboard", state: "transparent window" }
+	            ]
+	        }
+	    },
+	    "decade_rewind": {
+	        name: "Decade Rewind", icon: "🕰️", category: "trending",
+	        description: "Viral nostalgia edit: see yourself in a different decade",
+	        credit: "godofprompt.ai (Nano Banana prompts)",
+	        data: {
+	            subject_type: "portrait", style: "vintage", era: "1980s", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "adult", expression: "candid", clothing_style: "vintage" }],
+	            lighting: "natural light", mood: "nostalgic", color_palette: "warm tones",
+	            style_modifiers: "authentic decade styling, period-correct wardrobe and hair, film grain, slightly faded colors, analog photo texture, era-accurate props and background"
+	        }
+	    },
+	    "tv_show_cameo": {
+	        name: "TV Show Cameo", icon: "📺", category: "trending",
+	        description: "Viral edit: place yourself into a TV show scene",
+	        credit: "godofprompt.ai (Nano Banana prompts)",
+	        data: {
+	            subject_type: "documentary", style: "cinematic", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "adult", expression: "natural", pose: "standing", clothing_style: "casual" }],
+	            lighting: "natural light", mood: "playful", color_palette: "warm tones",
+	            style_modifiers: "seamlessly inserted into a TV show scene, matching lighting and camera angle, consistent film grain, realistic depth of field, believable background integration"
+	        }
+	    },
+	    "famous_art_integration": {
+	        name: "Inside a Famous Painting", icon: "🖼️", category: "trending",
+	        description: "Viral art remix: integrate subject into a classic painting",
+	        credit: "godofprompt.ai (Nano Banana prompts)",
+	        data: {
+	            subject_type: "fine art", style: "oil painting",
+	            lighting: "soft", mood: "whimsical", color_palette: "warm tones",
+	            style_modifiers: "insert subject into a classic painting composition, oil paint texture, visible brushstrokes, canvas grain, painterly lighting, maintain original artwork perspective and color harmony"
+	        }
+	    },
+	    "landmark_postcard": {
+	        name: "Landmark Postcard", icon: "🌍", category: "trending",
+	        description: "Viral travel edit: place subject at a famous landmark",
+	        credit: "godofprompt.ai (Nano Banana prompts)",
+	        data: {
+	            subject_type: "landscape", style: "photorealistic",
+	            lighting: "golden hour", mood: "adventurous", color_palette: "vibrant",
+	            style_modifiers: "photorealistic travel postcard, subject naturally integrated in front of a famous landmark, consistent shadows, realistic atmospheric perspective, crisp detail, subtle postcard color grade"
+	        }
+	    },
+	    "ghibli_style": {
+	        name: "Ghibli Makeover", icon: "🌸", category: "trending",
+	        description: "Cozy storybook anime look with soft watercolor textures",
+	        credit: "godofprompt.ai",
+	        data: {
+	            subject_type: "portrait", style: "anime", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "young adult", expression: "gentle smile", pose: "candid", clothing_style: "casual" }],
+	            lighting: "soft", mood: "dreamy", color_palette: "pastel",
+	            style_modifiers: "storybook anime illustration, soft watercolor textures, warm nostalgic atmosphere, detailed background art, whimsical nature elements",
+	            _sceneObjects: [
+	                { label: "Soft clouds", category: "atmosphere", location: "sky", prominence: "background", color: "white", state: "gently drifting" },
+	                { label: "Wildflowers", category: "natural", location: "foreground", prominence: "secondary", color: "pastel" },
+	                { label: "Distant hills", category: "landscape", location: "background", prominence: "background", color: "soft greens" }
+	            ]
+	        }
+	    },
+	    "action_figure_box": {
+	        name: "Action Figure Box", icon: "🧩", category: "trending",
+	        description: "Viral toy box edit: turn subject into a boxed action figure",
+	        credit: "FelloAI (prompt examples), Mashable (trend coverage)",
+	        data: {
+	            subject_type: "product", style: "3D render", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "adult", expression: "confident", pose: "action pose", clothing_style: "casual" }],
+	            lighting: "studio lighting", mood: "playful", color_palette: "vibrant",
+	            style_modifiers: "boxed action figure in blister packaging, clear plastic shell, cardboard backing, 2-4 accessories in separate compartments, realistic toy plastic sheen, generic packaging, no brand marks",
+	            _sceneObjects: [
+	                { label: "Blister shell", category: "props", location: "foreground", prominence: "primary", material: "transparent plastic" },
+	                { label: "Cardboard backing", category: "props", location: "background", prominence: "primary", material: "cardboard", color: "bold" },
+	                { label: "Accessory compartments", category: "props", location: "right side", prominence: "secondary", state: "separate slots" }
+	            ]
+	        }
+	    },
+	    "cyberpunk_portrait": {
+	        name: "Cyberpunk Glow-Up", icon: "🌆", category: "trending",
+	        description: "Neon sci-fi portrait with glow, rain, and holograms",
+	        credit: "godofprompt.ai",
+	        data: {
+	            subject_type: "portrait", style: "sci-fi", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "young adult", expression: "intense", pose: "profile view", clothing_style: "futuristic" }],
+	            lighting: "neon", mood: "intense", color_palette: "neon", time_of_day: "night",
+	            style_modifiers: "cyberpunk aesthetic, neon glow, rain-soaked streets, holographic elements, LED accents, high contrast, cinematic sci-fi portrait",
+	            _sceneObjects: [
+	                { label: "Neon signs", category: "background", location: "background", prominence: "primary", state: "glowing" },
+	                { label: "Rain droplets", category: "atmosphere", location: "throughout", prominence: "secondary", state: "catching neon light" },
+	                { label: "Holographic ads", category: "background", location: "midground", prominence: "secondary", material: "light projection" }
+	            ]
+	        }
+	    },
+	    "oil_painting_portrait": {
+	        name: "Oil Painting Filter", icon: "🎨", category: "trending",
+	        description: "Timeless oil painting look with canvas texture",
+	        credit: "godofprompt.ai",
+	        data: {
+	            subject_type: "portrait", style: "oil painting", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "adult", expression: "contemplative", pose: "three-quarter view" }],
+	            lighting: "soft", mood: "serene", color_palette: "warm tones",
+	            style_modifiers: "classical oil painting, visible brushstrokes, rich textures, canvas grain, museum quality, painterly lighting"
+	        }
+	    },
+	    "magazine_cover": {
+	        name: "Magazine Cover Edit", icon: "📰", category: "trending",
+	        description: "Editorial cover with pro retouch + bold layout feel",
+	        credit: "godofprompt.ai",
+	        data: {
+	            subject_type: "fashion", style: "photorealistic", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "young adult", expression: "confident", pose: "formal pose", clothing_style: "haute couture" }],
+	            lighting: "studio lighting", mood: "glamorous", color_palette: "high contrast",
+	            style_modifiers: "editorial magazine cover, high-end retouching, luxury branding aesthetic, sharp studio lighting, glossy finish, clean typography feel (no real brand logos)"
+	        }
+	    },
+	    "surreal_dreamscape": {
+	        name: "Surreal Dream Filter", icon: "🌙", category: "trending",
+	        description: "Dreamlike surreal distortions with soft pastel mood",
+	        credit: "godofprompt.ai",
+	        data: {
+	            subject_type: "portrait", style: "surreal", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "young adult", expression: "peaceful", pose: "floating" }],
+	            lighting: "soft", mood: "dreamy", color_palette: "pastel",
+	            style_modifiers: "surreal dreamcore aesthetic, impossible geometry, floating objects, soft pastel haze, ethereal atmosphere",
+	            _sceneObjects: [
+	                { label: "Floating islands", category: "surreal", location: "background", prominence: "secondary", state: "defying gravity" },
+	                { label: "Oversized flowers", category: "surreal", location: "foreground", prominence: "secondary" },
+	                { label: "Liquid sky", category: "atmosphere", location: "sky", prominence: "background", state: "melting" }
+	            ]
+	        }
+	    },
+	    "anime_action_scene": {
+	        name: "Anime Scene Overlay", icon: "⚡", category: "trending",
+	        description: "Dynamic anime still with motion lines and energy aura",
+	        credit: "godofprompt.ai",
+	        data: {
+	            subject_type: "portrait", style: "anime", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "teenager", expression: "determined", pose: "action pose", clothing_style: "casual" }],
+	            lighting: "dramatic", mood: "intense", color_palette: "vibrant",
+	            style_modifiers: "anime illustration, bold outlines, cel shading, speed lines, dramatic shading, action aura"
+	        }
+	    },
+	    "film_noir": {
+	        name: "Noir Lighting Treatment", icon: "🎬", category: "trending",
+	        description: "Black-and-white noir with hard shadows and smoke",
+	        credit: "godofprompt.ai",
+	        data: {
+	            subject_type: "portrait", style: "noir", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "adult", expression: "mysterious", pose: "profile view", clothing_style: "vintage" }],
+	            lighting: "chiaroscuro", mood: "mysterious", color_palette: "black and white",
+	            style_modifiers: "film noir, high contrast black and white, venetian blind shadows, cigarette smoke haze, detective movie vibe"
+	        }
+	    },
+	    "3d_sculpture_marble": {
+	        name: "3D Marble Sculpture", icon: "🗿", category: "trending",
+	        description: "Classical marble statue look with museum lighting",
+	        credit: "godofprompt.ai",
+	        data: {
+	            subject_type: "portrait", style: "3D render", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "adult", expression: "stoic", pose: "heroic" }],
+	            lighting: "studio lighting", mood: "epic", color_palette: "monochrome",
+	            style_modifiers: "marble statue sculpture, chiseled details, Carrara marble texture, museum display, pedestal, dramatic lighting"
+	        }
+	    },
+	    "golden_hour_glow": {
+	        name: "Golden Hour Filter", icon: "🌅", category: "trending",
+	        description: "Warm sunset glow with soft lens flare",
+	        credit: "godofprompt.ai",
+	        data: {
+	            subject_type: "portrait", style: "cinematic", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "young adult", expression: "peaceful", pose: "candid", clothing_style: "bohemian" }],
+	            lighting: "golden hour", mood: "romantic", color_palette: "warm tones", time_of_day: "sunset",
+	            style_modifiers: "golden hour photography, warm sunlight, natural glow, lens flare, soft film grain, sun-kissed skin"
+	        }
+	    },
+	    "polaroid_retro": {
+	        name: "Retro Polaroid", icon: "📸", category: "trending",
+	        description: "Instant film look with border frame + light leaks",
+	        credit: "LightX, community trend",
+	        data: {
+	            subject_type: "portrait", style: "vintage", era: "1980s", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "young adult", expression: "candid", pose: "candid", clothing_style: "vintage" }],
+	            lighting: "natural light", mood: "nostalgic", color_palette: "vintage",
+	            style_modifiers: "Polaroid instant photo, white border frame, slightly faded colors, subtle light leaks, analog grain, warm vintage tones"
+	        }
+	    },
+	    "vaporwave_aesthetic": {
+	        name: "Vaporwave Dream", icon: "🌴", category: "trending",
+	        description: "Neon pink/cyan vaporwave with VHS glitch feel",
+	        credit: "vaporwave aesthetic trend",
+	        data: {
+	            subject_type: "portrait", style: "digital art", era: "1980s", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "young adult", expression: "mysterious", clothing_style: "retro" }],
+	            lighting: "neon", mood: "dreamy", color_palette: "neon",
+	            style_modifiers: "vaporwave aesthetic, pink and cyan neon, sunset gradients, palm trees, retro 80s synthwave, VHS scanlines, subtle chromatic aberration",
+	            _sceneObjects: [
+	                { label: "Palm trees", category: "natural", location: "sides", prominence: "secondary" },
+	                { label: "Gradient sunset", category: "background", location: "sky", prominence: "background" },
+	                { label: "Grid floor", category: "background", location: "ground", prominence: "background", state: "neon perspective grid" }
+	            ]
+	        }
+	    },
+	    "disney_pixar_character": {
+	        name: "Pixar-Style Character", icon: "🎭", category: "trending",
+	        description: "Cute 3D animated character with cinematic softness",
+	        credit: "godofprompt.ai",
+	        data: {
+	            subject_type: "portrait", style: "3D render", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "young adult", expression: "smiling", pose: "expressive", clothing_style: "casual" }],
+	            lighting: "soft", mood: "joyful", color_palette: "vibrant",
+	            style_modifiers: "Pixar-style 3D animation, big expressive eyes, smooth subsurface skin, stylized proportions, polished render, cinematic softness"
+	        }
+	    },
+	    "comic_book_hero": {
+	        name: "Comic Book Panel", icon: "💥", category: "trending",
+	        description: "Bold comic look with ink outlines + halftone texture",
+	        credit: "comic aesthetic trend",
+	        data: {
+	            subject_type: "portrait", style: "digital art", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "adult", expression: "determined", pose: "heroic" }],
+	            lighting: "dramatic", mood: "epic", color_palette: "vibrant",
+	            style_modifiers: "comic book illustration, bold ink outlines, halftone dots, dynamic panel composition, punchy flat colors, speech bubble style (no text)"
+	        }
+	    },
+	    "watercolor_portrait": {
+	        name: "Soft Watercolor", icon: "💧", category: "trending",
+	        description: "Watercolor wash with paper texture and soft edges",
+	        credit: "illustration trend",
+	        data: {
+	            subject_type: "portrait", style: "watercolor", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "adult", expression: "peaceful", pose: "relaxed" }],
+	            lighting: "soft", mood: "serene", color_palette: "pastel",
+	            style_modifiers: "watercolor painting, wet edges, paper texture, pigment blooms, delicate brush strokes"
+	        }
+	    },
+	    "baroque_portrait": {
+	        name: "Baroque Masterpiece", icon: "👑", category: "trending",
+	        description: "Ornate baroque portrait with dramatic chiaroscuro",
+	        credit: "FelloAI, classical art trend",
+	        data: {
+	            subject_type: "portrait", style: "baroque", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "adult", expression: "regal", pose: "formal pose", clothing_style: "traditional" }],
+	            lighting: "chiaroscuro", mood: "dramatic", color_palette: "jewel tones",
+	            style_modifiers: "baroque painting, dramatic chiaroscuro, rich velvet textures, ornate details, museum-quality portrait, warm highlights"
+	        }
+	    },
+	    "double_exposure": {
+	        name: "Double Exposure", icon: "🌳", category: "trending",
+	        description: "Portrait silhouette filled with nature overlay",
+	        credit: "photography trend",
+	        data: {
+	            subject_type: "portrait", style: "cinematic", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "young adult", expression: "peaceful", pose: "profile view" }],
+	            lighting: "soft", mood: "dreamy", color_palette: "monochrome",
+	            style_modifiers: "double exposure photography, silhouette filled with forest, soft blend, atmospheric haze, film grain",
+	            _sceneObjects: [
+	                { label: "Forest overlay", category: "overlay", location: "inside silhouette", prominence: "primary" },
+	                { label: "Bird silhouettes", category: "overlay", location: "scattered", prominence: "detail" }
+	            ]
+	        }
+	    },
+	    "lo_fi_album_cover": {
+	        name: "Lo-Fi Album Cover", icon: "🎧", category: "trending",
+	        description: "Cozy lo-fi anime room with rainy window vibe",
+	        credit: "lo-fi trend",
+	        data: {
+	            subject_type: "portrait", style: "anime", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "teenager", expression: "focused", pose: "sitting", clothing_style: "casual" }],
+	            lighting: "soft", mood: "peaceful", color_palette: "warm tones", time_of_day: "night",
+	            style_modifiers: "lo-fi hip hop aesthetic, cozy room, warm desk lamp, headphones, books, rainy window, soft shading, album cover framing",
+	            _sceneObjects: [
+	                { label: "Desk lamp", category: "props", location: "desk", prominence: "secondary", color: "warm" },
+	                { label: "Coffee cup", category: "props", location: "desk", prominence: "detail", state: "steaming" },
+	                { label: "Rainy window", category: "background", location: "behind", prominence: "secondary" }
+	            ]
+	        }
+	    },
+	    "ukiyo_e_japanese": {
+	        name: "Ukiyo-e Print", icon: "🗾", category: "trending",
+	        description: "Japanese woodblock print look with flat color areas",
+	        credit: "classical art trend",
+	        data: {
+	            subject_type: "portrait", style: "minimalist", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "adult", expression: "serene", clothing_style: "traditional" }],
+	            lighting: "flat", mood: "serene", color_palette: "muted",
+	            style_modifiers: "ukiyo-e woodblock print, flat color areas, crisp black outlines, paper texture, traditional Japanese composition"
+	        }
+	    },
+	    "synthwave_retrowave": {
+	        name: "Synthwave Driver", icon: "🚗", category: "trending",
+	        description: "Retro-futuristic neon car scene with outrun palette",
+	        credit: "synthwave aesthetic trend",
+	        data: {
+	            subject_type: "landscape", style: "digital art",
+	            lighting: "neon", mood: "intense", color_palette: "neon", time_of_day: "night",
+	            style_modifiers: "synthwave aesthetic, neon grid road, sunset gradient sky, chrome sports car, palm silhouettes, outrun, retrowave",
+	            _sceneObjects: [
+	                { label: "Chrome sports car", category: "vehicle", location: "center", prominence: "primary" },
+	                { label: "Neon grid road", category: "background", location: "ground", prominence: "secondary" },
+	                { label: "Gradient sky", category: "background", location: "sky", prominence: "background" }
+	            ]
+	        }
+	    },
+	    "glitch_art": {
+	        name: "Glitch Art Effect", icon: "📺", category: "trending",
+	        description: "RGB split + scanlines + digital distortion",
+	        credit: "digital art trend",
+	        data: {
+	            subject_type: "portrait", style: "digital art", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "young adult", expression: "neutral", clothing_style: "futuristic" }],
+	            lighting: "harsh", mood: "intense", color_palette: "high contrast",
+	            style_modifiers: "glitch art, RGB split, scan lines, VHS distortion, databending, chromatic aberration, digital corruption"
+	        }
+	    },
+	    "miniature_diorama": {
+	        name: "Miniature World", icon: "🔍", category: "trending",
+	        description: "Tilt-shift miniature diorama effect",
+	        credit: "photography trend",
+	        data: {
+	            subject_type: "landscape", style: "photorealistic",
+	            lighting: "natural light", mood: "whimsical", color_palette: "vibrant",
+	            style_modifiers: "tilt-shift photography, miniature diorama, tiny world effect, selective focus, toy-like scale, realistic lighting"
+	        }
+	    },
+	    "receipt_meme": {
+	        name: "Receipt Life Summary", icon: "🧾", category: "trending",
+	        description: "Receipt-style personality summary aesthetic",
+	        credit: "viral X/Twitter trend",
+	        data: {
+	            subject_type: "still life", style: "minimalist",
+	            lighting: "flat", mood: "humorous", color_palette: "monochrome",
+	            style_modifiers: "thermal receipt paper texture, dot matrix printed look, itemized list layout, black text on white paper, slight crumple, realistic paper grain"
+	        }
+	    },
+	    "cosmic_astronaut": {
+	        name: "Cosmic Astronaut", icon: "🧑‍🚀", category: "trending",
+	        description: "Astronaut portrait with nebula colors and starfield",
+	        credit: "sci-fi art trend",
+	        data: {
+	            subject_type: "portrait", style: "sci-fi", person_count: 1,
+	            persons: [{ gender: "neutral", age_group: "adult", clothing_style: "futuristic", clothing_type: "uniform" }],
+	            lighting: "dramatic", mood: "epic", color_palette: "cosmic",
+	            style_modifiers: "astronaut in space, nebula clouds, stars and galaxies, reflective helmet visor, cinematic sci-fi lighting",
+	            _sceneObjects: [
+	                { label: "Nebula clouds", category: "background", location: "background", prominence: "primary" },
+	                { label: "Starfield", category: "background", location: "throughout", prominence: "background" },
+	                { label: "Distant planets", category: "background", location: "scattered", prominence: "secondary" }
+	            ]
+	        }
+	    }
+	};
 
 // Export for use in main application
 if (typeof module !== 'undefined' && module.exports) {
