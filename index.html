@@ -5369,17 +5369,31 @@
             // Complete reset of all fields first
             resetAllFields();
             
-            // Load preset values into multi-select state
+            // Load preset values into multi-select state and form fields
             Object.keys(preset).forEach(key => {
                 const value = preset[key];
+                
                 // Check if this is a multi-select field
                 const wrapper = document.querySelector(`[data-multiselect="${key}"]`);
                 if (wrapper) {
                     multiSelectState[key] = Array.isArray(value) ? value : [value];
-                } else {
-                    // For text inputs
-                    const element = document.querySelector(`textarea[name="${key}"], input[type="text"][name="${key}"]`);
-                    if (element) element.value = value;
+                    return;
+                }
+                
+                // Check if this is a regular select element
+                const selectElement = document.querySelector(`select[name="${key}"]`);
+                if (selectElement) {
+                    // Set the value in multiSelectState for prompt generation
+                    multiSelectState[key] = Array.isArray(value) ? value : [value];
+                    // Also set the select element value for display
+                    selectElement.value = value;
+                    return;
+                }
+                
+                // For text inputs and textareas
+                const textElement = document.querySelector(`textarea[name="${key}"], input[type="text"][name="${key}"]`);
+                if (textElement) {
+                    textElement.value = value;
                 }
             });
             
@@ -5599,6 +5613,15 @@
                         }
                         data[key] = values.join(', ');
                         data[key + '_array'] = values; // Keep array version too
+                    }
+                });
+                
+                // Collect values from regular select elements (new advanced fields)
+                document.querySelectorAll('select[data-options]').forEach(select => {
+                    const key = select.name;
+                    const value = select.value;
+                    if (value && value.trim() && !data[key]) {
+                        data[key] = value.trim();
                     }
                 });
                 
