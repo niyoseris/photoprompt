@@ -1225,49 +1225,128 @@ const DEFAULT_PRESETS = {
 	        description: "Hyper-realistic optical illusion - model stepping out of smartphone screen with fashion breakdown",
 	        credit: "https://x.com/underwoodxie96",
 	        data: {
-	            subject_type: "fashion", style: "photorealistic", person_count: 1,
-	            persons: [{
-	                gender: "female",
-	                ethnicity: "caucasian",
-	                age_group: "young adult",
-	                body_type: "petite",
-	                hair_style: "long flowing",
-	                hair_color: "dark brown",
-	                expression: "playful",
-	                pose: "action pose",
-	                clothing_style: "elegant",
-	                clothing_type: "sweater",
-	                clothing_color: "brown",
-	                makeup_style: "natural minimal",
-	                skin_type: "fair"
-	            }],
-	            lighting: "natural light",
-	            mood: "energetic",
-	            color_palette: "warm tones",
-	            setting: "european plaza",
-	            season: "autumn",
-	            camera_type: "Canon 5D Mark IV",
-	            camera_angle: "high angle",
-	            camera_settings: "macro",
-	            composition: "POV shot",
-	            quality_modifiers: "ultra detailed",
-	            style_modifiers: "hyper-realistic optical illusion photograph, woman stepping out of smartphone screen, POV shot looking down at hand holding phone, iOS Camera UI on screen with white shutter button, PHOTO mode text, handwritten style text annotations with arrows pointing to outfit elements (suede jacket, leather boots), burgundy phone case, pop-out 3D effect, photorealistic skin texture with visible pores, natural imperfections, soft daylight, DSLR macro lens photography, sharp screen pixels, fingerprint smudges on screen, realistic fabric texture, overcast soft natural light, background bokeh, Parisian park autumn atmosphere, cinematic composition",
-	            _sceneObjects: [
-	                { label: "Smartphone with burgundy case", category: "props", location: "foreground", prominence: "primary", color: "burgundy", material: "phone case", state: "active screen showing iOS Camera UI" },
-	                { label: "Photographer's hand with gold rings", category: "props", location: "foreground", prominence: "primary", color: "skin tone with gold jewelry", material: "natural" },
-	                { label: "Green park bench", category: "furniture", location: "background", prominence: "secondary", color: "green", state: "with text Le silence" },
-	                { label: "Autumn leaves", category: "natural", location: "background", prominence: "background", color: "orange and brown" },
-	                { label: "Handwritten text overlays", category: "overlay", location: "on phone screen", prominence: "secondary", color: "white", state: "arrows pointing to suede jacket and leather boots" },
-	                { label: "Mini skirt", category: "clothing", location: "on phone screen", prominence: "secondary", color: "dark grey" },
-	                { label: "Leather boots", category: "clothing", location: "on phone screen", prominence: "secondary", color: "brown" }
-	            ],
-	            _semanticRelationships: [
-	                { subject: "Woman", action: "emerging from", object: "smartphone screen" },
-	                { subject: "Phone screen", action: "displaying", object: "legs with boots inside camera UI" },
-	                { subject: "Text annotations", action: "pointing to", object: "outfit elements" },
-	                { subject: "Hand", action: "holding", object: "smartphone" }
-	            ],
-	            negative_prompt: "transparent screen, blank screen, glass phone, 3d render, cartoon, anime, plastic skin, drawing, illustration"
+	            // Subject
+	            subject: {
+	                description: "A hyper-realistic optical illusion photograph. A young Caucasian woman appears to be stepping out of a smartphone screen held in a hand. The screen displays the camera interface, capturing her boots, while her real upper body extends out of the phone into reality.",
+	                mirror_rules: "Ensure the phone screen clearly shows the iOS Camera UI (shutter button, mode text). Handwritten annotations must be legible and not mirrored.",
+	                age: "20s",
+	                expression: {
+	                    eyes: {
+	                        look: "Alluring and playful",
+	                        energy: "Confident, direct",
+	                        direction: "Looking at the viewer"
+	                    },
+	                    mouth: {
+	                        position: "Blowing a kiss or pouting",
+	                        energy: "Chic and charming"
+	                    },
+	                    overall: "Lifelike, engaging interaction"
+	                },
+	                face: {
+	                    preserve_original: false,
+	                    makeup: "Natural glam, matte foundation, defined European features",
+	                    features: "High nose bridge, double eyelids, defined jawline"
+	                },
+	                hair: {
+	                    color: "Dark brown",
+	                    style: "Long, loose waves, voluminous",
+	                    effect: "Realistic shine, wind-blown effect"
+	                },
+	                body: {
+	                    frame: "Petite but proportionally realistic",
+	                    waist: "Defined",
+	                    chest: "Covered by turtleneck",
+	                    legs: "Visible INSIDE the phone screen interface wearing boots",
+	                    skin: {
+	                        visible_areas: "Face, hands",
+	                        tone: "Fair Caucasian skin",
+	                        texture: "Ultra-realistic skin texture, visible pores, natural imperfections",
+	                        lighting_effect: "Soft daylight"
+	                    }
+	                },
+	                pose: {
+	                    position: "Torso and head emerging vertically from the phone, legs displayed on the screen",
+	                    base: "Dynamic standing pose",
+	                    overall: "Energetic random pose, full of vitality"
+	                },
+	                clothing: {
+	                    top: {
+	                        effect: "Refined outfit, High-quality textile photography"
+	                    },
+	                    bottom: {
+	                        type: "Mini Skirt and Leather Boots",
+	                        color: "Dark Grey (skirt), Brown (boots)",
+	                        details: "Boots visible on the screen beneath the UI elements"
+	                    }
+	                }
+	            },
+	            // Accessories
+	            accessories: {
+	                jewelry: "Gold rings on the photographer's hand (foreground)",
+	                device: "Smartphone with burgundy case. The screen is ACTIVE and DETAILED: it displays the IOS Camera App Interface (white circular shutter button at bottom, 'PHOTO' text).",
+	                prop: "On the phone screen: White handwritten-style text overlays with arrows pointing to the outfit elements (e.g., text 'suede jacket' with arrow, 'leather boots' with arrow)."
+	            },
+	            // Photography
+	            photography: {
+	                camera_style: "DSLR photography, Macro lens for phone details",
+	                angle: "POV, High angle looking down at hand",
+	                shot_type: "Composite photography",
+	                aspect_ratio: "3:4",
+	                texture: "Sharp screen pixels, fingerprint smudges on screen, realistic fabric texture",
+	                lighting: "Overcast soft natural light",
+	                depth_of_field: "Background bench blurred (Bokeh), Phone screen UI and subject sharp"
+	            },
+	            // Background
+	            background: {
+	                setting: "Parisian Park in Autumn",
+	                wall_color: "Green bench, grey ground",
+	                elements: [
+	                    "Green park bench with text 'Le silence'",
+	                    "Autumn leaves"
+	                ],
+	                atmosphere: "Cinematic, realistic",
+	                lighting: "Natural ambient light"
+	            },
+	            // The Vibe
+	            the_vibe: {
+	                energy: "Sophisticated, viral social media content",
+	                mood: "Fashion forward",
+	                aesthetic: "OOTD breakdown, creative edit",
+	                authenticity: "Photorealistic texture, not CGI",
+	                intimacy: "POV",
+	                story: "Fashion styling breakdown",
+	                caption_energy: "Styling brown suede & leather"
+	            },
+	            // Constraints
+	            constraints: {
+	                must_keep: [
+	                    "Caucasian ethnicity",
+	                    "Photorealistic skin",
+	                    "Camera UI elements on screen (shutter button)",
+	                    "Handwritten text annotations on screen",
+	                    "Pop-out effect"
+	                ],
+	                avoid: [
+	                    "Transparent phone screen",
+	                    "Blank screen",
+	                    "3D render style",
+	                    "Cartoon",
+	                    "Plastic skin"
+	                ]
+	            },
+	            // Negative Prompt
+	            negative_prompt: [
+	                "transparent screen",
+	                "blank screen",
+	                "glass phone",
+	                "3d",
+	                "render",
+	                "cartoon",
+	                "anime",
+	                "plastic",
+	                "drawing",
+	                "illustration"
+	            ]
 	        }
 	    }
 	};
