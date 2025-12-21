@@ -5130,6 +5130,34 @@
             // Face & Makeup
             if (data.skin_type) parts.push(`${data.skin_type} skin`);
             if (data.makeup_style) parts.push(`${data.makeup_style} makeup`);
+            if (data.face_features) parts.push(`${data.face_features}`);
+            
+            // Advanced Expression
+            if (data.eye_look) parts.push(`${data.eye_look} eyes`);
+            if (data.eye_energy) parts.push(`${data.eye_energy} eye energy`);
+            if (data.eye_direction) parts.push(`${data.eye_direction}`);
+            if (data.mouth_position) parts.push(`${data.mouth_position}`);
+            if (data.mouth_energy) parts.push(`${data.mouth_energy} expression`);
+            
+            // Hair Effect
+            if (data.hair_effect) parts.push(`${data.hair_effect} hair effect`);
+            
+            // Advanced Body & Skin
+            if (data.body_frame) parts.push(`${data.body_frame} frame`);
+            if (data.body_definition) parts.push(`${data.body_definition}`);
+            if (data.skin_visible_areas) parts.push(`${data.skin_visible_areas} visible`);
+            if (data.skin_tone) parts.push(`${data.skin_tone} skin tone`);
+            if (data.skin_texture) parts.push(`${data.skin_texture} skin texture`);
+            if (data.skin_lighting_effect) parts.push(`${data.skin_lighting_effect}`);
+            
+            // Advanced Pose
+            if (data.pose_position) parts.push(`${data.pose_position} position`);
+            if (data.pose_base) parts.push(`${data.pose_base} pose`);
+            if (data.pose_energy) parts.push(`${data.pose_energy} energy`);
+            
+            // Advanced Clothing
+            if (data.clothing_effect) parts.push(`${data.clothing_effect}`);
+            if (data.clothing_details) parts.push(`${data.clothing_details}`);
             
             // Accessories
             const accessories = [];
@@ -5141,6 +5169,15 @@
             if (data.headwear && data.headwear !== 'none') accessories.push(data.headwear);
             if (accessories.length) parts.push(`wearing ${accessories.join(', ')}`);
             
+            // Device & Props
+            if (data.device_type) parts.push(`${data.device_type}`);
+            if (data.device_details) parts.push(`${data.device_details}`);
+            if (data.prop_type) parts.push(`${data.prop_type}`);
+            
+            // Optical Illusion
+            if (data.illusion_type) parts.push(`${data.illusion_type}`);
+            if (data.illusion_device) parts.push(`${data.illusion_device}`);
+            
             // Technical
             if (data.camera_type) parts.push(`shot with ${data.camera_type}`);
             if (data.camera_angle) parts.push(`${data.camera_angle} angle`);
@@ -5148,6 +5185,22 @@
             if (data.composition) parts.push(`${data.composition} composition`);
             if (data.film_type) parts.push(`${data.film_type}`);
             if (data.aspect_ratio) parts.push(`${data.aspect_ratio}`);
+            
+            // Advanced Photography
+            if (data.camera_style) parts.push(`${data.camera_style}`);
+            if (data.shot_type) parts.push(`${data.shot_type}`);
+            if (data.photo_texture) parts.push(`${data.photo_texture}`);
+            if (data.depth_of_field) parts.push(`${data.depth_of_field}`);
+            
+            // Background Advanced
+            if (data.background_elements) parts.push(`${data.background_elements}`);
+            if (data.background_atmosphere) parts.push(`${data.background_atmosphere} atmosphere`);
+            
+            // Vibe & Aesthetic
+            if (data.vibe_energy) parts.push(`${data.vibe_energy} vibe`);
+            if (data.vibe_aesthetic) parts.push(`${data.vibe_aesthetic}`);
+            if (data.vibe_authenticity) parts.push(`${data.vibe_authenticity}`);
+            if (data.vibe_intimacy) parts.push(`${data.vibe_intimacy} perspective`);
             
             // Quality
             if (data.quality_modifiers) parts.push(data.quality_modifiers);
