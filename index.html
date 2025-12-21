@@ -1098,6 +1098,9 @@
                 </div>
 
                 <form id="promptForm" class="space-y-4">
+                    <!-- Hidden field to track current preset credit -->
+                    <input type="hidden" id="currentPresetCredit" name="current_preset_credit" value="">
+                    
                     <!-- Subject Section -->
                     <div class="mb-6">
                         <div class="section-title mb-3">
@@ -4834,7 +4837,7 @@
             // Add metadata
             lines.push('metadata{3}:');
             lines.push('  format_version:str, generator:str, credit:str');
-            lines.push('  "2.0", "PhotoPrompt Generator by @niyoseris", "' + (currentPreset && currentPreset.credit ? currentPreset.credit : '') + '"');
+            lines.push('  "2.0", "PhotoPrompt Generator by @niyoseris", "' + (data.current_preset_credit || '') + '"');
             
             return lines.join('\n');
         }
@@ -5013,8 +5016,8 @@
             lines.push('metadata:');
             lines.push('  format_version: 2.0');
             lines.push('  generator: PhotoPrompt Generator by @niyoseris');
-            if (currentPreset && currentPreset.credit) {
-                lines.push(`  credit: ${escapeValue(currentPreset.credit)}`);
+            if (data.current_preset_credit) {
+                lines.push(`  credit: ${escapeValue(data.current_preset_credit)}`);
             }
             
             return lines.join('\n');
@@ -5229,7 +5232,7 @@
                 metadata: {
                     format_version: "2.0",
                     generator: "PhotoPrompt Generator by @niyoseris",
-                    ...(currentPreset && currentPreset.credit ? { credit: currentPreset.credit } : {})
+                    ...(data.current_preset_credit ? { credit: data.current_preset_credit } : {})
                 }
             };
             
@@ -5568,6 +5571,12 @@
             // Store current preset for credit info
             currentPreset = preset;
             
+            // Set credit in hidden field
+            const creditField = document.getElementById('currentPresetCredit');
+            if (creditField) {
+                creditField.value = preset.credit || '';
+            }
+            
             // Complete reset of all fields first
             resetAllFields();
             
@@ -5837,6 +5846,12 @@
                         }
                     }
                 });
+                
+                // Add credit info if available
+                const creditField = document.getElementById('currentPresetCredit');
+                if (creditField && creditField.value && creditField.value.trim()) {
+                    data.current_preset_credit = creditField.value.trim();
+                }
                 
                 // Process custom input values - they append to multi-select values
                 // Filter out custom inputs for irrelevant contextual fields
