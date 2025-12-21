@@ -842,6 +842,84 @@ const DEFAULT_PRESETS = {
             ],
             additional_details: "Cozy cafe lifestyle portrait. Warm window light on rainy day. Oversized cream knit sweater. Steaming coffee cup on wooden table. Reading a book by the window. Rain droplets on glass. Hygge atmosphere. Warm earth tone color grading. Peaceful content expression."
         }
+    },
+
+    "car_selfie": {
+        name: "Car Selfie", icon: "🚗", category: "trending",
+        description: "Modern car selfie with urban backdrop and reflections capturing the social media aesthetic",
+        credit: "https://x.com/carselfie",
+        data: {
+            subject_type: "portrait",
+            style: "photorealistic",
+            person_count: 1,
+            persons: [{
+                gender: "female",
+                ethnicity: "latin american",
+                age_group: "young adult",
+                body_type: "slim",
+                hair_style: "loose natural",
+                hair_color: "dark brown waves",
+                expression: "confident smile",
+                pose: "selfie pose",
+                clothing_style: "casual urban",
+                clothing_type: "oversized hoodie",
+                clothing_color: "black",
+                makeup_style: "natural glam",
+                skin_type: "warm"
+            }],
+            eye_look: "confident",
+            eye_energy: "bright",
+            eye_direction: "looking at camera",
+            mouth_position: "playful smile",
+            mouth_energy: "genuine",
+            face_features: "natural beauty",
+            hair_effect: "natural flow",
+            body_frame: "slim",
+            body_definition: "relaxed posture",
+            skin_visible_areas: "face neck shoulders",
+            skin_tone: "warm olive",
+            skin_texture: "natural flawless",
+            skin_lighting_effect: "dashboard light",
+            pose_position: "leaning forward",
+            pose_base: "casual",
+            pose_energy: "confident",
+            clothing_effect: "soft fabric texture",
+            clothing_details: "oversized fit",
+            device_type: "smartphone",
+            device_details: "held at selfie angle",
+            prop_type: "none",
+            illusion_type: "none",
+            illusion_device: "none",
+            camera_style: "phone camera",
+            shot_type: "selfie photography",
+            photo_texture: "crisp clean",
+            depth_of_field: "medium depth",
+            background_elements: "city skyline",
+            background_atmosphere: "urban night",
+            vibe_energy: "cool",
+            vibe_aesthetic: "social media",
+            vibe_authenticity: "authentic moment",
+            vibe_intimacy: "self expression",
+            lighting: "dashboard glow",
+            mood: "confident",
+            color_palette: "cool night tones",
+            setting: "modern car interior",
+            season: "night",
+            camera_angle: "selfie angle",
+            quality_modifiers: "social media quality",
+            _sceneObjects: [
+                { label: "Modern car interior", category: "environment", location: "background", prominence: "primary", color: "black leather", state: "luxury sedan" },
+                { label: "City lights through windshield", category: "background", location: "through window", prominence: "secondary", color: "warm lights", state: "blurred motion" },
+                { label: "Dashboard screen glow", category: "lighting", location: "foreground", prominence: "secondary", color: "blue digital", state: "illuminating face" },
+                { label: "Car window reflections", category: "atmosphere", location: "window", prominence: "secondary", state: "reflecting neon signs" }
+            ],
+            _semanticRelationships: [
+                { subject: "Model", action: "taking", object: "selfie in car" },
+                { subject: "City lights", action: "visible through", object: "windshield" },
+                { subject: "Dashboard lights", action: "illuminating", object: "model's face" }
+            ],
+            additional_details: "Modern car selfie portrait. Young woman taking selfie in luxury sedan at night. City lights blurred through windshield. Dashboard screen glow illuminating face. Black oversized hoodie. Natural confident expression. Social media aesthetic. Cool night tones with warm light accents. Authentic urban lifestyle moment."
+        }
     }
 };
 
