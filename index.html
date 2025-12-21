@@ -4640,10 +4640,45 @@
             if (data.hair_style) hair.style = data.hair_style;
             if (data.hair_color) hair.color = data.hair_color;
             if (data.hair_length) hair.length = data.hair_length;
+            if (data.hair_effect) hair.effect = data.hair_effect;
             
             const face = {};
             if (data.skin_type) face.skin = data.skin_type;
             if (data.makeup_style) face.makeup = data.makeup_style;
+            if (data.face_features) face.features = data.face_features;
+            
+            const expression = {};
+            if (data.eye_look) expression.eye_look = data.eye_look;
+            if (data.eye_energy) expression.eye_energy = data.eye_energy;
+            if (data.eye_direction) expression.eye_direction = data.eye_direction;
+            if (data.mouth_position) expression.mouth_position = data.mouth_position;
+            if (data.mouth_energy) expression.mouth_energy = data.mouth_energy;
+            
+            const body = {};
+            if (data.body_frame) body.frame = data.body_frame;
+            if (data.body_definition) body.definition = data.body_definition;
+            if (data.skin_visible_areas) body.visible_areas = data.skin_visible_areas;
+            if (data.skin_tone) body.skin_tone = data.skin_tone;
+            if (data.skin_texture) body.skin_texture = data.skin_texture;
+            if (data.skin_lighting_effect) body.skin_lighting = data.skin_lighting_effect;
+            
+            const poseAdvanced = {};
+            if (data.pose_position) poseAdvanced.position = data.pose_position;
+            if (data.pose_base) poseAdvanced.base = data.pose_base;
+            if (data.pose_energy) poseAdvanced.energy = data.pose_energy;
+            
+            const clothingAdvanced = {};
+            if (data.clothing_effect) clothingAdvanced.effect = data.clothing_effect;
+            if (data.clothing_details) clothingAdvanced.details = data.clothing_details;
+            
+            const device = {};
+            if (data.device_type) device.type = data.device_type;
+            if (data.device_details) device.details = data.device_details;
+            if (data.prop_type) device.prop = data.prop_type;
+            
+            const opticalIllusion = {};
+            if (data.illusion_type) opticalIllusion.type = data.illusion_type;
+            if (data.illusion_device) opticalIllusion.device = data.illusion_device;
             
             const accessories = {};
             if (data.eyewear && data.eyewear !== 'none') accessories.eyewear = data.eyewear;
@@ -4660,6 +4695,22 @@
             if (data.composition) technical.composition = data.composition;
             if (data.film_type) technical.film = data.film_type;
             if (data.aspect_ratio) technical.ratio = data.aspect_ratio;
+            
+            const photographyAdvanced = {};
+            if (data.camera_style) photographyAdvanced.camera_style = data.camera_style;
+            if (data.shot_type) photographyAdvanced.shot_type = data.shot_type;
+            if (data.photo_texture) photographyAdvanced.texture = data.photo_texture;
+            if (data.depth_of_field) photographyAdvanced.dof = data.depth_of_field;
+            
+            const backgroundAdvanced = {};
+            if (data.background_elements) backgroundAdvanced.elements = data.background_elements;
+            if (data.background_atmosphere) backgroundAdvanced.atmosphere = data.background_atmosphere;
+            
+            const theVibe = {};
+            if (data.vibe_energy) theVibe.energy = data.vibe_energy;
+            if (data.vibe_aesthetic) theVibe.aesthetic = data.vibe_aesthetic;
+            if (data.vibe_authenticity) theVibe.authenticity = data.vibe_authenticity;
+            if (data.vibe_intimacy) theVibe.intimacy = data.vibe_intimacy;
             
             const quality = {};
             if (data.quality_modifiers) quality.modifiers = data.quality_modifiers;
@@ -4697,13 +4748,49 @@
                 lines.push('face:');
                 Object.entries(face).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
             }
+            if (Object.keys(expression).length) {
+                lines.push('expression:');
+                Object.entries(expression).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(body).length) {
+                lines.push('body:');
+                Object.entries(body).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(poseAdvanced).length) {
+                lines.push('pose_advanced:');
+                Object.entries(poseAdvanced).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(clothingAdvanced).length) {
+                lines.push('clothing_advanced:');
+                Object.entries(clothingAdvanced).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
             if (Object.keys(accessories).length) {
                 lines.push('accessories:');
                 Object.entries(accessories).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
             }
+            if (Object.keys(device).length) {
+                lines.push('device:');
+                Object.entries(device).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(opticalIllusion).length) {
+                lines.push('optical_illusion:');
+                Object.entries(opticalIllusion).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
             if (Object.keys(technical).length) {
                 lines.push('technical:');
                 Object.entries(technical).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(photographyAdvanced).length) {
+                lines.push('photography_advanced:');
+                Object.entries(photographyAdvanced).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(backgroundAdvanced).length) {
+                lines.push('background_advanced:');
+                Object.entries(backgroundAdvanced).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
+            }
+            if (Object.keys(theVibe).length) {
+                lines.push('the_vibe:');
+                Object.entries(theVibe).forEach(([k, v]) => lines.push(`  ${k}: ${escapeValue(v)}`));
             }
             if (Object.keys(quality).length) {
                 lines.push('quality:');
@@ -4817,9 +4904,38 @@
             addField(fields, values, 'hair_style', data.hair_style);
             addField(fields, values, 'hair_color', data.hair_color);
             addField(fields, values, 'hair_length', data.hair_length);
+            addField(fields, values, 'hair_effect', data.hair_effect);
             // Face & Makeup
             addField(fields, values, 'skin_type', data.skin_type);
             addField(fields, values, 'makeup', data.makeup_style);
+            addField(fields, values, 'face_features', data.face_features);
+            // Advanced Expression
+            addField(fields, values, 'eye_look', data.eye_look);
+            addField(fields, values, 'eye_energy', data.eye_energy);
+            addField(fields, values, 'eye_direction', data.eye_direction);
+            addField(fields, values, 'mouth_position', data.mouth_position);
+            addField(fields, values, 'mouth_energy', data.mouth_energy);
+            // Advanced Body
+            addField(fields, values, 'body_frame', data.body_frame);
+            addField(fields, values, 'body_definition', data.body_definition);
+            addField(fields, values, 'skin_visible_areas', data.skin_visible_areas);
+            addField(fields, values, 'skin_tone', data.skin_tone);
+            addField(fields, values, 'skin_texture', data.skin_texture);
+            addField(fields, values, 'skin_lighting', data.skin_lighting_effect);
+            // Advanced Pose
+            addField(fields, values, 'pose_position', data.pose_position);
+            addField(fields, values, 'pose_base', data.pose_base);
+            addField(fields, values, 'pose_energy', data.pose_energy);
+            // Advanced Clothing
+            addField(fields, values, 'clothing_effect', data.clothing_effect);
+            addField(fields, values, 'clothing_details', data.clothing_details);
+            // Device & Props
+            addField(fields, values, 'device_type', data.device_type);
+            addField(fields, values, 'device_details', data.device_details);
+            addField(fields, values, 'prop_type', data.prop_type);
+            // Optical Illusion
+            addField(fields, values, 'illusion_type', data.illusion_type);
+            addField(fields, values, 'illusion_device', data.illusion_device);
             // Accessories
             addField(fields, values, 'eyewear', data.eyewear);
             addField(fields, values, 'earrings', data.earrings);
@@ -4833,6 +4949,20 @@
             addField(fields, values, 'composition', data.composition);
             addField(fields, values, 'film', data.film_type);
             addField(fields, values, 'ratio', data.aspect_ratio);
+            // Photography Advanced
+            addField(fields, values, 'camera_style', data.camera_style);
+            addField(fields, values, 'shot_type', data.shot_type);
+            addField(fields, values, 'photo_texture', data.photo_texture);
+            addField(fields, values, 'dof', data.depth_of_field);
+            // Background Advanced
+            addField(fields, values, 'bg_elements', data.background_elements);
+            addField(fields, values, 'bg_atmosphere', data.background_atmosphere);
+            // The Vibe
+            addField(fields, values, 'vibe_energy', data.vibe_energy);
+            addField(fields, values, 'vibe_aesthetic', data.vibe_aesthetic);
+            addField(fields, values, 'vibe_authenticity', data.vibe_authenticity);
+            addField(fields, values, 'vibe_intimacy', data.vibe_intimacy);
+            // Quality
             addField(fields, values, 'quality', data.quality_modifiers);
             addField(fields, values, 'render', data.render_style);
             addField(fields, values, 'details', data.additional_details, true);
@@ -4968,12 +5098,47 @@
                         style: data.hair_style,
                         color: data.hair_color,
                         length: data.hair_length,
+                        effect: data.hair_effect,
                         ...getCustomFieldsForSection('hair')
                     }),
                     face: cleanObj({
                         skin_type: data.skin_type,
                         makeup_style: data.makeup_style,
+                        features: data.face_features,
                         ...getCustomFieldsForSection('face')
+                    }),
+                    expression: cleanObj({
+                        eye_look: data.eye_look,
+                        eye_energy: data.eye_energy,
+                        eye_direction: data.eye_direction,
+                        mouth_position: data.mouth_position,
+                        mouth_energy: data.mouth_energy
+                    }),
+                    body: cleanObj({
+                        frame: data.body_frame,
+                        definition: data.body_definition,
+                        skin_visible_areas: data.skin_visible_areas,
+                        skin_tone: data.skin_tone,
+                        skin_texture: data.skin_texture,
+                        skin_lighting_effect: data.skin_lighting_effect
+                    }),
+                    pose: cleanObj({
+                        position: data.pose_position,
+                        base: data.pose_base,
+                        energy: data.pose_energy
+                    }),
+                    clothing_advanced: cleanObj({
+                        effect: data.clothing_effect,
+                        details: data.clothing_details
+                    }),
+                    device: cleanObj({
+                        type: data.device_type,
+                        details: data.device_details,
+                        prop_type: data.prop_type
+                    }),
+                    optical_illusion: cleanObj({
+                        type: data.illusion_type,
+                        device: data.illusion_device
                     }),
                     // Multi-person data with custom fields
                     persons: data.persons && data.persons.length > 0 ? data.persons.map((p, idx) => {
@@ -5004,6 +5169,22 @@
                         film_type: data.film_type,
                         aspect_ratio: data.aspect_ratio,
                         ...getCustomFieldsForSection('technical')
+                    }),
+                    photography_advanced: cleanObj({
+                        camera_style: data.camera_style,
+                        shot_type: data.shot_type,
+                        photo_texture: data.photo_texture,
+                        depth_of_field: data.depth_of_field
+                    }),
+                    background_advanced: cleanObj({
+                        elements: data.background_elements,
+                        atmosphere: data.background_atmosphere
+                    }),
+                    the_vibe: cleanObj({
+                        energy: data.vibe_energy,
+                        aesthetic: data.vibe_aesthetic,
+                        authenticity: data.vibe_authenticity,
+                        intimacy: data.vibe_intimacy
                     }),
                     quality: cleanObj({
                         modifiers: data.quality_modifiers,
