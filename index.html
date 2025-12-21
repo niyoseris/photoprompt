@@ -1465,6 +1465,52 @@
                         </div>
                         <div id="customFields_hair" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
                         <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('hair')">➕ Add Custom Field</button>
+                        <!-- Hair Effect -->
+                        <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mt-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="hair_effect">Hair Effect</label>
+                                <select name="hair_effect" class="input-field w-full px-4 py-3" data-options="hair_effect">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Expression Section -->
+                    <div class="mb-6" id="advancedExpressionSection">
+                        <div class="section-title mb-3">
+                            👁️ <span data-i18n="advanced_expression_section">Advanced Expression</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="eye_look">Eye Look</label>
+                                <select name="eye_look" class="input-field w-full px-4 py-3" data-options="eye_look">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="eye_energy">Eye Energy</label>
+                                <select name="eye_energy" class="input-field w-full px-4 py-3" data-options="eye_energy">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="eye_direction">Eye Direction</label>
+                                <select name="eye_direction" class="input-field w-full px-4 py-3" data-options="eye_direction">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="mouth_position">Mouth Position</label>
+                                <select name="mouth_position" class="input-field w-full px-4 py-3" data-options="mouth_position">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="mouth_energy">Mouth Energy</label>
+                                <select name="mouth_energy" class="input-field w-full px-4 py-3" data-options="mouth_energy">
+                                </select>
+                            </div>
+                        </div>
+                        <div id="customFields_advanced_expression" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('advanced_expression')">➕ Add Custom Field</button>
                     </div>
                     
                     <!-- Face & Makeup Section -->
@@ -1484,8 +1530,105 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mt-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="face_features">Face Features</label>
+                                <select name="face_features" class="input-field w-full px-4 py-3" data-options="face_features">
+                                </select>
+                            </div>
+                        </div>
                         <div id="customFields_face" class="custom-fields-container grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                         <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('face')">➕ Add Custom Field</button>
+                    </div>
+                    
+                    <!-- Advanced Body Section -->
+                    <div class="mb-6" id="advancedBodySection">
+                        <div class="section-title mb-3">
+                            🧍 <span data-i18n="advanced_body_section">Advanced Body & Skin</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="body_frame">Body Frame</label>
+                                <select name="body_frame" class="input-field w-full px-4 py-3" data-options="body_frame">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="body_definition">Body Definition</label>
+                                <select name="body_definition" class="input-field w-full px-4 py-3" data-options="body_definition">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="skin_visible_areas">Visible Areas</label>
+                                <select name="skin_visible_areas" class="input-field w-full px-4 py-3" data-options="skin_visible_areas">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="skin_tone">Skin Tone</label>
+                                <select name="skin_tone" class="input-field w-full px-4 py-3" data-options="skin_tone">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="skin_texture">Skin Texture</label>
+                                <select name="skin_texture" class="input-field w-full px-4 py-3" data-options="skin_texture">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="skin_lighting_effect">Skin Lighting</label>
+                                <select name="skin_lighting_effect" class="input-field w-full px-4 py-3" data-options="skin_lighting_effect">
+                                </select>
+                            </div>
+                        </div>
+                        <div id="customFields_advanced_body" class="custom-fields-container grid grid-cols-1 md:grid-cols-4 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('advanced_body')">➕ Add Custom Field</button>
+                    </div>
+                    
+                    <!-- Advanced Pose Section -->
+                    <div class="mb-6" id="advancedPoseSection">
+                        <div class="section-title mb-3">
+                            🤸 <span data-i18n="advanced_pose_section">Advanced Pose</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="pose_position">Pose Position</label>
+                                <select name="pose_position" class="input-field w-full px-4 py-3" data-options="pose_position">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="pose_base">Pose Base</label>
+                                <select name="pose_base" class="input-field w-full px-4 py-3" data-options="pose_base">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="pose_energy">Pose Energy</label>
+                                <select name="pose_energy" class="input-field w-full px-4 py-3" data-options="pose_energy">
+                                </select>
+                            </div>
+                        </div>
+                        <div id="customFields_advanced_pose" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('advanced_pose')">➕ Add Custom Field</button>
+                    </div>
+                    
+                    <!-- Advanced Clothing Section -->
+                    <div class="mb-6" id="advancedClothingSection">
+                        <div class="section-title mb-3">
+                            👗 <span data-i18n="advanced_clothing_section">Advanced Clothing</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="clothing_effect">Clothing Effect</label>
+                                <select name="clothing_effect" class="input-field w-full px-4 py-3" data-options="clothing_effect">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="clothing_details">Clothing Details</label>
+                                <select name="clothing_details" class="input-field w-full px-4 py-3" data-options="clothing_details">
+                                </select>
+                            </div>
+                        </div>
+                        <div id="customFields_advanced_clothing" class="custom-fields-container grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('advanced_clothing')">➕ Add Custom Field</button>
                     </div>
                     
                     <!-- Accessories Section -->
@@ -1529,6 +1672,53 @@
                         </div>
                         <div id="customFields_accessories" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
                         <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('accessories')">➕ Add Custom Field</button>
+                    </div>
+                    
+                    <!-- Device & Props Section -->
+                    <div class="mb-6" id="devicePropsSection">
+                        <div class="section-title mb-3">
+                            📱 <span data-i18n="device_props_section">Device & Props</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="device_type">Device Type</label>
+                                <select name="device_type" class="input-field w-full px-4 py-3" data-options="device_type">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="device_details">Device Details</label>
+                                <select name="device_details" class="input-field w-full px-4 py-3" data-options="device_details">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="prop_type">Prop Type</label>
+                                <select name="prop_type" class="input-field w-full px-4 py-3" data-options="prop_type">
+                                </select>
+                            </div>
+                        </div>
+                        <div id="customFields_device_props" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('device_props')">➕ Add Custom Field</button>
+                    </div>
+                    
+                    <!-- Optical Illusion Section -->
+                    <div class="mb-6" id="opticalIllusionSection">
+                        <div class="section-title mb-3">
+                            ✨ <span data-i18n="optical_illusion_section">Optical Illusion Effects</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="illusion_type">Illusion Type</label>
+                                <select name="illusion_type" class="input-field w-full px-4 py-3" data-options="illusion_type">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="illusion_device">Illusion Device</label>
+                                <select name="illusion_device" class="input-field w-full px-4 py-3" data-options="illusion_device">
+                                </select>
+                            </div>
+                        </div>
+                        <div id="customFields_optical_illusion" class="custom-fields-container grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('optical_illusion')">➕ Add Custom Field</button>
                     </div>
 
                     <!-- Objects Section -->
@@ -1612,6 +1802,89 @@
                         </div>
                         <div id="customFields_technical" class="custom-fields-container grid grid-cols-1 md:grid-cols-3 gap-4"></div>
                         <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('technical')">➕ Add Custom Field</button>
+                    </div>
+                    
+                    <!-- Advanced Photography Section -->
+                    <div class="mb-6" id="advancedPhotographySection">
+                        <div class="section-title mb-3">
+                            🎬 <span data-i18n="advanced_photography_section">Advanced Photography</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="camera_style">Camera Style</label>
+                                <select name="camera_style" class="input-field w-full px-4 py-3" data-options="camera_style">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="shot_type">Shot Type</label>
+                                <select name="shot_type" class="input-field w-full px-4 py-3" data-options="shot_type">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="photo_texture">Photo Texture</label>
+                                <select name="photo_texture" class="input-field w-full px-4 py-3" data-options="photo_texture">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="depth_of_field">Depth of Field</label>
+                                <select name="depth_of_field" class="input-field w-full px-4 py-3" data-options="depth_of_field">
+                                </select>
+                            </div>
+                        </div>
+                        <div id="customFields_advanced_photography" class="custom-fields-container grid grid-cols-1 md:grid-cols-4 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('advanced_photography')">➕ Add Custom Field</button>
+                    </div>
+                    
+                    <!-- Background Advanced Section -->
+                    <div class="mb-6" id="backgroundAdvancedSection">
+                        <div class="section-title mb-3">
+                            🏞️ <span data-i18n="background_advanced_section">Background Advanced</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="background_elements">Background Elements</label>
+                                <select name="background_elements" class="input-field w-full px-4 py-3" data-options="background_elements">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="background_atmosphere">Background Atmosphere</label>
+                                <select name="background_atmosphere" class="input-field w-full px-4 py-3" data-options="background_atmosphere">
+                                </select>
+                            </div>
+                        </div>
+                        <div id="customFields_background_advanced" class="custom-fields-container grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('background_advanced')">➕ Add Custom Field</button>
+                    </div>
+                    
+                    <!-- Vibe & Aesthetic Section -->
+                    <div class="mb-6" id="vibeAestheticSection">
+                        <div class="section-title mb-3">
+                            🌟 <span data-i18n="vibe_aesthetic_section">Vibe & Aesthetic</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="vibe_energy">Vibe Energy</label>
+                                <select name="vibe_energy" class="input-field w-full px-4 py-3" data-options="vibe_energy">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="vibe_aesthetic">Vibe Aesthetic</label>
+                                <select name="vibe_aesthetic" class="input-field w-full px-4 py-3" data-options="vibe_aesthetic">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="vibe_authenticity">Vibe Authenticity</label>
+                                <select name="vibe_authenticity" class="input-field w-full px-4 py-3" data-options="vibe_authenticity">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-i18n="vibe_intimacy">Vibe Intimacy</label>
+                                <select name="vibe_intimacy" class="input-field w-full px-4 py-3" data-options="vibe_intimacy">
+                                </select>
+                            </div>
+                        </div>
+                        <div id="customFields_vibe_aesthetic" class="custom-fields-container grid grid-cols-1 md:grid-cols-4 gap-4"></div>
+                        <button type="button" class="add-custom-field-btn" onclick="openCustomFieldModal('vibe_aesthetic')">➕ Add Custom Field</button>
                     </div>
 
                     <!-- Quality Section -->
