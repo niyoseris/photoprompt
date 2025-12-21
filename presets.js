@@ -1219,6 +1219,56 @@ const DEFAULT_PRESETS = {
 	                { label: "Distant planets", category: "background", location: "scattered", prominence: "secondary" }
 	            ]
 	        }
+	    },
+	    "phone_popout_fashion": {
+	        name: "Phone Pop-out OOTD", icon: "📱", category: "trending",
+	        description: "Hyper-realistic optical illusion - model stepping out of smartphone screen with fashion breakdown",
+	        credit: "https://x.com/underwoodxie96",
+	        data: {
+	            subject_type: "fashion", style: "photorealistic", person_count: 1,
+	            persons: [{
+	                gender: "female",
+	                ethnicity: "caucasian",
+	                age_group: "young adult",
+	                body_type: "petite",
+	                hair_style: "long flowing",
+	                hair_color: "dark brown",
+	                expression: "playful",
+	                pose: "action pose",
+	                clothing_style: "elegant",
+	                clothing_type: "sweater",
+	                clothing_color: "brown",
+	                makeup_style: "natural minimal",
+	                skin_type: "fair"
+	            }],
+	            lighting: "natural light",
+	            mood: "energetic",
+	            color_palette: "warm tones",
+	            setting: "european plaza",
+	            season: "autumn",
+	            camera_type: "Canon 5D Mark IV",
+	            camera_angle: "high angle",
+	            camera_settings: "macro",
+	            composition: "POV shot",
+	            quality_modifiers: "ultra detailed",
+	            style_modifiers: "hyper-realistic optical illusion photograph, woman stepping out of smartphone screen, POV shot looking down at hand holding phone, iOS Camera UI on screen with white shutter button, PHOTO mode text, handwritten style text annotations with arrows pointing to outfit elements (suede jacket, leather boots), burgundy phone case, pop-out 3D effect, photorealistic skin texture with visible pores, natural imperfections, soft daylight, DSLR macro lens photography, sharp screen pixels, fingerprint smudges on screen, realistic fabric texture, overcast soft natural light, background bokeh, Parisian park autumn atmosphere, cinematic composition",
+	            _sceneObjects: [
+	                { label: "Smartphone with burgundy case", category: "props", location: "foreground", prominence: "primary", color: "burgundy", material: "phone case", state: "active screen showing iOS Camera UI" },
+	                { label: "Photographer's hand with gold rings", category: "props", location: "foreground", prominence: "primary", color: "skin tone with gold jewelry", material: "natural" },
+	                { label: "Green park bench", category: "furniture", location: "background", prominence: "secondary", color: "green", state: "with text Le silence" },
+	                { label: "Autumn leaves", category: "natural", location: "background", prominence: "background", color: "orange and brown" },
+	                { label: "Handwritten text overlays", category: "overlay", location: "on phone screen", prominence: "secondary", color: "white", state: "arrows pointing to suede jacket and leather boots" },
+	                { label: "Mini skirt", category: "clothing", location: "on phone screen", prominence: "secondary", color: "dark grey" },
+	                { label: "Leather boots", category: "clothing", location: "on phone screen", prominence: "secondary", color: "brown" }
+	            ],
+	            _semanticRelationships: [
+	                { subject: "Woman", action: "emerging from", object: "smartphone screen" },
+	                { subject: "Phone screen", action: "displaying", object: "legs with boots inside camera UI" },
+	                { subject: "Text annotations", action: "pointing to", object: "outfit elements" },
+	                { subject: "Hand", action: "holding", object: "smartphone" }
+	            ],
+	            negative_prompt: "transparent screen, blank screen, glass phone, 3d render, cartoon, anime, plastic skin, drawing, illustration"
+	        }
 	    }
 	};
 
