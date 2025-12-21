@@ -5536,7 +5536,8 @@
         // Global variable to track current loaded preset
         let currentPreset = null;
 
-        const presets = {
+        // Make presets global for access
+        window.presets = {
             cinematic: {
                 subject_type: 'portrait',
                 style: 'cinematic',
