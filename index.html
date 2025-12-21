@@ -4831,6 +4831,11 @@
             const negativeItems = getSelectedNegativePrompts();
             lines.push(`negative[${negativeItems.length}]: ${negativeItems.join(',')}`);
             
+            // Add metadata
+            lines.push('metadata{3}:');
+            lines.push('  format_version:str, generator:str, credit:str');
+            lines.push('  "2.0", "PhotoPrompt Generator by @niyoseris", "' + (currentPreset && currentPreset.credit ? currentPreset.credit : '') + '"');
+            
             return lines.join('\n');
         }
 
@@ -5003,6 +5008,14 @@
             
             const negativeItems = getSelectedNegativePrompts();
             lines.push(`negative[${negativeItems.length}]: ${negativeItems.join(', ')}`);
+            
+            // Add metadata
+            lines.push('metadata:');
+            lines.push('  format_version: 2.0');
+            lines.push('  generator: PhotoPrompt Generator by @niyoseris');
+            if (currentPreset && currentPreset.credit) {
+                lines.push(`  credit: ${escapeValue(currentPreset.credit)}`);
+            }
             
             return lines.join('\n');
         }
@@ -5215,7 +5228,8 @@
                 negative_prompt: getSelectedNegativePrompts(),
                 metadata: {
                     format_version: "2.0",
-                    generator: "PhotoPrompt Generator by @niyoseris"
+                    generator: "PhotoPrompt Generator by @niyoseris",
+                    ...(currentPreset && currentPreset.credit ? { credit: currentPreset.credit } : {})
                 }
             };
             
@@ -5519,6 +5533,9 @@
             });
         }
 
+        // Global variable to track current loaded preset
+        let currentPreset = null;
+
         const presets = {
             cinematic: {
                 subject_type: 'portrait',
@@ -5546,6 +5563,9 @@
 
         function loadPreset(name) {
             const preset = presets[name];
+            
+            // Store current preset for credit info
+            currentPreset = preset;
             
             // Complete reset of all fields first
             resetAllFields();
