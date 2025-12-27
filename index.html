@@ -12,9 +12,9 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Prompt Generator</title>
+    <title>Prompy Prompt Generator</title>
     <meta name="description" content="Advanced prompt preparation tool for LLM Image Generation. Supports TOON and TONL formats.">
-    <meta name="author" content="@niyoseris">
+    <meta name="author" content="@niyoverse">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Clean Modern Font -->
@@ -1082,7 +1082,7 @@
                 <div class="preset-gallery mb-6 p-4" style="background: var(--bg-input); border-radius: 8px; border: 1px solid var(--border);">
                     <div class="flex items-center justify-between mb-3">
                         <span class="text-sm font-medium" style="color: var(--text-secondary);">
-                            📚 <span data-i18n="preset_gallery">Ready-to-Use Presets (130+)</span>
+                            📚 <span data-i18n="preset_gallery">Ready-to-Use Presets</span>
                         </span>
                         <button onclick="togglePresetGallery()" class="preset-btn" id="toggleGalleryBtn">
                             ▼ <span data-i18n="show_presets">Show</span>
@@ -2374,8 +2374,8 @@
             <p>
                 <span data-i18n="footer_text">Photo Prompt Generator</span> | 
                 <span data-i18n="created_by">Created by</span>: 
-                <a href="https://twitter.com/niyoseris" target="_blank" rel="noopener noreferrer" class="creator-link">
-                    <i class="fab fa-twitter mr-1"></i>@niyoseris
+                <a href="https://twitter.com/niyoverse" target="_blank" rel="noopener noreferrer" class="creator-link">
+                    <i class="fab fa-twitter mr-1"></i>@niyoverse
                 </a>
             </p>
             <p class="mt-1 text-xs text-gray-600">
@@ -5192,7 +5192,7 @@
             // Add metadata
             lines.push('metadata{3}:');
             lines.push('  format_version:str, generator:str, credit:str');
-            lines.push('  "2.0", "PhotoPrompt Generator by @niyoseris", "' + (data.current_preset_credit || '') + '"');
+            lines.push('  "3.0", "PhotoPrompt Generator by @niyoverse", "' + (data.current_preset_credit || '') + '"');
             
             return lines.join('\n');
         }
@@ -5370,7 +5370,7 @@
             // Add metadata
             lines.push('metadata:');
             lines.push('  format_version: 2.0');
-            lines.push('  generator: PhotoPrompt Generator by @niyoseris');
+            lines.push('  generator: PhotoPrompt Generator by @niyoverse');
             if (data.current_preset_credit) {
                 lines.push(`  credit: ${escapeValue(data.current_preset_credit)}`);
             }
@@ -5585,8 +5585,8 @@
                 semantic_relationships: semanticRelationships.length > 0 ? semanticRelationships : undefined,
                 negative_prompt: getSelectedNegativePrompts(),
                 metadata: {
-                    format_version: "2.0",
-                    generator: "PhotoPrompt Generator by @niyoseris",
+                    format_version: "3.0",
+                    generator: "PhotoPrompt Generator by @niyoverse",
                     ...(data.current_preset_credit ? { credit: data.current_preset_credit } : {})
                 }
             };
