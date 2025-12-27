@@ -4298,21 +4298,32 @@
             updateCharacterSectionsVisibility();
         }
         
-        // Hide Character, Hair, Face, Accessories sections when specific people are used
+        // Hide Character, Hair, Face, Accessories sections when:
+        // 1. Specific people are used (data is in person panels instead)
+        // 2. Subject type is not portrait/fashion/street (no human subject)
         function updateCharacterSectionsVisibility() {
             const sections = ['characterSection', 'hairSection', 'faceSection', 'accessoriesSection'];
-            const shouldHide = includePeople && peopleType === 'specific';
+            
+            // Get current subject type
+            const subjectType = document.querySelector('[name="subject_type"]')?.value || '';
+            const humanSubjectTypes = ['portrait', 'fashion', 'street'];
+            const isHumanSubject = humanSubjectTypes.includes(subjectType);
+            
+            // Hide if: specific people are enabled OR subject type doesn't involve humans
+            const shouldHide = (includePeople && peopleType === 'specific') || !isHumanSubject;
             
             sections.forEach(sectionId => {
                 const section = document.getElementById(sectionId);
                 if (section) {
-                    if (shouldHide) {
-                        section.style.display = 'none';
-                    } else {
-                        section.style.display = 'block';
-                    }
+                    section.style.display = shouldHide ? 'none' : 'block';
                 }
             });
+            
+            // Also hide/show the "Include People" checkbox section for non-human subjects
+            const peopleCheckboxSection = document.getElementById('includePeopleCheckbox')?.closest('.p-4');
+            if (peopleCheckboxSection) {
+                peopleCheckboxSection.style.display = isHumanSubject ? 'block' : 'none';
+            }
         }
         
         // Person property fields to include in each person panel
@@ -4925,6 +4936,9 @@
             } else {
                 container.style.display = 'none';
             }
+            
+            // Update character sections visibility based on subject type
+            updateCharacterSectionsVisibility();
         }
 
         // ==================== FORMAT GENERATORS ====================
@@ -6811,7 +6825,14 @@
             
             // Handle semantic relationships
             if (data._semanticRelationships_array && Array.isArray(data._semanticRelationships_array)) {
-                semanticRelationships = data._semanticRelationships_array;
+                // Convert objects to strings if needed
+                semanticRelationships = data._semanticRelationships_array.map(rel => {
+                    if (typeof rel === 'string') return rel;
+                    if (typeof rel === 'object' && rel.subject && rel.action && rel.object) {
+                        return `${rel.subject} ${rel.action} ${rel.object}`;
+                    }
+                    return String(rel);
+                }).filter(Boolean);
                 renderRelationships();
             }
             
