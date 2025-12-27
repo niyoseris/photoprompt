@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Prompt Generator - Login</title>
+    <meta name="description" content="Advanced prompt preparation tool for LLM Image Generation">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 48px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        
+        h1 {
+            color: var(--text-primary);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        
+        .feature-icon {
+            font-size: 20px;
+        }
+        
+        #googleSignInBtn {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        
+        .divider span {
+            padding: 0 16px;
+        }
+        
+        .footer-text {
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-top: 24px;
+        }
+        
+        .footer-text a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: var(--success);
+            color: white;
+            font-weight: 500;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .notification.error {
+            background: var(--error);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .loading {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .loading.active {
+            display: flex;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+            display: none;
+        }
+        
+        .error-message.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <div class="logo">🚀</div>
+        <h1>Photo Prompt Generator</h1>
+        <p class="subtitle">Professional prompt preparation tool for AI image generation</p>
+        
+        <div class="features">
+            <div class="feature-item">
+                <span class="feature-icon">📸</span>
+                <span>Create photo prompts</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🎨</span>
+                <span>Browse the prompt gallery</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">📁</span>
+                <span>Organize your favorites</span>
+            </div>
+        </div>
+
+        <div id="errorMessage" class="error-message"></div>
+        
+        <div id="googleSignInBtn"></div>
+        
+        <div id="loadingState" class="loading">
+            <div class="spinner"></div>
+            <span>Signing in...</span>
+        </div>
+        
+        <p class="footer-text">
+            By signing in, you agree to our <a href="#">terms of service</a>.
+        </p>
+    </div>
+
+    <script>
+        let GOOGLE_CLIENT_ID = '';
+
+        // Load config from server
+        async function loadConfig() {
+            try {
+                const res = await fetch('/api/config');
+                const data = await res.json();
+                GOOGLE_CLIENT_ID = data.google_client_id;
+                
+                if (!GOOGLE_CLIENT_ID) {
+                    showError('Google Client ID not configured. Please set GOOGLE_CLIENT_ID in .env file.');
+                    return false;
+                }
+                return true;
+            } catch (e) {
+                console.error('Config load failed:', e);
+                showError('Server configuration failed to load.');
+                return false;
+            }
+        }
+
+        // Check if already logged in
+        async function checkAuth() {
+            try {
+                const res = await fetch('/api/auth/me', { credentials: 'include' });
+                const data = await res.json();
+                
+                if (data.user) {
+                    // Already logged in, redirect to gallery
+                    window.location.href = '/gallery';
+                    return true;
+                }
+                return false;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Initialize Google Sign In
+        function initGoogleSignIn() {
+            if (!GOOGLE_CLIENT_ID) {
+                document.getElementById('googleSignInBtn').innerHTML = 
+                    '<p style="color: var(--error); font-size: 13px;">Google Sign-In not configured</p>';
+                return;
+            }
+            
+            if (typeof google !== 'undefined' && google.accounts) {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleGoogleCallback
+                });
+                
+                google.accounts.id.renderButton(
+                    document.getElementById('googleSignInBtn'),
+                    { 
+                        theme: 'outline', 
+                        size: 'large',
+                        width: 300,
+                        text: 'signin_with',
+                        shape: 'rectangular',
+                        logo_alignment: 'center'
+                    }
+                );
+            } else {
+                // Retry if Google SDK not loaded yet
+                setTimeout(initGoogleSignIn, 100);
+            }
+        }
+
+        // Handle Google callback
+        async function handleGoogleCallback(response) {
+            const loadingEl = document.getElementById('loadingState');
+            const signInBtn = document.getElementById('googleSignInBtn');
+            
+            signInBtn.style.display = 'none';
+            loadingEl.classList.add('active');
+            
+            try {
+                const res = await fetch('/api/auth/google', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ credential: response.credential })
+                });
+                
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    showNotification('Welcome, ' + data.user.name + '!');
+                    setTimeout(() => {
+                        window.location.href = '/gallery';
+                    }, 500);
+                } else {
+                    showError(data.error || 'Sign in failed');
+                    loadingEl.classList.remove('active');
+                    signInBtn.style.display = 'flex';
+                }
+            } catch (e) {
+                console.error('Google auth error:', e);
+                showError('An error occurred during sign in');
+                loadingEl.classList.remove('active');
+                signInBtn.style.display = 'flex';
+            }
+        }
+
+        function showError(message) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.classList.add('active');
+        }
+
+        function showNotification(msg, isError = false) {
+            const notif = document.createElement('div');
+            notif.className = `notification ${isError ? 'error' : ''}`;
+            notif.textContent = msg;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+
+        // Initialize
+        async function init() {
+            // Check if already logged in
+            const isLoggedIn = await checkAuth();
+            if (isLoggedIn) return;
+            
+            // Load config and init Google Sign In
+            const configLoaded = await loadConfig();
+            if (configLoaded) {
+                initGoogleSignIn();
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

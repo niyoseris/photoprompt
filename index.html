@@ -1014,13 +1014,23 @@
     <div class="max-w-7xl mx-auto">
         <!-- Header -->
         <header class="text-center mb-8 relative">
-            <h1 class="mb-2">
+            <div class="absolute top-0 right-0 flex items-center gap-3">
+                <!-- User auth area - will be populated by JS -->
+            </div>
+            <h1 class="mb-2" id="pageTitle">
                 📸 <span data-i18n="page_title">Photo Prompt Generator</span>
             </h1>
             <p style="color: var(--text-secondary);" data-i18n="page_subtitle">A detailed prompt builder for LLM Image Generation</p>
+            
+            <!-- Mode Switch -->
+            <div class="flex justify-center gap-2 mt-4">
+                <button onclick="switchMode('photo')" id="modePhotoBtn" class="tab-btn active">📸 Photo Prompts</button>
+                <button onclick="switchMode('llm')" id="modeLlmBtn" class="tab-btn">🚀 Project Builder</button>
+            </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Photo Mode Panel -->
+        <div id="photoModePanel" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Input Panel -->
             <div class="glass-card p-6">
                 <div class="flex items-center justify-between mb-4">
@@ -2008,6 +2018,357 @@
             </div>
         </div>
 
+        <!-- Project Builder Mode Panel -->
+        <div id="llmModePanel" class="grid grid-cols-1 lg:grid-cols-2 gap-6" style="display: none;">
+            <!-- Project Builder Input Panel -->
+            <div class="glass-card p-6" style="max-height: 85vh; overflow-y: auto;">
+                <div class="flex items-center justify-between mb-4">
+                    <h2>🚀 Project Builder for AI Agents</h2>
+                    <button onclick="clearLlmForm()" class="preset-btn">🗑️ Clear</button>
+                </div>
+                
+                <form id="llmPromptForm" class="space-y-4">
+                    <!-- Project Overview -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">📋 Project Overview</div>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">Project Name <span class="text-xs text-gray-500">— The official name of your application</span></label>
+                                <input type="text" name="project_name" class="input-field w-full" placeholder="e.g., TaskFlow Pro, HealthTracker AI">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">One-Line Description <span class="text-xs text-gray-500">— Elevator pitch in 1-2 sentences</span></label>
+                                <input type="text" name="project_tagline" class="input-field w-full" placeholder="e.g., AI-powered task management for remote teams">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Problem Statement <span class="text-xs text-gray-500">— What problem does this solve?</span></label>
+                                <textarea name="problem_statement" class="input-field w-full" rows="2" placeholder="Describe the pain point or gap in the market..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Proposed Solution <span class="text-xs text-gray-500">— How does your app solve it?</span></label>
+                                <textarea name="proposed_solution" class="input-field w-full" rows="2" placeholder="Explain your unique approach to solving this problem..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Target Audience & Market -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">👥 Target Audience & Market</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">Target Users <span class="text-xs text-gray-500">— Who will use this?</span></label>
+                                <input type="text" name="target_users" class="input-field w-full" placeholder="e.g., Small business owners, Freelancers">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Market Size <span class="text-xs text-gray-500">— TAM/SAM/SOM if known</span></label>
+                                <input type="text" name="market_size" class="input-field w-full" placeholder="e.g., $5B global market, 10M potential users">
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label class="form-label">Competitors <span class="text-xs text-gray-500">— Existing solutions in the market</span></label>
+                                <input type="text" name="competitors" class="input-field w-full" placeholder="e.g., Notion, Asana, Monday.com">
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label class="form-label">Unique Value Proposition <span class="text-xs text-gray-500">— Why choose you over competitors?</span></label>
+                                <textarea name="unique_value" class="input-field w-full" rows="2" placeholder="What makes your solution different and better?"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technical Stack -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">⚙️ Technical Stack</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">Platform Type <span class="text-xs text-gray-500">— Primary deployment target</span></label>
+                                <select name="platform_type" class="input-field w-full">
+                                    <option value="">Select...</option>
+                                    <option value="web_app">Web Application (SPA/SSR)</option>
+                                    <option value="mobile_native">Native Mobile (iOS/Android)</option>
+                                    <option value="mobile_hybrid">Hybrid Mobile (React Native/Flutter)</option>
+                                    <option value="desktop">Desktop Application (Electron/Tauri)</option>
+                                    <option value="api_backend">API/Backend Service</option>
+                                    <option value="browser_extension">Browser Extension</option>
+                                    <option value="cli_tool">CLI Tool</option>
+                                    <option value="full_stack">Full-Stack (Web + API)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Frontend Framework <span class="text-xs text-gray-500">— UI technology</span></label>
+                                <select name="frontend_framework" class="input-field w-full">
+                                    <option value="">Select...</option>
+                                    <option value="react">React</option>
+                                    <option value="nextjs">Next.js</option>
+                                    <option value="vue">Vue.js</option>
+                                    <option value="nuxt">Nuxt.js</option>
+                                    <option value="angular">Angular</option>
+                                    <option value="svelte">Svelte/SvelteKit</option>
+                                    <option value="react_native">React Native</option>
+                                    <option value="flutter">Flutter</option>
+                                    <option value="vanilla">Vanilla JS/HTML</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Backend Framework <span class="text-xs text-gray-500">— Server technology</span></label>
+                                <select name="backend_framework" class="input-field w-full">
+                                    <option value="">Select...</option>
+                                    <option value="nodejs">Node.js (Express/Fastify)</option>
+                                    <option value="python">Python (Flask/FastAPI/Django)</option>
+                                    <option value="go">Go (Gin/Echo)</option>
+                                    <option value="rust">Rust (Actix/Axum)</option>
+                                    <option value="java">Java (Spring Boot)</option>
+                                    <option value="csharp">C# (.NET)</option>
+                                    <option value="ruby">Ruby (Rails)</option>
+                                    <option value="php">PHP (Laravel)</option>
+                                    <option value="serverless">Serverless Functions</option>
+                                    <option value="supabase">Supabase (BaaS)</option>
+                                    <option value="firebase">Firebase (BaaS)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Database <span class="text-xs text-gray-500">— Data storage</span></label>
+                                <select name="database" class="input-field w-full">
+                                    <option value="">Select...</option>
+                                    <option value="postgresql">PostgreSQL</option>
+                                    <option value="mysql">MySQL</option>
+                                    <option value="mongodb">MongoDB</option>
+                                    <option value="sqlite">SQLite</option>
+                                    <option value="redis">Redis</option>
+                                    <option value="dynamodb">DynamoDB</option>
+                                    <option value="firestore">Firestore</option>
+                                    <option value="supabase_db">Supabase (Postgres)</option>
+                                    <option value="planetscale">PlanetScale</option>
+                                    <option value="prisma">Prisma ORM</option>
+                                </select>
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label class="form-label">Additional Technologies <span class="text-xs text-gray-500">— APIs, AI/ML, Auth, Payments, etc.</span></label>
+                                <input type="text" name="additional_tech" class="input-field w-full" placeholder="e.g., OpenAI API, Stripe, Auth0, AWS S3, Twilio">
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label class="form-label">Deployment & Infrastructure <span class="text-xs text-gray-500">— Hosting and CI/CD</span></label>
+                                <input type="text" name="deployment" class="input-field w-full" placeholder="e.g., Vercel, AWS, Docker, GitHub Actions">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core Features (PRD) -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">🎯 Core Features (PRD)</div>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">MVP Features <span class="text-xs text-gray-500">— Must-have features for launch</span></label>
+                                <textarea name="mvp_features" class="input-field w-full" rows="4" placeholder="- User authentication (email, OAuth)&#10;- Dashboard with key metrics&#10;- CRUD operations for main entities&#10;- Basic search and filtering"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Future Features <span class="text-xs text-gray-500">— Nice-to-have for v2+</span></label>
+                                <textarea name="future_features" class="input-field w-full" rows="3" placeholder="- Team collaboration&#10;- Advanced analytics&#10;- Mobile app&#10;- API for integrations"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Flow -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">🔄 User Flow</div>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">Onboarding Flow <span class="text-xs text-gray-500">— How users get started</span></label>
+                                <textarea name="onboarding_flow" class="input-field w-full" rows="3" placeholder="1. Landing page → Sign up&#10;2. Email verification&#10;3. Profile setup wizard&#10;4. First project creation"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Core User Journey <span class="text-xs text-gray-500">— Main workflow for key tasks</span></label>
+                                <textarea name="user_journey" class="input-field w-full" rows="3" placeholder="1. Login → Dashboard&#10;2. Create new task/project&#10;3. Configure settings&#10;4. Monitor progress&#10;5. Export/Share results"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Business Model -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">💰 Business Model & Monetization</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">Revenue Model <span class="text-xs text-gray-500">— How you'll make money</span></label>
+                                <select name="revenue_model" class="input-field w-full">
+                                    <option value="">Select...</option>
+                                    <option value="freemium">Freemium (Free + Paid tiers)</option>
+                                    <option value="subscription">Subscription (Monthly/Yearly)</option>
+                                    <option value="one_time">One-time Purchase</option>
+                                    <option value="usage_based">Usage-based/Pay-as-you-go</option>
+                                    <option value="marketplace">Marketplace/Commission</option>
+                                    <option value="advertising">Ad-supported</option>
+                                    <option value="enterprise">Enterprise/B2B Sales</option>
+                                    <option value="open_source">Open Source + Services</option>
+                                    <option value="hybrid">Hybrid Model</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Pricing Tiers <span class="text-xs text-gray-500">— Example pricing structure</span></label>
+                                <input type="text" name="pricing_tiers" class="input-field w-full" placeholder="e.g., Free, Pro ($9/mo), Team ($29/mo)">
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label class="form-label">Key Metrics to Track <span class="text-xs text-gray-500">— KPIs for success</span></label>
+                                <input type="text" name="key_metrics" class="input-field w-full" placeholder="e.g., MAU, MRR, Churn Rate, LTV, CAC">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Design & UX -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">🎨 Design & UX Requirements</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">UI Style <span class="text-xs text-gray-500">— Visual approach</span></label>
+                                <select name="ui_style" class="input-field w-full">
+                                    <option value="">Select...</option>
+                                    <option value="minimal">Minimal & Clean</option>
+                                    <option value="modern">Modern & Bold</option>
+                                    <option value="corporate">Corporate & Professional</option>
+                                    <option value="playful">Playful & Colorful</option>
+                                    <option value="dark">Dark Mode First</option>
+                                    <option value="glassmorphism">Glassmorphism</option>
+                                    <option value="material">Material Design</option>
+                                    <option value="ios">iOS/Apple Style</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">UI Component Library <span class="text-xs text-gray-500">— Pre-built components</span></label>
+                                <select name="ui_library" class="input-field w-full">
+                                    <option value="">Select...</option>
+                                    <option value="tailwind">Tailwind CSS</option>
+                                    <option value="shadcn">shadcn/ui</option>
+                                    <option value="chakra">Chakra UI</option>
+                                    <option value="mui">Material UI (MUI)</option>
+                                    <option value="antd">Ant Design</option>
+                                    <option value="radix">Radix UI</option>
+                                    <option value="bootstrap">Bootstrap</option>
+                                    <option value="custom">Custom CSS</option>
+                                </select>
+                            </div>
+                            <div class="form-group md:col-span-2">
+                                <label class="form-label">Accessibility Requirements <span class="text-xs text-gray-500">— a11y considerations</span></label>
+                                <input type="text" name="accessibility" class="input-field w-full" placeholder="e.g., WCAG 2.1 AA, Screen reader support, Keyboard navigation">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testing & QA -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">🧪 Testing & QA</div>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">Test Strategy <span class="text-xs text-gray-500">— How will the app be tested?</span></label>
+                                <textarea name="test_strategy" class="input-field w-full" rows="2" placeholder="e.g., Unit tests for business logic, E2E tests for critical flows, Manual QA for edge cases"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Test Coverage Requirements <span class="text-xs text-gray-500">— Minimum coverage targets</span></label>
+                                <input type="text" name="test_coverage" class="input-field w-full" placeholder="e.g., 80% unit test coverage, 100% for payment flows">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Testing Tools <span class="text-xs text-gray-500">— Frameworks and tools</span></label>
+                                <input type="text" name="testing_tools" class="input-field w-full" placeholder="e.g., Jest, Cypress, Playwright, React Testing Library">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">🔒 Security Requirements</div>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">Authentication Method <span class="text-xs text-gray-500">— How users will sign in</span></label>
+                                <input type="text" name="auth_method" class="input-field w-full" placeholder="e.g., Email/Password, OAuth (Google, GitHub), Magic Links, SSO">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Security Measures <span class="text-xs text-gray-500">— Required security features</span></label>
+                                <textarea name="security_measures" class="input-field w-full" rows="2" placeholder="e.g., HTTPS only, Rate limiting, Input validation, SQL injection prevention, XSS protection"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Compliance Requirements <span class="text-xs text-gray-500">— Regulatory compliance</span></label>
+                                <input type="text" name="compliance" class="input-field w-full" placeholder="e.g., GDPR, HIPAA, SOC 2, PCI-DSS">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Context -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">📝 Additional Context</div>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">Technical Constraints <span class="text-xs text-gray-500">— Limitations or requirements</span></label>
+                                <textarea name="constraints" class="input-field w-full" rows="2" placeholder="e.g., Must work offline, Max 100ms response time, GDPR compliant"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Reference Projects <span class="text-xs text-gray-500">— Similar apps for inspiration</span></label>
+                                <input type="text" name="references" class="input-field w-full" placeholder="e.g., Notion for UI, Stripe for UX, Linear for speed">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Additional Notes <span class="text-xs text-gray-500">— Any other important details</span></label>
+                                <textarea name="additional_notes" class="input-field w-full" rows="2" placeholder="Anything else the AI developer should know..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Custom Fields -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3 flex justify-between items-center">
+                            <span>✏️ Custom Fields</span>
+                            <button type="button" onclick="addCustomField()" class="text-xs btn-secondary">+ Add Field</button>
+                        </div>
+                        <div id="customFieldsContainer" class="space-y-3">
+                            <!-- Custom fields will be added here -->
+                        </div>
+                    </div>
+
+                    <!-- Output Format -->
+                    <div class="mb-6">
+                        <div class="section-title mb-3">📄 Output Format</div>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button" onclick="setProjectOutputFormat('natural')" class="tab-btn active" data-format="natural">Natural</button>
+                            <button type="button" onclick="setProjectOutputFormat('markdown')" class="tab-btn" data-format="markdown">Markdown</button>
+                            <button type="button" onclick="setProjectOutputFormat('toon')" class="tab-btn" data-format="toon">TOON</button>
+                            <button type="button" onclick="setProjectOutputFormat('tonl')" class="tab-btn" data-format="tonl">TONL</button>
+                            <button type="button" onclick="setProjectOutputFormat('json')" class="tab-btn" data-format="json">JSON</button>
+                        </div>
+                        <input type="hidden" name="output_format" id="projectOutputFormat" value="natural">
+                    </div>
+
+                    <button type="submit" class="btn-primary w-full flex items-center justify-center gap-2">
+                        ⚡ Generate Project Brief
+                    </button>
+                </form>
+
+                <!-- Preset Actions -->
+                <div class="mt-4 pt-4 border-t flex flex-wrap gap-2" style="border-color: var(--border);">
+                    <button onclick="saveProjectPreset()" class="btn-secondary text-sm">💾 Save Preset</button>
+                    <button onclick="loadProjectPreset()" class="btn-secondary text-sm">📂 Load Preset</button>
+                    <button onclick="exportProjectPreset()" class="btn-secondary text-sm">📤 Export</button>
+                    <button onclick="importProjectPreset()" class="btn-secondary text-sm">📥 Import</button>
+                </div>
+            </div>
+
+            <!-- Project Output Panel -->
+            <div class="glass-card p-6">
+                <h2 class="text-xl font-semibold mb-6 flex items-center">💻 Generated Project Brief</h2>
+                
+                <div class="output-box p-4 relative" style="max-height: 70vh; overflow-y: auto;">
+                    <button onclick="copyLlmOutput()" class="copy-btn" id="copyLlmBtn">📋 Copy</button>
+                    <pre id="llmOutputText" class="whitespace-pre-wrap text-gray-300">Fill out the form to generate a comprehensive project brief for your AI coding agent...</pre>
+                </div>
+
+                <!-- Quick Tips -->
+                <div class="mt-6 p-4 bg-indigo-900/30 rounded-xl border border-indigo-800/50">
+                    <h3 class="text-sm font-semibold text-indigo-400 mb-2">💡 Tips for Best Results</h3>
+                    <ul class="text-xs text-gray-400 space-y-1">
+                        <li>• <strong>Be Specific:</strong> The more detail you provide, the better the AI can help</li>
+                        <li>• <strong>MVP First:</strong> Focus on core features before nice-to-haves</li>
+                        <li>• <strong>User Flow:</strong> Think through how users will actually use the app</li>
+                        <li>• <strong>Tech Stack:</strong> Choose technologies you're comfortable with</li>
+                        <li>• <strong>Constraints:</strong> Mention any hard requirements upfront</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
         <!-- Footer -->
         <footer class="text-center mt-8 text-gray-500 text-sm">
             <p>
@@ -2124,13 +2485,7 @@
 
     <!-- Info Footer -->
     <footer style="background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 20px; margin-top: 40px;">
-        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-            <div style="font-size: 13px; color: var(--text-secondary);">
-                📡 Generated prompts are collected and displayed publicly at 
-                <a href="https://niyo.link/pp/" target="_blank" style="color: var(--accent); text-decoration: none;">
-                    niyo.link/pp
-                </a>
-            </div>
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: flex-end; align-items: center;">
             <div style="font-size: 13px; color: var(--text-secondary);">
                 <span style="font-weight: 600; color: var(--text-primary);">Status:</span>
                 <span id="backendStatus" style="margin-left: 8px;">
@@ -5754,11 +6109,702 @@
             updateContextualOptions();
         }
 
+        // ==================== MODE SWITCH ====================
+        
+        let currentAppMode = 'photo'; // 'photo' or 'llm'
+        
+        function switchMode(mode) {
+            currentAppMode = mode;
+            
+            document.getElementById('modePhotoBtn').classList.toggle('active', mode === 'photo');
+            document.getElementById('modeLlmBtn').classList.toggle('active', mode === 'llm');
+            
+            document.getElementById('photoModePanel').style.display = mode === 'photo' ? 'grid' : 'none';
+            document.getElementById('llmModePanel').style.display = mode === 'llm' ? 'grid' : 'none';
+            
+            // Update page title
+            const pageTitle = document.getElementById('pageTitle');
+            if (mode === 'photo') {
+                pageTitle.innerHTML = '📸 <span data-i18n="page_title">Photo Prompt Generator</span>';
+            } else {
+                pageTitle.innerHTML = '🚀 <span>Project Builder for AI Agents</span>';
+            }
+        }
+
+        // ==================== LLM AGENT FUNCTIONS ====================
+        
+        function clearLlmForm() {
+            document.getElementById('llmPromptForm').reset();
+            document.getElementById('llmOutputText').textContent = 'Fill out the form to generate a comprehensive project brief for your AI coding agent...';
+        }
+        
+        function generateLlmPrompt(data) {
+            const platformLabels = {
+                'web_app': 'Web Application (SPA/SSR)',
+                'mobile_native': 'Native Mobile App',
+                'mobile_hybrid': 'Hybrid Mobile App',
+                'desktop': 'Desktop Application',
+                'api_backend': 'API/Backend Service',
+                'browser_extension': 'Browser Extension',
+                'cli_tool': 'CLI Tool',
+                'full_stack': 'Full-Stack Application'
+            };
+            
+            const revenueLabels = {
+                'freemium': 'Freemium',
+                'subscription': 'Subscription',
+                'one_time': 'One-time Purchase',
+                'usage_based': 'Usage-based',
+                'marketplace': 'Marketplace',
+                'advertising': 'Ad-supported',
+                'enterprise': 'Enterprise Sales',
+                'open_source': 'Open Source',
+                'hybrid': 'Hybrid Model'
+            };
+            
+            let prompt = '';
+            
+            // Project Header
+            prompt += `# PROJECT BRIEF: ${data.project_name || 'Untitled Project'}\n\n`;
+            
+            if (data.project_tagline) {
+                prompt += `> ${data.project_tagline}\n\n`;
+            }
+            
+            // Problem & Solution
+            prompt += `## 🎯 Problem & Solution\n\n`;
+            if (data.problem_statement) {
+                prompt += `**Problem:** ${data.problem_statement}\n\n`;
+            }
+            if (data.proposed_solution) {
+                prompt += `**Solution:** ${data.proposed_solution}\n\n`;
+            }
+            
+            // Target Market
+            if (data.target_users || data.market_size || data.competitors || data.unique_value) {
+                prompt += `## 👥 Target Market\n\n`;
+                if (data.target_users) prompt += `- **Target Users:** ${data.target_users}\n`;
+                if (data.market_size) prompt += `- **Market Size:** ${data.market_size}\n`;
+                if (data.competitors) prompt += `- **Competitors:** ${data.competitors}\n`;
+                if (data.unique_value) prompt += `- **Unique Value:** ${data.unique_value}\n`;
+                prompt += `\n`;
+            }
+            
+            // Technical Stack
+            prompt += `## ⚙️ Technical Stack\n\n`;
+            if (data.platform_type) prompt += `- **Platform:** ${platformLabels[data.platform_type] || data.platform_type}\n`;
+            if (data.frontend_framework) prompt += `- **Frontend:** ${data.frontend_framework}\n`;
+            if (data.backend_framework) prompt += `- **Backend:** ${data.backend_framework}\n`;
+            if (data.database) prompt += `- **Database:** ${data.database}\n`;
+            if (data.additional_tech) prompt += `- **Additional Tech:** ${data.additional_tech}\n`;
+            if (data.deployment) prompt += `- **Deployment:** ${data.deployment}\n`;
+            prompt += `\n`;
+            
+            // Core Features (PRD)
+            if (data.mvp_features || data.future_features) {
+                prompt += `## 🎯 Product Requirements (PRD)\n\n`;
+                if (data.mvp_features) {
+                    prompt += `### MVP Features (v1.0)\n${data.mvp_features}\n\n`;
+                }
+                if (data.future_features) {
+                    prompt += `### Future Features (v2.0+)\n${data.future_features}\n\n`;
+                }
+            }
+            
+            // User Flow
+            if (data.onboarding_flow || data.user_journey) {
+                prompt += `## 🔄 User Flow\n\n`;
+                if (data.onboarding_flow) {
+                    prompt += `### Onboarding\n${data.onboarding_flow}\n\n`;
+                }
+                if (data.user_journey) {
+                    prompt += `### Core Journey\n${data.user_journey}\n\n`;
+                }
+            }
+            
+            // Business Model
+            if (data.revenue_model || data.pricing_tiers || data.key_metrics) {
+                prompt += `## 💰 Business Model\n\n`;
+                if (data.revenue_model) prompt += `- **Revenue Model:** ${revenueLabels[data.revenue_model] || data.revenue_model}\n`;
+                if (data.pricing_tiers) prompt += `- **Pricing:** ${data.pricing_tiers}\n`;
+                if (data.key_metrics) prompt += `- **Key Metrics:** ${data.key_metrics}\n`;
+                prompt += `\n`;
+            }
+            
+            // Design & UX
+            if (data.ui_style || data.ui_library || data.accessibility) {
+                prompt += `## 🎨 Design Requirements\n\n`;
+                if (data.ui_style) prompt += `- **UI Style:** ${data.ui_style}\n`;
+                if (data.ui_library) prompt += `- **Component Library:** ${data.ui_library}\n`;
+                if (data.accessibility) prompt += `- **Accessibility:** ${data.accessibility}\n`;
+                prompt += `\n`;
+            }
+            
+            // Testing & QA
+            if (data.test_strategy || data.test_coverage || data.testing_tools) {
+                prompt += `## 🧪 Testing & QA\n\n`;
+                if (data.test_strategy) prompt += `- **Strategy:** ${data.test_strategy}\n`;
+                if (data.test_coverage) prompt += `- **Coverage:** ${data.test_coverage}\n`;
+                if (data.testing_tools) prompt += `- **Tools:** ${data.testing_tools}\n`;
+                prompt += `\n`;
+            }
+            
+            // Security
+            if (data.auth_method || data.security_measures || data.compliance) {
+                prompt += `## 🔒 Security\n\n`;
+                if (data.auth_method) prompt += `- **Authentication:** ${data.auth_method}\n`;
+                if (data.security_measures) prompt += `- **Security Measures:** ${data.security_measures}\n`;
+                if (data.compliance) prompt += `- **Compliance:** ${data.compliance}\n`;
+                prompt += `\n`;
+            }
+            
+            // Additional Context
+            if (data.constraints || data.references || data.additional_notes) {
+                prompt += `## 📝 Additional Context\n\n`;
+                if (data.constraints) prompt += `**Constraints:** ${data.constraints}\n\n`;
+                if (data.references) prompt += `**References:** ${data.references}\n\n`;
+                if (data.additional_notes) prompt += `**Notes:** ${data.additional_notes}\n\n`;
+            }
+            
+            // Custom Fields
+            const customFields = getCustomFields();
+            if (customFields.length > 0) {
+                prompt += `## ✏️ Custom Requirements\n\n`;
+                customFields.forEach(field => {
+                    prompt += `- **${field.label}:** ${field.value}\n`;
+                });
+                prompt += `\n`;
+            }
+            
+            // Instructions for AI
+            prompt += `---\n\n`;
+            prompt += `## 🤖 Instructions for AI Developer\n\n`;
+            prompt += `Please help me build this project step by step:\n`;
+            prompt += `1. Review the requirements above and ask clarifying questions if needed\n`;
+            prompt += `2. Create a detailed technical architecture\n`;
+            prompt += `3. Set up the project structure with the specified tech stack\n`;
+            prompt += `4. Implement features incrementally, starting with MVP\n`;
+            prompt += `5. Follow best practices for code quality, security, and performance\n`;
+            
+            return prompt;
+        }
+        
+        // Format conversion functions
+        function formatAsNatural(data) {
+            return generateLlmPrompt(data);
+        }
+        
+        function formatAsMarkdown(data) {
+            return generateLlmPrompt(data);
+        }
+        
+        function formatAsTOON(data) {
+            let toon = `[PROJECT_BRIEF]\n`;
+            toon += `name=${data.project_name || 'Untitled'}\n`;
+            if (data.project_tagline) toon += `tagline=${data.project_tagline}\n`;
+            if (data.problem_statement) toon += `problem=${data.problem_statement}\n`;
+            if (data.proposed_solution) toon += `solution=${data.proposed_solution}\n`;
+            
+            toon += `\n[MARKET]\n`;
+            if (data.target_users) toon += `users=${data.target_users}\n`;
+            if (data.market_size) toon += `size=${data.market_size}\n`;
+            if (data.competitors) toon += `competitors=${data.competitors}\n`;
+            
+            toon += `\n[TECH_STACK]\n`;
+            if (data.platform_type) toon += `platform=${data.platform_type}\n`;
+            if (data.frontend_framework) toon += `frontend=${data.frontend_framework}\n`;
+            if (data.backend_framework) toon += `backend=${data.backend_framework}\n`;
+            if (data.database) toon += `database=${data.database}\n`;
+            
+            toon += `\n[FEATURES]\n`;
+            if (data.mvp_features) toon += `mvp=${data.mvp_features.replace(/\n/g, '; ')}\n`;
+            if (data.future_features) toon += `future=${data.future_features.replace(/\n/g, '; ')}\n`;
+            
+            toon += `\n[BUSINESS]\n`;
+            if (data.revenue_model) toon += `revenue=${data.revenue_model}\n`;
+            if (data.pricing_tiers) toon += `pricing=${data.pricing_tiers}\n`;
+            
+            toon += `\n[SECURITY]\n`;
+            if (data.auth_method) toon += `auth=${data.auth_method}\n`;
+            if (data.security_measures) toon += `measures=${data.security_measures}\n`;
+            
+            return toon;
+        }
+        
+        function formatAsTONL(data) {
+            let tonl = `@project {\n`;
+            tonl += `  name: "${data.project_name || 'Untitled'}"\n`;
+            if (data.project_tagline) tonl += `  tagline: "${data.project_tagline}"\n`;
+            if (data.problem_statement) tonl += `  problem: "${data.problem_statement}"\n`;
+            if (data.proposed_solution) tonl += `  solution: "${data.proposed_solution}"\n`;
+            tonl += `}\n\n`;
+            
+            tonl += `@market {\n`;
+            if (data.target_users) tonl += `  target_users: "${data.target_users}"\n`;
+            if (data.market_size) tonl += `  size: "${data.market_size}"\n`;
+            if (data.competitors) tonl += `  competitors: ["${data.competitors}"]\n`;
+            tonl += `}\n\n`;
+            
+            tonl += `@tech_stack {\n`;
+            if (data.platform_type) tonl += `  platform: "${data.platform_type}"\n`;
+            if (data.frontend_framework) tonl += `  frontend: "${data.frontend_framework}"\n`;
+            if (data.backend_framework) tonl += `  backend: "${data.backend_framework}"\n`;
+            if (data.database) tonl += `  database: "${data.database}"\n`;
+            tonl += `}\n\n`;
+            
+            tonl += `@features {\n`;
+            if (data.mvp_features) tonl += `  mvp: [\n    "${data.mvp_features.split('\n').join('",\n    "')}"\n  ]\n`;
+            tonl += `}\n\n`;
+            
+            tonl += `@business {\n`;
+            if (data.revenue_model) tonl += `  revenue_model: "${data.revenue_model}"\n`;
+            if (data.pricing_tiers) tonl += `  pricing: "${data.pricing_tiers}"\n`;
+            tonl += `}\n`;
+            
+            return tonl;
+        }
+        
+        function formatAsJSON(data) {
+            const customFields = getCustomFields();
+            const projectData = {
+                project: {
+                    name: data.project_name || 'Untitled',
+                    tagline: data.project_tagline || '',
+                    problem: data.problem_statement || '',
+                    solution: data.proposed_solution || ''
+                },
+                market: {
+                    target_users: data.target_users || '',
+                    market_size: data.market_size || '',
+                    competitors: data.competitors || '',
+                    unique_value: data.unique_value || ''
+                },
+                tech_stack: {
+                    platform: data.platform_type || '',
+                    frontend: data.frontend_framework || '',
+                    backend: data.backend_framework || '',
+                    database: data.database || '',
+                    additional: data.additional_tech || '',
+                    deployment: data.deployment || ''
+                },
+                features: {
+                    mvp: data.mvp_features ? data.mvp_features.split('\n').filter(f => f.trim()) : [],
+                    future: data.future_features ? data.future_features.split('\n').filter(f => f.trim()) : []
+                },
+                user_flow: {
+                    onboarding: data.onboarding_flow || '',
+                    core_journey: data.user_journey || ''
+                },
+                business: {
+                    revenue_model: data.revenue_model || '',
+                    pricing: data.pricing_tiers || '',
+                    metrics: data.key_metrics || ''
+                },
+                design: {
+                    ui_style: data.ui_style || '',
+                    component_library: data.ui_library || '',
+                    accessibility: data.accessibility || ''
+                },
+                testing: {
+                    strategy: data.test_strategy || '',
+                    coverage: data.test_coverage || '',
+                    tools: data.testing_tools || ''
+                },
+                security: {
+                    auth_method: data.auth_method || '',
+                    measures: data.security_measures || '',
+                    compliance: data.compliance || ''
+                },
+                context: {
+                    constraints: data.constraints || '',
+                    references: data.references || '',
+                    notes: data.additional_notes || ''
+                },
+                custom_fields: customFields
+            };
+            return JSON.stringify(projectData, null, 2);
+        }
+        
+        let currentProjectFormat = 'natural';
+        
+        function setProjectOutputFormat(format) {
+            currentProjectFormat = format;
+            document.getElementById('projectOutputFormat').value = format;
+            document.querySelectorAll('#llmModePanel [data-format]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.format === format);
+            });
+        }
+        
+        // Custom Fields
+        let customFieldCounter = 0;
+        
+        function addCustomField() {
+            customFieldCounter++;
+            const container = document.getElementById('customFieldsContainer');
+            const fieldHtml = `
+                <div class="custom-field-row flex gap-2 items-start" id="customField${customFieldCounter}">
+                    <input type="text" name="custom_label_${customFieldCounter}" class="input-field flex-1" placeholder="Field label...">
+                    <input type="text" name="custom_value_${customFieldCounter}" class="input-field flex-2" placeholder="Field value...">
+                    <button type="button" onclick="removeCustomField(${customFieldCounter})" class="text-red-400 hover:text-red-300 p-2">✕</button>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', fieldHtml);
+        }
+        
+        function removeCustomField(id) {
+            const field = document.getElementById(`customField${id}`);
+            if (field) field.remove();
+        }
+        
+        function getCustomFields() {
+            const fields = [];
+            document.querySelectorAll('#customFieldsContainer .custom-field-row').forEach(row => {
+                const labelInput = row.querySelector('input[name^="custom_label"]');
+                const valueInput = row.querySelector('input[name^="custom_value"]');
+                if (labelInput && valueInput && labelInput.value.trim() && valueInput.value.trim()) {
+                    fields.push({ label: labelInput.value.trim(), value: valueInput.value.trim() });
+                }
+            });
+            return fields;
+        }
+        
+        // Project Presets
+        function saveProjectPreset() {
+            const form = document.getElementById('llmPromptForm');
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                if (value && value.trim()) data[key] = value.trim();
+            });
+            data.custom_fields = getCustomFields();
+            
+            const name = prompt('Enter preset name:');
+            if (!name) return;
+            
+            const presets = JSON.parse(localStorage.getItem('projectPresets') || '{}');
+            presets[name] = data;
+            localStorage.setItem('projectPresets', JSON.stringify(presets));
+            showNotification('Preset saved!');
+        }
+        
+        function loadProjectPreset() {
+            const presets = JSON.parse(localStorage.getItem('projectPresets') || '{}');
+            const names = Object.keys(presets);
+            
+            if (names.length === 0) {
+                showNotification('No presets saved yet');
+                return;
+            }
+            
+            const name = prompt('Enter preset name to load:\\n\\nAvailable: ' + names.join(', '));
+            if (!name || !presets[name]) {
+                showNotification('Preset not found');
+                return;
+            }
+            
+            const data = presets[name];
+            const form = document.getElementById('llmPromptForm');
+            
+            // Clear form first
+            form.reset();
+            document.getElementById('customFieldsContainer').innerHTML = '';
+            
+            // Fill form fields
+            Object.keys(data).forEach(key => {
+                if (key === 'custom_fields') return;
+                const input = form.querySelector(`[name="${key}"]`);
+                if (input) input.value = data[key];
+            });
+            
+            // Add custom fields
+            if (data.custom_fields) {
+                data.custom_fields.forEach(field => {
+                    addCustomField();
+                    const rows = document.querySelectorAll('#customFieldsContainer .custom-field-row');
+                    const lastRow = rows[rows.length - 1];
+                    lastRow.querySelector('input[name^="custom_label"]').value = field.label;
+                    lastRow.querySelector('input[name^="custom_value"]').value = field.value;
+                });
+            }
+            
+            showNotification('Preset loaded!');
+        }
+        
+        function exportProjectPreset() {
+            const form = document.getElementById('llmPromptForm');
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                if (value && value.trim()) data[key] = value.trim();
+            });
+            data.custom_fields = getCustomFields();
+            
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `project-preset-${Date.now()}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function importProjectPreset() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        const form = document.getElementById('llmPromptForm');
+                        
+                        form.reset();
+                        document.getElementById('customFieldsContainer').innerHTML = '';
+                        
+                        Object.keys(data).forEach(key => {
+                            if (key === 'custom_fields') return;
+                            const input = form.querySelector(`[name="${key}"]`);
+                            if (input) input.value = data[key];
+                        });
+                        
+                        if (data.custom_fields) {
+                            data.custom_fields.forEach(field => {
+                                addCustomField();
+                                const rows = document.querySelectorAll('#customFieldsContainer .custom-field-row');
+                                const lastRow = rows[rows.length - 1];
+                                lastRow.querySelector('input[name^="custom_label"]').value = field.label;
+                                lastRow.querySelector('input[name^="custom_value"]').value = field.value;
+                            });
+                        }
+                        
+                        showNotification('Preset imported!');
+                    } catch (err) {
+                        showNotification('Invalid preset file');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+        
+        function copyLlmOutput() {
+            const text = document.getElementById('llmOutputText').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copyLlmBtn');
+                btn.textContent = '✅ Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '📋 Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+        
+        // LLM Form submission handler
+        document.addEventListener('DOMContentLoaded', () => {
+            const llmForm = document.getElementById('llmPromptForm');
+            if (llmForm) {
+                llmForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(e.target);
+                    const data = {};
+                    formData.forEach((value, key) => {
+                        if (value && value.trim()) {
+                            data[key] = value.trim();
+                        }
+                    });
+                    
+                    // Generate output based on selected format
+                    let output;
+                    switch (currentProjectFormat) {
+                        case 'toon':
+                            output = formatAsTOON(data);
+                            break;
+                        case 'tonl':
+                            output = formatAsTONL(data);
+                            break;
+                        case 'json':
+                            output = formatAsJSON(data);
+                            break;
+                        case 'markdown':
+                        case 'natural':
+                        default:
+                            output = generateLlmPrompt(data);
+                    }
+                    
+                    document.getElementById('llmOutputText').textContent = output;
+                    
+                    // Send to backend - all prompts go to gallery
+                    sendLlmToBackend({
+                        ...data,
+                        mode: 'llm',
+                        prompt_text: output,
+                        output_format: currentProjectFormat
+                    });
+                });
+            }
+        });
+        
+        async function sendLlmToBackend(data) {
+            // All prompts go to gallery, login users can choose public/private
+            const publicToggle = document.getElementById('publicPromptToggle');
+            if (publicToggle) {
+                data.is_public = publicToggle.checked;
+            } else {
+                // Not logged in = public by default
+                data.is_public = true;
+            }
+            
+            try {
+                const response = await fetch('/api/prompts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    console.log('Project brief saved to gallery');
+                }
+            } catch (error) {
+                console.log('Backend not available:', error.message);
+            }
+        }
+
+        // ==================== AUTH CHECK ====================
+        
+        let currentUser = null;
+        
+        async function checkAuth() {
+            try {
+                const res = await fetch('/api/auth/me', { credentials: 'include' });
+                const data = await res.json();
+                currentUser = data.user;
+                updateUserHeader();
+            } catch (e) {
+                console.error('Auth check failed:', e);
+            }
+        }
+        
+        function updateUserHeader() {
+            const headerRight = document.querySelector('header .flex.items-center.gap-3');
+            if (headerRight) {
+                if (currentUser) {
+                    const userHtml = `
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-secondary); cursor: pointer; background: var(--bg-input); padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border);">
+                            <input type="checkbox" id="publicPromptToggle" checked style="accent-color: var(--primary);">
+                            <span>🌍 Public</span>
+                        </label>
+                        <a href="/gallery" class="text-sm hover:underline" style="color: var(--primary);">📁 Gallery</a>
+                        <span style="color: var(--text-secondary); font-size: 13px;">👋 ${currentUser.name}</span>
+                        <button onclick="handleLogout()" style="background: transparent; border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; font-size: 12px; color: var(--text-secondary); cursor: pointer;">Logout</button>
+                    `;
+                    headerRight.innerHTML = userHtml;
+                } else {
+                    const loginHtml = `
+                        <a href="/login" class="text-sm" style="background: var(--primary); color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">🔐 Sign In</a>
+                    `;
+                    headerRight.innerHTML = loginHtml;
+                }
+            }
+        }
+        
+        async function handleLogout() {
+            await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+            currentUser = null;
+            updateUserHeader();
+        }
+
         // ==================== INITIALIZATION ====================
         
-        document.addEventListener('DOMContentLoaded', () => {
+        // Load prompt from gallery (Use button)
+        function loadPromptFromGallery() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (!urlParams.has('use')) return;
+            
+            const promptData = sessionStorage.getItem('usePromptData');
+            const promptMode = sessionStorage.getItem('usePromptMode');
+            
+            if (!promptData) return;
+            
+            try {
+                const data = JSON.parse(promptData);
+                
+                // Switch to correct mode
+                if (promptMode === 'llm') {
+                    switchMode('llm');
+                    // Fill LLM form
+                    const llmForm = document.getElementById('llmPromptForm');
+                    if (llmForm) {
+                        Object.keys(data).forEach(key => {
+                            const input = llmForm.querySelector(`[name="${key}"]`);
+                            if (input) input.value = data[key] || '';
+                        });
+                    }
+                } else {
+                    switchMode('photo');
+                    // Fill photo form fields
+                    fillPhotoForm(data);
+                }
+                
+                // Clear sessionStorage
+                sessionStorage.removeItem('usePromptData');
+                sessionStorage.removeItem('usePromptMode');
+                
+                showNotification('Prompt loaded! Edit and regenerate.');
+            } catch (e) {
+                console.error('Failed to load prompt:', e);
+            }
+        }
+        
+        function fillPhotoForm(data) {
+            // Basic fields
+            const basicFields = ['subject_type', 'subject_description', 'action', 'emotion', 
+                'clothing_style', 'clothing_details', 'environment', 'environment_details',
+                'time_of_day', 'weather', 'camera_angle', 'shot_type', 'lens_type', 
+                'lighting_type', 'lighting_mood', 'color_palette', 'art_style', 'aspect_ratio'];
+            
+            basicFields.forEach(field => {
+                if (data[field]) {
+                    const input = document.querySelector(`[name="${field}"]`);
+                    if (input) {
+                        if (input.tagName === 'SELECT') {
+                            input.value = data[field];
+                        } else {
+                            input.value = data[field];
+                        }
+                    }
+                }
+            });
+            
+            // Handle multi-selects if they exist in data
+            if (data.selectedOptions) {
+                Object.keys(data.selectedOptions).forEach(selectName => {
+                    const options = data.selectedOptions[selectName];
+                    if (multiSelectState[selectName] && Array.isArray(options)) {
+                        multiSelectState[selectName] = options;
+                    }
+                });
+                // Re-render multi-selects
+                initAllMultiSelects();
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check auth (non-blocking)
+            checkAuth();
+            
             // Initialize all multi-select dropdowns (converts all selects)
             initAllMultiSelects();
+            
+            // Load prompt from gallery if redirected with ?use parameter
+            setTimeout(loadPromptFromGallery, 100);
             
             // Initialize language
             updateUILanguage();
@@ -5936,8 +6982,8 @@
             });
         });
         
-        // Backend API URL
-        const BACKEND_URL = 'https://niyo.link/pp';
+        // Backend API URL (empty for same-host deployment)
+        const BACKEND_URL = '';
         
         // Spam protection - rate limiting
         const SUBMISSION_COOLDOWN = 5000; // 5 seconds between submissions
@@ -5983,18 +7029,28 @@
                 return;
             }
             
+            // All prompts go to gallery, logged-in users can choose public/private
+            const publicToggle = document.getElementById('publicPromptToggle');
+            if (publicToggle) {
+                data.is_public = publicToggle.checked;
+            } else {
+                // Not logged in = public by default
+                data.is_public = true;
+            }
+            
             try {
                 const response = await fetch(`${BACKEND_URL}/api/prompts`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    credentials: 'include',
                     body: JSON.stringify(data)
                 });
                 
                 if (response.ok) {
                     const result = await response.json();
-                    console.log('Prompt sent to backend:', result);
+                    console.log('Prompt saved to gallery:', result);
                     updateBackendStatus(true);
                     recordSubmission();
                 } else if (response.status === 429) {

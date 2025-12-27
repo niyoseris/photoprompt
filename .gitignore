@@ -11,6 +11,10 @@ env/
 venv/
 .env
 
+# Database files (contains user data)
+data/
+*.db
+
 # IDE
 .idea/
 .vscode/
@@ -23,3 +27,7 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Temp files
+*.tmp
+*.bak

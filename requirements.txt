@@ -1,0 +1,5 @@
+flask>=2.0.0
+flask-cors>=3.0.0
+flask-login>=0.6.0
+werkzeug>=2.0.0
+python-dotenv>=1.0.0

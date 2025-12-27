@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Gallery</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-input: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            font-size: 14px;
+        }
+        
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .input-field {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            padding: 10px 14px;
+            width: 100%;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: #fff;
+        }
+        
+        .prompt-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.2s;
+        }
+        
+        .prompt-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .mode-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .mode-photo { background: #dbeafe; color: #1d4ed8; }
+        .mode-prd { background: #ede9fe; color: #7c3aed; }
+        .mode-llm { background: #d1fae5; color: #047857; }
+        
+        .tab-btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+        }
+        
+        .tab-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .tab-btn:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            max-width: 420px;
+            transform: translateY(-20px);
+            transition: transform 0.2s;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .list-item {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .list-item:hover {
+            border-color: var(--primary);
+            background: #fff;
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: var(--success);
+            color: white;
+            font-weight: 500;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .notification.error {
+            background: var(--error);
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .hidden { display: none !important; }
+        
+        .output-box {
+            background: #1e293b;
+            border: none;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #e2e8f0;
+            overflow: auto;
+            max-height: 400px;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+        }
+        
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-input);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="border-b mb-6" style="border-color: var(--border);">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="/" class="text-xl font-bold flex items-center gap-2" style="color: var(--text-primary);">
+                    🚀 <span>Prompt Gallery</span>
+                </a>
+                <a href="/" class="text-sm hover:underline" style="color: var(--primary);">← Back to Generator</a>
+            </div>
+            <div id="headerAuth" class="flex items-center gap-4">
+                <!-- Auth buttons will be rendered here -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4">
+        <!-- Auth Section (shown when not logged in) -->
+        <div id="authSection" class="hidden">
+            <div class="max-w-md mx-auto">
+                <div class="glass-card p-8 text-center">
+                    <div class="text-5xl mb-4">🎨</div>
+                    <h2 class="text-2xl font-bold mb-2" style="color: var(--text-primary);">Welcome to Prompt Gallery</h2>
+                    <p class="mb-6" style="color: var(--text-secondary);">Sign in with Google to browse, save, and organize prompts</p>
+                    
+                    <!-- Google Sign In Button -->
+                    <div id="googleSignInBtn" class="flex justify-center mb-4"></div>
+                    
+                    <p class="text-xs mt-4" style="color: var(--text-secondary);">
+                        By signing in, you agree to our terms of service
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Section (shown when logged in) -->
+        <div id="gallerySection" class="hidden">
+            <!-- View Toggle -->
+            <div class="flex gap-4 mb-6">
+                <button onclick="switchView('public')" id="viewPublicBtn" class="tab-btn active">🌍 Public Gallery</button>
+                <button onclick="switchView('my')" id="viewMyBtn" class="tab-btn">👤 My Prompts</button>
+            </div>
+
+            <!-- Filters -->
+            <div class="flex flex-wrap gap-4 items-center mb-6">
+                <div class="flex gap-2">
+                    <button onclick="filterByMode('')" class="tab-btn active" data-mode="">All</button>
+                    <button onclick="filterByMode('photo')" class="tab-btn" data-mode="photo">📸 Photo</button>
+                    <button onclick="filterByMode('prd')" class="tab-btn" data-mode="prd">📋 PRD</button>
+                    <button onclick="filterByMode('llm')" class="tab-btn" data-mode="llm">🤖 LLM</button>
+                </div>
+                <div class="flex-1">
+                    <input type="text" id="searchInput" class="input-field" placeholder="Search prompts..." onkeyup="debounceSearch()">
+                </div>
+                <button onclick="openMyLists()" class="btn-secondary">📁 My Lists</button>
+            </div>
+
+            <!-- Prompts Grid -->
+            <div id="promptsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                <!-- Prompts will be rendered here -->
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="flex justify-center gap-2 mb-8">
+                <!-- Pagination will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Admin Section -->
+        <div id="adminSection" class="hidden mt-8 pt-8 border-t" style="border-color: var(--border);">
+            <h3 class="text-xl font-bold mb-4" style="color: var(--text-primary);">🔐 Admin Panel</h3>
+            <div class="flex gap-4 mb-4">
+                <button onclick="loadAdminUsers()" class="btn-secondary">👥 Manage Users</button>
+            </div>
+            <div id="adminContent"></div>
+        </div>
+    </main>
+
+    <!-- My Lists Modal -->
+    <div id="listsModal" class="modal-overlay">
+        <div class="modal-content max-w-lg">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">📁 My Lists</h3>
+                <button onclick="closeModal('listsModal')" class="text-2xl text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <div class="mb-4">
+                <div class="flex gap-2">
+                    <input type="text" id="newListName" class="input-field flex-1" placeholder="New list name...">
+                    <button onclick="createNewList()" class="btn-primary">Create</button>
+                </div>
+            </div>
+            <div id="userLists" class="space-y-2 max-h-96 overflow-y-auto">
+                <!-- Lists will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- List Details Modal -->
+    <div id="listDetailModal" class="modal-overlay">
+        <div class="modal-content max-w-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="listDetailTitle" class="text-xl font-bold">List Name</h3>
+                <button onclick="closeModal('listDetailModal')" class="text-2xl text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <div id="listItems" class="space-y-2 max-h-96 overflow-y-auto">
+                <!-- List items will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add to List Modal -->
+    <div id="addToListModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Add to List</h3>
+                <button onclick="closeModal('addToListModal')" class="text-2xl text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <input type="hidden" id="addToListPromptId">
+            <!-- Quick New List -->
+            <div class="mb-4 pb-4 border-b" style="border-color: var(--border);">
+                <div class="flex gap-2">
+                    <input type="text" id="quickNewListName" class="input-field flex-1" placeholder="Create new list...">
+                    <button onclick="quickCreateList()" class="btn-primary text-sm">+ New</button>
+                </div>
+            </div>
+            <div id="addToListOptions" class="space-y-2 max-h-64 overflow-y-auto">
+                <!-- Lists will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Prompt Detail Modal -->
+    <div id="promptDetailModal" class="modal-overlay">
+        <div class="modal-content max-w-3xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold">Prompt Details</h3>
+                <button onclick="closeModal('promptDetailModal')" class="text-2xl text-gray-400 hover:text-white">&times;</button>
+            </div>
+            <div id="promptDetailContent" class="space-y-4">
+                <!-- Prompt details will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let currentUser = null;
+        let currentMode = '';
+        let currentSearch = '';
+        let currentOffset = 0;
+        let currentView = 'public'; // 'public' or 'my'
+        const LIMIT = 20;
+        let searchTimeout = null;
+
+        // Google Client ID - loaded from server config
+        let GOOGLE_CLIENT_ID = '';
+
+        // Switch between public gallery and my prompts
+        function switchView(view) {
+            currentView = view;
+            currentOffset = 0;
+            
+            document.getElementById('viewPublicBtn').classList.toggle('active', view === 'public');
+            document.getElementById('viewMyBtn').classList.toggle('active', view === 'my');
+            
+            if (view === 'public') {
+                loadGallery();
+            } else {
+                loadMyPrompts();
+            }
+        }
+
+        // ==================== AUTH ====================
+
+        async function loadConfig() {
+            try {
+                const res = await fetch('/api/config');
+                const data = await res.json();
+                GOOGLE_CLIENT_ID = data.google_client_id;
+            } catch (e) {
+                console.error('Failed to load config:', e);
+            }
+        }
+
+        function initGoogleSignIn() {
+            if (!GOOGLE_CLIENT_ID) {
+                console.error('Google Client ID not configured');
+                document.getElementById('googleSignInBtn').innerHTML = 
+                    '<p style="color: var(--error); font-size: 13px;">Google Sign-In not configured. Please set GOOGLE_CLIENT_ID in .env file.</p>';
+                return;
+            }
+            
+            if (typeof google !== 'undefined' && google.accounts) {
+                google.accounts.id.initialize({
+                    client_id: GOOGLE_CLIENT_ID,
+                    callback: handleGoogleCallback,
+                    auto_select: true
+                });
+                
+                google.accounts.id.renderButton(
+                    document.getElementById('googleSignInBtn'),
+                    { 
+                        theme: 'outline', 
+                        size: 'large',
+                        width: 280,
+                        text: 'signin_with',
+                        shape: 'rectangular'
+                    }
+                );
+            } else {
+                // Retry if Google SDK not loaded yet
+                setTimeout(initGoogleSignIn, 100);
+            }
+        }
+
+        async function handleGoogleCallback(response) {
+            try {
+                const res = await fetch('/api/auth/google', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ credential: response.credential })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    currentUser = data.user;
+                    showNotification('Welcome, ' + currentUser.name + '!');
+                    updateUI();
+                } else {
+                    showNotification(data.error || 'Login failed', true);
+                }
+            } catch (e) {
+                console.error('Google auth error:', e);
+                showNotification('Login failed', true);
+            }
+        }
+
+        async function checkAuth() {
+            try {
+                const res = await fetch('/api/auth/me', { credentials: 'include' });
+                const data = await res.json();
+                currentUser = data.user;
+                updateUI();
+            } catch (e) {
+                console.error('Auth check failed:', e);
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            const authSection = document.getElementById('authSection');
+            const gallerySection = document.getElementById('gallerySection');
+            const adminSection = document.getElementById('adminSection');
+            const headerAuth = document.getElementById('headerAuth');
+
+            if (currentUser) {
+                authSection.classList.add('hidden');
+                gallerySection.classList.remove('hidden');
+                
+                const avatarHtml = currentUser.picture 
+                    ? `<img src="${currentUser.picture}" class="user-avatar" alt="${currentUser.name}">`
+                    : `<span style="color: var(--text-secondary);">👋</span>`;
+                
+                headerAuth.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        ${avatarHtml}
+                        <span style="color: var(--text-secondary);">${currentUser.name}</span>
+                    </div>
+                    ${currentUser.role === 'admin' ? '<span class="text-xs bg-yellow-400 text-yellow-900 px-2 py-1 rounded font-medium">ADMIN</span>' : ''}
+                    <button onclick="handleLogout()" class="btn-secondary text-sm">Logout</button>
+                `;
+
+                if (currentUser.role === 'admin') {
+                    adminSection.classList.remove('hidden');
+                } else {
+                    adminSection.classList.add('hidden');
+                }
+
+                loadGallery();
+            } else {
+                // Not logged in - redirect to login page
+                window.location.href = '/login';
+            }
+        }
+
+        async function handleLogout() {
+            await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+            window.location.href = '/login';
+        }
+
+        // ==================== GALLERY ====================
+
+        async function loadGallery() {
+            try {
+                let url = `/api/gallery?limit=${LIMIT}&offset=${currentOffset}`;
+                if (currentMode) url += `&mode=${currentMode}`;
+                if (currentSearch) url += `&search=${encodeURIComponent(currentSearch)}`;
+
+                const res = await fetch(url, { credentials: 'include' });
+                const data = await res.json();
+
+                if (res.ok) {
+                    renderPrompts(data.prompts, false);
+                    renderPagination(data.total);
+                }
+            } catch (e) {
+                console.error('Load gallery failed:', e);
+            }
+        }
+
+        async function loadMyPrompts() {
+            try {
+                let url = `/api/my-prompts?limit=${LIMIT}&offset=${currentOffset}`;
+
+                const res = await fetch(url, { credentials: 'include' });
+                const data = await res.json();
+
+                if (res.ok) {
+                    renderPrompts(data.prompts, true);
+                    renderPagination(data.total);
+                }
+            } catch (e) {
+                console.error('Load my prompts failed:', e);
+            }
+        }
+
+        async function toggleVisibility(promptId, isPublic) {
+            try {
+                const res = await fetch(`/api/my-prompts/${promptId}/visibility`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ is_public: isPublic })
+                });
+
+                if (res.ok) {
+                    showNotification(isPublic ? 'Prompt set to public' : 'Prompt set to private');
+                    loadMyPrompts();
+                } else {
+                    showNotification('Operation failed', true);
+                }
+            } catch (e) {
+                showNotification('Error occurred', true);
+            }
+        }
+
+        async function deleteMyPrompt(promptId) {
+            if (!confirm('Are you sure you want to delete this prompt?')) return;
+            
+            try {
+                const res = await fetch(`/api/my-prompts/${promptId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+
+                if (res.ok) {
+                    showNotification('Prompt deleted');
+                    loadMyPrompts();
+                } else {
+                    showNotification('Delete failed', true);
+                }
+            } catch (e) {
+                showNotification('Error occurred', true);
+            }
+        }
+
+        function renderPrompts(prompts, isMyPrompts = false) {
+            const grid = document.getElementById('promptsGrid');
+            
+            if (prompts.length === 0) {
+                const message = isMyPrompts ? 'You have no prompts yet' : 'No prompts found';
+                grid.innerHTML = `<div class="col-span-full text-center text-gray-400 py-8">${message}</div>`;
+                return;
+            }
+
+            grid.innerHTML = prompts.map(p => {
+                let promptPreview = '';
+                try {
+                    const data = JSON.parse(p.prompt_data || '{}');
+                    promptPreview = p.prompt_text || data.prompt_text || data.subject_description || 
+                                   data.prd_app_name || data.llm_task || 'No preview available';
+                } catch {
+                    promptPreview = p.prompt_text || 'No preview available';
+                }
+                promptPreview = promptPreview.substring(0, 150) + (promptPreview.length > 150 ? '...' : '');
+
+                // Different buttons for my prompts vs public gallery
+                let actionButtons = '';
+                if (isMyPrompts) {
+                    const visibilityIcon = p.is_public ? '🌍' : '🔒';
+                    const visibilityText = p.is_public ? 'Public' : 'Private';
+                    const toggleAction = p.is_public ? 'false' : 'true';
+                    actionButtons = `
+                        <button onclick="usePrompt(${p.id})" class="btn-primary text-xs">Use</button>
+                        <button onclick="viewPrompt(${p.id})" class="btn-secondary text-xs">View</button>
+                        <button onclick="toggleVisibility(${p.id}, ${toggleAction})" class="btn-secondary text-xs" title="Click: Make ${p.is_public ? 'Private' : 'Public'}">
+                            ${visibilityIcon}
+                        </button>
+                        <button onclick="deleteMyPrompt(${p.id})" class="text-xs text-red-400 hover:text-red-300">🗑️</button>
+                    `;
+                } else {
+                    actionButtons = `
+                        <button onclick="usePrompt(${p.id})" class="btn-primary text-xs">Use</button>
+                        <button onclick="viewPrompt(${p.id})" class="btn-secondary text-xs">View</button>
+                        <button onclick="openAddToList(${p.id})" class="btn-secondary text-xs">+ List</button>
+                        <button onclick="copyPrompt(${p.id})" class="btn-secondary text-xs">Copy</button>
+                        ${currentUser?.role === 'admin' ? `<button onclick="deletePrompt(${p.id})" class="text-xs text-red-400 hover:text-red-300">🗑️</button>` : ''}
+                    `;
+                }
+
+                return `
+                    <div class="prompt-card">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex gap-2 items-center">
+                                <span class="mode-badge mode-${p.mode}">${getModeIcon(p.mode)} ${p.mode}</span>
+                                ${isMyPrompts ? `<span class="text-xs ${p.is_public ? 'text-green-400' : 'text-gray-500'}">${p.is_public ? '🌍' : '🔒'}</span>` : ''}
+                            </div>
+                            <span class="text-xs text-gray-500">${formatDate(p.created_at)}</span>
+                        </div>
+                        <p class="text-sm text-gray-300 mb-3 line-clamp-3">${escapeHtml(promptPreview)}</p>
+                        <div class="flex gap-2">
+                            ${actionButtons}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderPagination(total) {
+            const totalPages = Math.ceil(total / LIMIT);
+            const currentPage = Math.floor(currentOffset / LIMIT) + 1;
+            const pagination = document.getElementById('pagination');
+
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            
+            if (currentPage > 1) {
+                html += `<button onclick="goToPage(${currentPage - 1})" class="btn-secondary">← Prev</button>`;
+            }
+            
+            html += `<span class="px-4 py-2 text-gray-400">Page ${currentPage} of ${totalPages}</span>`;
+            
+            if (currentPage < totalPages) {
+                html += `<button onclick="goToPage(${currentPage + 1})" class="btn-secondary">Next →</button>`;
+            }
+
+            pagination.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            currentOffset = (page - 1) * LIMIT;
+            loadGallery();
+        }
+
+        function filterByMode(mode) {
+            currentMode = mode;
+            currentOffset = 0;
+            document.querySelectorAll('[data-mode]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === mode);
+            });
+            loadGallery();
+        }
+
+        function debounceSearch() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                currentSearch = document.getElementById('searchInput').value;
+                currentOffset = 0;
+                loadGallery();
+            }, 300);
+        }
+
+        async function viewPrompt(promptId) {
+            try {
+                const res = await fetch(`/api/gallery/${promptId}`, { credentials: 'include' });
+                const data = await res.json();
+
+                if (res.ok) {
+                    const prompt = data.prompt;
+                    let promptData = {};
+                    try { promptData = JSON.parse(prompt.prompt_data || '{}'); } catch {}
+
+                    document.getElementById('promptDetailContent').innerHTML = `
+                        <div class="flex gap-2 mb-4">
+                            <span class="mode-badge mode-${prompt.mode}">${getModeIcon(prompt.mode)} ${prompt.mode}</span>
+                            <span class="text-sm text-gray-400">${formatDate(prompt.created_at)}</span>
+                        </div>
+                        <div class="bg-gray-800 rounded-lg p-4 max-h-96 overflow-y-auto">
+                            <pre class="text-sm text-gray-300 whitespace-pre-wrap">${escapeHtml(JSON.stringify(promptData, null, 2))}</pre>
+                        </div>
+                        <div class="flex gap-2 mt-4">
+                            <button onclick="copyPromptData('${escapeHtml(JSON.stringify(promptData))}')" class="btn-primary">Copy JSON</button>
+                            <button onclick="openAddToList(${prompt.id})" class="btn-secondary">Add to List</button>
+                        </div>
+                    `;
+                    openModal('promptDetailModal');
+                }
+            } catch (e) {
+                showNotification('Failed to load prompt', true);
+            }
+        }
+
+        async function copyPrompt(promptId) {
+            try {
+                const res = await fetch(`/api/gallery/${promptId}`, { credentials: 'include' });
+                const data = await res.json();
+                if (res.ok) {
+                    await navigator.clipboard.writeText(data.prompt.prompt_data || '');
+                    showNotification('Copied to clipboard!');
+                }
+            } catch (e) {
+                showNotification('Copy failed', true);
+            }
+        }
+
+        function copyPromptData(data) {
+            navigator.clipboard.writeText(data);
+            showNotification('Copied to clipboard!');
+        }
+
+        async function usePrompt(promptId) {
+            try {
+                const res = await fetch(`/api/gallery/${promptId}`, { credentials: 'include' });
+                const data = await res.json();
+                
+                if (res.ok) {
+                    const prompt = data.prompt;
+                    // Store prompt data in sessionStorage and redirect to generator
+                    sessionStorage.setItem('usePromptData', prompt.prompt_data);
+                    sessionStorage.setItem('usePromptMode', prompt.mode);
+                    window.location.href = '/?use=' + promptId;
+                }
+            } catch (e) {
+                showNotification('Failed to load prompt', true);
+            }
+        }
+
+        async function deletePrompt(promptId) {
+            if (!confirm('Delete this prompt?')) return;
+            try {
+                const res = await fetch(`/api/admin/prompts/${promptId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                if (res.ok) {
+                    showNotification('Prompt deleted');
+                    loadGallery();
+                }
+            } catch (e) {
+                showNotification('Delete failed', true);
+            }
+        }
+
+        // ==================== LISTS ====================
+
+        async function openMyLists() {
+            await loadUserLists();
+            openModal('listsModal');
+        }
+
+        async function loadUserLists() {
+            try {
+                const res = await fetch('/api/lists', { credentials: 'include' });
+                const data = await res.json();
+
+                if (res.ok) {
+                    const container = document.getElementById('userLists');
+                    if (data.lists.length === 0) {
+                        container.innerHTML = '<p class="text-gray-400 text-center py-4">No lists yet. Create one!</p>';
+                    } else {
+                        container.innerHTML = data.lists.map(list => `
+                            <div class="list-item flex justify-between items-center" onclick="openListDetail(${list.id}, '${escapeHtml(list.name)}')">
+                                <div>
+                                    <div class="font-medium">${escapeHtml(list.name)}</div>
+                                    <div class="text-sm text-gray-400">${list.item_count} items</div>
+                                </div>
+                                <button onclick="event.stopPropagation(); deleteList(${list.id})" class="text-red-400 hover:text-red-300">🗑️</button>
+                            </div>
+                        `).join('');
+                    }
+                }
+            } catch (e) {
+                console.error('Load lists failed:', e);
+            }
+        }
+
+        async function createNewList() {
+            const name = document.getElementById('newListName').value.trim();
+            if (!name) return;
+
+            try {
+                const res = await fetch('/api/lists', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ name })
+                });
+
+                if (res.ok) {
+                    document.getElementById('newListName').value = '';
+                    showNotification('List created!');
+                    loadUserLists();
+                }
+            } catch (e) {
+                showNotification('Failed to create list', true);
+            }
+        }
+
+        async function quickCreateList() {
+            const name = document.getElementById('quickNewListName').value.trim();
+            if (!name) return;
+
+            try {
+                const res = await fetch('/api/lists', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ name })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    document.getElementById('quickNewListName').value = '';
+                    showNotification('List created!');
+                    // Add prompt to the new list immediately
+                    const promptId = document.getElementById('addToListPromptId').value;
+                    if (promptId && data.list_id) {
+                        await addToList(data.list_id);
+                    } else {
+                        loadAddToListOptions();
+                    }
+                }
+            } catch (e) {
+                showNotification('Failed to create list', true);
+            }
+        }
+
+        async function loadAddToListOptions() {
+            try {
+                const res = await fetch('/api/lists', { credentials: 'include' });
+                const data = await res.json();
+
+                if (res.ok) {
+                    const container = document.getElementById('addToListOptions');
+                    if (data.lists.length === 0) {
+                        container.innerHTML = '<p class="text-gray-400 text-center py-4">No lists yet. Create one above!</p>';
+                    } else {
+                        container.innerHTML = data.lists.map(list => `
+                            <button onclick="addToList(${list.id})" class="w-full text-left p-3 rounded-lg hover:bg-gray-700 transition-colors flex justify-between items-center" style="background: var(--card-bg);">
+                                <span>${escapeHtml(list.name)}</span>
+                                <span class="text-sm text-gray-400">${list.item_count} items</span>
+                            </button>
+                        `).join('');
+                    }
+                }
+            } catch (e) {
+                console.error('Load lists failed:', e);
+            }
+        }
+
+        async function openListDetail(listId, listName) {
+            try {
+                const res = await fetch(`/api/lists/${listId}`, { credentials: 'include' });
+                const data = await res.json();
+
+                if (res.ok) {
+                    document.getElementById('listDetailTitle').textContent = listName;
+                    const container = document.getElementById('listItems');
+
+                    if (data.items.length === 0) {
+                        container.innerHTML = '<p class="text-gray-400 text-center py-4">No prompts in this list</p>';
+                    } else {
+                        // Store items in global cache for button access
+                        window.listItemsCache = data.items;
+                        
+                        container.innerHTML = data.items.map((item, index) => {
+                            // Extract preview info from prompt_data
+                            let title = '';
+                            let preview = '';
+                            try {
+                                const pdata = JSON.parse(item.prompt_data || '{}');
+                                if (item.mode === 'llm') {
+                                    title = pdata.project_name || 'Project Brief';
+                                    preview = pdata.project_tagline || pdata.problem_statement || '';
+                                } else {
+                                    title = pdata.subject_description || pdata.subject_type || 'Photo Prompt';
+                                    preview = [pdata.environment, pdata.lighting_type, pdata.art_style].filter(Boolean).join(' • ');
+                                }
+                            } catch { 
+                                title = item.prompt_text?.substring(0, 50) || 'Prompt';
+                            }
+                            preview = preview.substring(0, 80) + (preview.length > 80 ? '...' : '');
+                            
+                            const isDeleted = item.prompt_deleted;
+                            
+                            return `
+                                <div class="list-item p-3 rounded-lg mb-2" style="background: var(--card-bg); border: 1px solid var(--border);">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div class="flex-1">
+                                            <div class="flex items-center gap-2 mb-1">
+                                                <span class="mode-badge mode-${item.mode} text-xs">${getModeIcon(item.mode)} ${item.mode}</span>
+                                                ${isDeleted ? '<span class="text-xs text-yellow-500">⚠️ Original deleted</span>' : ''}
+                                            </div>
+                                            <div class="font-medium text-sm">${escapeHtml(title)}</div>
+                                            ${preview ? `<div class="text-xs text-gray-400 mt-1">${escapeHtml(preview)}</div>` : ''}
+                                        </div>
+                                        <span class="text-xs text-gray-500">${formatDate(item.added_at)}</span>
+                                    </div>
+                                    <div class="flex gap-2 mt-2">
+                                        <button onclick="useListItem(${index})" class="btn-primary text-xs">Use</button>
+                                        <button onclick="copyListItem(${index})" class="btn-secondary text-xs">Copy</button>
+                                        <button onclick="viewListItem(${index})" class="btn-secondary text-xs">View</button>
+                                        <button onclick="removeFromList(${listId}, ${item.prompt_id})" class="text-red-400 text-xs hover:text-red-300">Remove</button>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                    }
+
+                    closeModal('listsModal');
+                    openModal('listDetailModal');
+                }
+            } catch (e) {
+                showNotification('Failed to load list', true);
+            }
+        }
+
+        function useListItem(index) {
+            // Use prompt from list item (works even if original prompt deleted - uses snapshot)
+            const item = window.listItemsCache[index];
+            if (!item) return showNotification('Item not found', true);
+            
+            const promptData = item.prompt_data || item.prompt_snapshot;
+            const mode = item.mode || 'photo';
+            
+            sessionStorage.setItem('usePromptData', promptData);
+            sessionStorage.setItem('usePromptMode', mode);
+            window.location.href = '/?use=list';
+        }
+        
+        function copyListItem(index) {
+            // Copy prompt data from list item
+            const item = window.listItemsCache[index];
+            if (!item) return showNotification('Item not found', true);
+            
+            let promptData = {};
+            try { promptData = JSON.parse(item.prompt_data || '{}'); } catch {}
+            
+            navigator.clipboard.writeText(JSON.stringify(promptData, null, 2));
+            showNotification('Copied to clipboard!');
+        }
+
+        function viewListItem(index) {
+            // Show prompt details from list item (works even if original prompt deleted)
+            const item = window.listItemsCache[index];
+            if (!item) return showNotification('Item not found', true);
+            
+            let promptData = {};
+            try { promptData = JSON.parse(item.prompt_data || '{}'); } catch {}
+            
+            const isDeleted = item.prompt_deleted;
+            
+            document.getElementById('promptDetailContent').innerHTML = `
+                <div class="flex gap-2 mb-4">
+                    <span class="mode-badge mode-${item.mode}">${getModeIcon(item.mode)} ${item.mode}</span>
+                    ${isDeleted ? '<span class="text-yellow-500 text-sm">⚠️ Original prompt deleted (using snapshot)</span>' : ''}
+                    <span class="text-sm text-gray-400">${formatDate(item.added_at)}</span>
+                </div>
+                <div class="bg-gray-800 rounded-lg p-4 max-h-96 overflow-y-auto">
+                    <pre class="text-sm text-gray-300 whitespace-pre-wrap">${escapeHtml(JSON.stringify(promptData, null, 2))}</pre>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button onclick="useListItem(${index})" class="btn-primary">Use in Generator</button>
+                    <button onclick="copyListItem(${index})" class="btn-secondary">Copy JSON</button>
+                </div>
+            `;
+            openModal('promptDetailModal');
+        }
+
+        async function deleteList(listId) {
+            if (!confirm('Delete this list?')) return;
+            try {
+                const res = await fetch(`/api/lists/${listId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                if (res.ok) {
+                    showNotification('List deleted');
+                    loadUserLists();
+                }
+            } catch (e) {
+                showNotification('Delete failed', true);
+            }
+        }
+
+        async function openAddToList(promptId) {
+            document.getElementById('addToListPromptId').value = promptId;
+            document.getElementById('quickNewListName').value = '';
+            await loadAddToListOptions();
+            openModal('addToListModal');
+        }
+
+        async function addToList(listId) {
+            const promptId = document.getElementById('addToListPromptId').value;
+            
+            try {
+                const res = await fetch(`/api/lists/${listId}/items`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ prompt_id: parseInt(promptId) })
+                });
+
+                if (res.ok) {
+                    showNotification('Added to list!');
+                    closeModal('addToListModal');
+                } else {
+                    const data = await res.json();
+                    showNotification(data.error || 'Failed to add', true);
+                }
+            } catch (e) {
+                showNotification('Failed to add to list', true);
+            }
+        }
+
+        async function addPromptToList(listId) {
+            const promptId = document.getElementById('addToListPromptId').value;
+            
+            try {
+                const res = await fetch(`/api/lists/${listId}/items`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ prompt_id: parseInt(promptId) })
+                });
+
+                if (res.ok) {
+                    showNotification('Added to list!');
+                    closeModal('addToListModal');
+                } else {
+                    const data = await res.json();
+                    showNotification(data.error || 'Failed to add', true);
+                }
+            } catch (e) {
+                showNotification('Failed to add to list', true);
+            }
+        }
+
+        async function removeFromList(listId, promptId) {
+            try {
+                const res = await fetch(`/api/lists/${listId}/items/${promptId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                if (res.ok) {
+                    showNotification('Removed from list');
+                    // Reload the list detail
+                    const listName = document.getElementById('listDetailTitle').textContent;
+                    openListDetail(listId, listName);
+                }
+            } catch (e) {
+                showNotification('Remove failed', true);
+            }
+        }
+
+        // ==================== ADMIN ====================
+
+        async function loadAdminUsers() {
+            try {
+                const res = await fetch('/api/admin/users', { credentials: 'include' });
+                const data = await res.json();
+
+                if (res.ok) {
+                    document.getElementById('adminContent').innerHTML = `
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="text-left text-gray-400 border-b border-gray-700">
+                                    <th class="py-2">Email</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${data.users.map(u => `
+                                    <tr class="border-b border-gray-800">
+                                        <td class="py-2">${escapeHtml(u.email)}</td>
+                                        <td>${escapeHtml(u.name || '')}</td>
+                                        <td><span class="text-xs ${u.role === 'admin' ? 'text-yellow-400' : 'text-gray-400'}">${u.role}</span></td>
+                                        <td>${formatDate(u.created_at)}</td>
+                                        <td>
+                                            ${u.id !== currentUser.id ? `<button onclick="adminDeleteUser(${u.id})" class="text-red-400 hover:text-red-300 text-xs">Delete</button>` : ''}
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+                }
+            } catch (e) {
+                showNotification('Failed to load users', true);
+            }
+        }
+
+        async function adminDeleteUser(userId) {
+            if (!confirm('Delete this user?')) return;
+            try {
+                const res = await fetch(`/api/admin/users/${userId}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                if (res.ok) {
+                    showNotification('User deleted');
+                    loadAdminUsers();
+                }
+            } catch (e) {
+                showNotification('Delete failed', true);
+            }
+        }
+
+        // ==================== HELPERS ====================
+
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function showNotification(msg, isError = false) {
+            const notif = document.createElement('div');
+            notif.className = `notification ${isError ? 'error' : ''}`;
+            notif.textContent = msg;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 3000);
+        }
+
+        function getModeIcon(mode) {
+            const icons = { photo: '📸', prd: '📋', llm: '🤖' };
+            return icons[mode] || '📄';
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[m]);
+        }
+
+        // Initialize
+        async function init() {
+            await loadConfig();
+            checkAuth();
+        }
+        init();
+    </script>
+</body>
+</html>

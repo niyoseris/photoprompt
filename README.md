@@ -1,10 +1,25 @@
 # 📸 Photo Prompt Generator
 
-Advanced prompt preparation tool for LLM Image Generation.
+> **🚧 BETA VERSION** - This project is currently in beta testing. If you encounter any bugs or issues, please [open an issue](https://github.com/niyoseris/photoprompt/issues) on GitHub.
+
+Advanced prompt preparation tool for LLM Image Generation with user authentication, prompt gallery, and list management.
 
 **Creator:** [@niyoseris](https://twitter.com/niyoseris)
 
-![Photo Prompt Generator](https://img.shields.io/badge/version-3.0-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![JavaScript](https://img.shields.io/badge/vanilla-JS-yellow)
+![Photo Prompt Generator](https://img.shields.io/badge/version-3.0_BETA-orange) ![License](https://img.shields.io/badge/license-MIT-green) ![Python](https://img.shields.io/badge/python-3.8+-blue) ![JavaScript](https://img.shields.io/badge/vanilla-JS-yellow)
+
+---
+
+## 🆕 What's New in v3.0 Beta
+
+- **🔐 Google Authentication** - Sign in with your Google account
+- **📁 Personal Gallery** - Save and manage your generated prompts
+- **📋 Lists** - Organize prompts into custom lists
+- **🌍 Public/Private Prompts** - Control visibility of your prompts
+- **🤖 Project Builder** - AI-powered project brief generator (LLM mode)
+- **💾 Prompt Snapshots** - Lists preserve prompt data even if originals are deleted
+
+---
 
 ## ✨ Features
 
@@ -76,18 +91,42 @@ Dynamic options based on subject type:
 
 ## 🚀 Quick Start
 
+### Prerequisites
+- Python 3.8+
+- Google OAuth credentials (for authentication)
+
+### Installation
+
 ```bash
-# With Python
-python -m http.server 5001
+# Clone the repository
+git clone https://github.com/niyoseris/photoprompt.git
+cd photoprompt
 
-# With Node.js
-npx serve -p 5001
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Or open directly
-open index.html
+# Install dependencies
+pip install -r requirements.txt
+
+# Copy environment file and configure
+cp .env.example .env
+# Edit .env with your Google OAuth credentials
+
+# Run the server
+python app.py
 ```
 
 Open in browser: `http://localhost:5001`
+
+### Google OAuth Setup
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+2. Create a new project or select existing
+3. Go to **APIs & Services > Credentials**
+4. Create **OAuth 2.0 Client ID** (Web application)
+5. Add authorized JavaScript origins: `http://localhost:5001`
+6. Copy the Client ID to your `.env` file
 
 ## 📖 How to Use
 
@@ -213,11 +252,15 @@ These are the fields most people use when integrating the generator output into 
 
 ```
 photoprompt/
-├── index.html          # Main application (HTML + CSS + JS)
+├── app.py              # Flask backend server
+├── index.html          # Main prompt generator (Photo + Project Builder)
+├── gallery.html        # Prompt gallery & lists
+├── login.html          # Google authentication page
 ├── presets.js          # Default preset definitions
+├── requirements.txt    # Python dependencies
+├── .env.example        # Environment template
 ├── favicon.svg         # App icon
-├── README.md           # Documentation
-└── example prompts.md  # Example prompts
+└── README.md           # Documentation
 ```
 
 ## 💡 Parameter Categories
@@ -260,6 +303,34 @@ MIT License
 - [@techhalla](https://x.com/techhalla) - Prompt Collections
 - [LightX Editor](https://lightxeditor.com) - AI Photo Editing Trends
 - [FelloAI](https://felloai.com) - AI Image Generation Guide
+
+---
+
+## 🐛 Beta Feedback
+
+This project is in **active beta testing**. Your feedback helps improve the tool!
+
+### How to Report Issues
+1. Go to [GitHub Issues](https://github.com/niyoseris/photoprompt/issues)
+2. Click "New Issue"
+3. Describe the bug or feature request
+4. Include steps to reproduce (if applicable)
+
+### What to Report
+- 🐛 **Bugs** - Something not working as expected
+- 💡 **Feature Requests** - Ideas for new features
+- 🎨 **UI/UX Issues** - Design or usability problems
+- 📝 **Documentation** - Missing or unclear documentation
+
+---
+
+## 🌟 Open Source
+
+This project is **open source** and available on GitHub:
+
+**Repository:** [github.com/niyoseris/photoprompt](https://github.com/niyoseris/photoprompt)
+
+Contributions are welcome! Feel free to fork, submit PRs, or open issues.
 
 ---
 
