@@ -4,7 +4,7 @@
 
 Advanced prompt preparation tool for LLM Image Generation with user authentication, prompt gallery, and list management.
 
-**Creator:** [@niyoseris](https://twitter.com/niyoseris)
+**Creator:** [@niyoverse](https://x.com/niyoverse)
 
 ![Photo Prompt Generator](https://img.shields.io/badge/version-3.0_BETA-orange) ![License](https://img.shields.io/badge/license-MIT-green) ![Python](https://img.shields.io/badge/python-3.8+-blue) ![JavaScript](https://img.shields.io/badge/vanilla-JS-yellow)
 
@@ -334,4 +334,4 @@ Contributions are welcome! Feel free to fork, submit PRs, or open issues.
 
 ---
 
-Made with ❤️ by [@niyoseris](https://twitter.com/niyoseris)
+Made with ❤️ by [@niyoverse](https://x.com/niyoverse)
