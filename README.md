@@ -328,7 +328,7 @@ This project is in **active beta testing**. Your feedback helps improve the tool
 
 This project is **open source** and available on GitHub:
 
-**Web Site:** [promoy.xyz](https://promoy.xyz)
+**Web Site:** [prompy.xyz](https://prompy.xyz)
 **Repository:** [github.com/niyoseris/photoprompt](https://github.com/niyoseris/photoprompt)
 
 Contributions are welcome! Feel free to fork, submit PRs, or open issues.
