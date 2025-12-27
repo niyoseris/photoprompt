@@ -6764,35 +6764,64 @@
         }
         
         function fillPhotoForm(data) {
-            // Basic fields
-            const basicFields = ['subject_type', 'subject_description', 'action', 'emotion', 
-                'clothing_style', 'clothing_details', 'environment', 'environment_details',
-                'time_of_day', 'weather', 'camera_angle', 'shot_type', 'lens_type', 
-                'lighting_type', 'lighting_mood', 'color_palette', 'art_style', 'aspect_ratio'];
-            
-            basicFields.forEach(field => {
-                if (data[field]) {
-                    const input = document.querySelector(`[name="${field}"]`);
-                    if (input) {
-                        if (input.tagName === 'SELECT') {
-                            input.value = data[field];
-                        } else {
-                            input.value = data[field];
+            // Fill ALL form fields from data - iterate through all keys
+            Object.keys(data).forEach(key => {
+                // Skip internal/special fields
+                if (key.startsWith('_') || key.endsWith('_format') || key === 'natural_prompt' || 
+                    key === 'is_public' || key === 'metadata') return;
+                
+                // Skip array versions (we'll use the main field)
+                if (key.endsWith('_array')) return;
+                
+                const value = data[key];
+                if (!value || typeof value === 'object') return;
+                
+                // Try to find input by name
+                const input = document.querySelector(`[name="${key}"]`);
+                if (input) {
+                    if (input.tagName === 'SELECT') {
+                        // For selects, try to set the value
+                        const optionExists = Array.from(input.options).some(opt => opt.value === value);
+                        if (optionExists) {
+                            input.value = value;
                         }
+                    } else {
+                        input.value = value;
+                    }
+                    // Trigger change event for dynamic UI updates
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            });
+            
+            // Handle multi-select arrays
+            Object.keys(data).forEach(key => {
+                if (key.endsWith('_array') && Array.isArray(data[key])) {
+                    const baseName = key.replace('_array', '');
+                    if (multiSelectState[baseName]) {
+                        multiSelectState[baseName] = data[key];
                     }
                 }
             });
             
-            // Handle multi-selects if they exist in data
-            if (data.selectedOptions) {
-                Object.keys(data.selectedOptions).forEach(selectName => {
-                    const options = data.selectedOptions[selectName];
-                    if (multiSelectState[selectName] && Array.isArray(options)) {
-                        multiSelectState[selectName] = options;
-                    }
-                });
-                // Re-render multi-selects
-                initAllMultiSelects();
+            // Handle scene objects
+            if (data._sceneObjects && Array.isArray(data._sceneObjects)) {
+                sceneObjects = data._sceneObjects;
+                renderObjects();
+            }
+            
+            // Handle semantic relationships
+            if (data._semanticRelationships_array && Array.isArray(data._semanticRelationships_array)) {
+                semanticRelationships = data._semanticRelationships_array;
+                renderRelationships();
+            }
+            
+            // Re-render multi-selects
+            initAllMultiSelects();
+            
+            // Trigger subject type change to show contextual options
+            const subjectType = document.querySelector('[name="subject_type"]');
+            if (subjectType && subjectType.value) {
+                subjectType.dispatchEvent(new Event('change', { bubbles: true }));
             }
         }
         
