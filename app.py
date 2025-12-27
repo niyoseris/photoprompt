@@ -875,13 +875,41 @@ def save_prompt():
         else:
             is_public = True  # Anonymous users always public
         
+        # Duplicate check - prevent saving identical prompts
+        prompt_data_json = json.dumps(data)
+        natural_prompt = data.get('natural_prompt', '')
+        
+        if user_id:
+            # For logged-in users, check by user_id and natural_prompt
+            cursor.execute('''
+                SELECT id FROM prompts 
+                WHERE user_id = ? AND prompt_text = ?
+                ORDER BY created_at DESC LIMIT 1
+            ''', (user_id, natural_prompt))
+        else:
+            # For anonymous users, check by IP and natural_prompt (last 5 minutes)
+            cursor.execute('''
+                SELECT id FROM prompts 
+                WHERE ip_address = ? AND prompt_text = ? 
+                AND created_at > datetime('now', '-5 minutes')
+                ORDER BY created_at DESC LIMIT 1
+            ''', (request.remote_addr, natural_prompt))
+        
+        existing = cursor.fetchone()
+        if existing:
+            return jsonify({
+                'success': False,
+                'duplicate': True,
+                'message': 'This prompt already exists in your gallery'
+            }), 200  # Return 200 so frontend doesn't show error
+        
         # Save the prompt
         cursor.execute('''
             INSERT INTO prompts (prompt_type, prompt_text, prompt_data, mode, ip_address, user_agent, session_id, user_id, is_public)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             prompt_type,
-            data.get('prompt_text', ''),
+            data.get('natural_prompt', data.get('prompt_text', '')),
             json.dumps(data),
             mode,
             request.remote_addr,
