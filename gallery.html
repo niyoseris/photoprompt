@@ -140,6 +140,29 @@
             color: var(--primary);
         }
         
+        .format-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border);
+            background: var(--bg-input);
+            color: var(--text-secondary);
+        }
+        
+        .format-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+        
+        .format-btn:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -729,6 +752,9 @@
             }, 300);
         }
 
+        // Store current prompt data for format switching
+        let currentViewPromptData = null;
+        
         async function viewPrompt(promptId) {
             try {
                 const res = await fetch(`/api/gallery/${promptId}`, { credentials: 'include' });
@@ -738,18 +764,30 @@
                     const prompt = data.prompt;
                     let promptData = {};
                     try { promptData = JSON.parse(prompt.prompt_data || '{}'); } catch {}
+                    
+                    currentViewPromptData = promptData;
 
                     document.getElementById('promptDetailContent').innerHTML = `
                         <div class="flex gap-2 mb-4">
                             <span class="mode-badge mode-${prompt.mode}">${getModeIcon(prompt.mode)} ${prompt.mode}</span>
                             <span class="text-sm text-gray-400">${formatDate(prompt.created_at)}</span>
                         </div>
-                        <div class="bg-gray-800 rounded-lg p-4 max-h-96 overflow-y-auto">
-                            <pre class="text-sm text-gray-300 whitespace-pre-wrap">${escapeHtml(JSON.stringify(promptData, null, 2))}</pre>
+                        
+                        <!-- Format Selector -->
+                        <div class="flex gap-2 mb-3">
+                            <button onclick="switchFormat('natural')" class="format-btn active" data-format="natural">📝 Natural</button>
+                            <button onclick="switchFormat('json')" class="format-btn" data-format="json">{ } JSON</button>
+                            <button onclick="switchFormat('toon')" class="format-btn" data-format="toon">🎨 TOON</button>
+                            <button onclick="switchFormat('tonl')" class="format-btn" data-format="tonl">📊 TONL</button>
+                        </div>
+                        
+                        <div id="formatContent" class="bg-gray-800 rounded-lg p-4 max-h-80 overflow-y-auto">
+                            <pre class="text-sm text-gray-300 whitespace-pre-wrap">${escapeHtml(promptData.natural_prompt || promptData.subject_description || JSON.stringify(promptData, null, 2))}</pre>
                         </div>
                         <div class="flex gap-2 mt-4">
-                            <button onclick="copyPromptData('${escapeHtml(JSON.stringify(promptData))}')" class="btn-primary">Copy JSON</button>
-                            <button onclick="openAddToList(${prompt.id})" class="btn-secondary">Add to List</button>
+                            <button onclick="copyCurrentFormat()" class="btn-primary">📋 Copy</button>
+                            <button onclick="usePrompt(${prompt.id})" class="btn-secondary">🚀 Use</button>
+                            <button onclick="openAddToList(${prompt.id})" class="btn-secondary">+ List</button>
                         </div>
                     `;
                     openModal('promptDetailModal');
@@ -757,6 +795,61 @@
             } catch (e) {
                 showNotification('Failed to load prompt', true);
             }
+        }
+        
+        let currentFormat = 'natural';
+        
+        function switchFormat(format) {
+            currentFormat = format;
+            const data = currentViewPromptData;
+            if (!data) return;
+            
+            // Update active button
+            document.querySelectorAll('.format-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.format === format);
+            });
+            
+            let content = '';
+            switch(format) {
+                case 'natural':
+                    content = data.natural_prompt || data.subject_description || 'No natural prompt available';
+                    break;
+                case 'json':
+                    content = data.json_format || JSON.stringify(data, null, 2);
+                    break;
+                case 'toon':
+                    content = data.toon_format || 'No TOON format available';
+                    break;
+                case 'tonl':
+                    content = data.tonl_format || 'No TONL format available';
+                    break;
+            }
+            
+            document.getElementById('formatContent').innerHTML = `<pre class="text-sm text-gray-300 whitespace-pre-wrap">${escapeHtml(content)}</pre>`;
+        }
+        
+        function copyCurrentFormat() {
+            const data = currentViewPromptData;
+            if (!data) return showNotification('No data to copy', true);
+            
+            let content = '';
+            switch(currentFormat) {
+                case 'natural':
+                    content = data.natural_prompt || data.subject_description || '';
+                    break;
+                case 'json':
+                    content = data.json_format || JSON.stringify(data, null, 2);
+                    break;
+                case 'toon':
+                    content = data.toon_format || '';
+                    break;
+                case 'tonl':
+                    content = data.tonl_format || '';
+                    break;
+            }
+            
+            navigator.clipboard.writeText(content);
+            showNotification(`${currentFormat.toUpperCase()} copied!`);
         }
 
         async function copyPrompt(promptId) {
@@ -1017,6 +1110,8 @@
             let promptData = {};
             try { promptData = JSON.parse(item.prompt_data || '{}'); } catch {}
             
+            currentViewPromptData = promptData;
+            currentFormat = 'natural';
             const isDeleted = item.prompt_deleted;
             
             document.getElementById('promptDetailContent').innerHTML = `
@@ -1025,12 +1120,21 @@
                     ${isDeleted ? '<span class="text-yellow-500 text-sm">⚠️ Original prompt deleted (using snapshot)</span>' : ''}
                     <span class="text-sm text-gray-400">${formatDate(item.added_at)}</span>
                 </div>
-                <div class="bg-gray-800 rounded-lg p-4 max-h-96 overflow-y-auto">
-                    <pre class="text-sm text-gray-300 whitespace-pre-wrap">${escapeHtml(JSON.stringify(promptData, null, 2))}</pre>
+                
+                <!-- Format Selector -->
+                <div class="flex gap-2 mb-3">
+                    <button onclick="switchFormat('natural')" class="format-btn active" data-format="natural">📝 Natural</button>
+                    <button onclick="switchFormat('json')" class="format-btn" data-format="json">{ } JSON</button>
+                    <button onclick="switchFormat('toon')" class="format-btn" data-format="toon">🎨 TOON</button>
+                    <button onclick="switchFormat('tonl')" class="format-btn" data-format="tonl">📊 TONL</button>
+                </div>
+                
+                <div id="formatContent" class="bg-gray-800 rounded-lg p-4 max-h-80 overflow-y-auto">
+                    <pre class="text-sm text-gray-300 whitespace-pre-wrap">${escapeHtml(promptData.natural_prompt || promptData.subject_description || JSON.stringify(promptData, null, 2))}</pre>
                 </div>
                 <div class="flex gap-2 mt-4">
-                    <button onclick="useListItem(${index})" class="btn-primary">Use in Generator</button>
-                    <button onclick="copyListItem(${index})" class="btn-secondary">Copy JSON</button>
+                    <button onclick="copyCurrentFormat()" class="btn-primary">📋 Copy</button>
+                    <button onclick="useListItem(${index})" class="btn-secondary">🚀 Use</button>
                 </div>
             `;
             openModal('promptDetailModal');
