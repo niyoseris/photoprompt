@@ -6727,6 +6727,38 @@
                     headerRight.innerHTML = loginHtml;
                 }
             }
+            
+            // Show/hide login benefits banner
+            updateLoginBanner();
+        }
+        
+        function updateLoginBanner() {
+            let banner = document.getElementById('loginBenefitsBanner');
+            
+            if (currentUser) {
+                // User is logged in - hide banner
+                if (banner) banner.style.display = 'none';
+            } else {
+                // User is not logged in - show banner
+                if (!banner) {
+                    banner = document.createElement('div');
+                    banner.id = 'loginBenefitsBanner';
+                    banner.style.cssText = 'background: linear-gradient(135deg, var(--primary), #8b5cf6); color: white; padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;';
+                    banner.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                            <span style="font-weight: 600;">✨ Sign in to unlock:</span>
+                            <span style="font-size: 13px; opacity: 0.95;">📁 Save prompts</span>
+                            <span style="font-size: 13px; opacity: 0.95;">📋 Create lists</span>
+                            <span style="font-size: 13px; opacity: 0.95;">🔄 Reuse & edit</span>
+                            <span style="font-size: 13px; opacity: 0.95;">🌍 Share publicly</span>
+                        </div>
+                        <a href="/login" style="background: white; color: var(--primary); padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 13px; text-decoration: none;">Sign In Free →</a>
+                    `;
+                    const main = document.querySelector('main');
+                    if (main) main.insertBefore(banner, main.firstChild);
+                }
+                banner.style.display = 'flex';
+            }
         }
         
         async function handleLogout() {
@@ -7004,11 +7036,26 @@
                     data._customFieldsConfig = customFields;
                 }
 
+                // Empty prompt check
+                if (!data.subject_description || !data.subject_description.trim()) {
+                    showNotification('Please enter a subject description', true);
+                    document.querySelector('[name="subject_description"]')?.focus();
+                    return;
+                }
+                
                 // Generate all formats
                 const naturalPrompt = generateNaturalPrompt(data);
                 const toonFormat = generateToonFormat(data);
                 const tonlFormat = generateTonlFormat(data);
                 const jsonFormat = generateJsonFormat(data);
+                
+                // Duplicate check - compare with last prompt
+                const lastPrompt = sessionStorage.getItem('lastGeneratedPrompt');
+                if (lastPrompt === naturalPrompt) {
+                    showNotification('This prompt is identical to the last one', true);
+                    return;
+                }
+                sessionStorage.setItem('lastGeneratedPrompt', naturalPrompt);
                 
                 document.getElementById('text-natural').textContent = naturalPrompt;
                 document.getElementById('text-toon').textContent = toonFormat;
@@ -7029,6 +7076,13 @@
                     box.classList.add('animate-fade-in');
                     setTimeout(() => box.classList.remove('animate-fade-in'), 500);
                 });
+                
+                // Scroll to top and focus on output
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => {
+                    const naturalOutput = document.getElementById('text-natural');
+                    if (naturalOutput) naturalOutput.focus();
+                }, 300);
             });
         });
         
